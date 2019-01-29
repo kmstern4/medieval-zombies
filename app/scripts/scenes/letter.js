@@ -95,7 +95,7 @@ export default class Letter extends Phaser.Scene {
         text.setText(dialogue.letter[i]);
         i++;
       } else {
-       this.scene.start('Woods');
+        this.scene.start('Woods');
       }
     }
 

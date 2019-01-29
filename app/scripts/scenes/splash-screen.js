@@ -46,6 +46,7 @@ export default class SplashScreen extends Phaser.Scene {
     this.load.json('dialogue');
 
     this.load.atlas('hoodgirl', 'hoodgirl.png', 'hoodgirl.json');
+    this.load.atlas('farmzombie', 'farmzombie.png', 'farmzombie.json');
   }
 
   /**
