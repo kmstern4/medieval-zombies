@@ -40,7 +40,8 @@ export default class SplashScreen extends Phaser.Scene {
       .image('red')
       .image('dirt')
       .image('letter')
-      .image('styledbox');
+      .image('styledbox')
+      .image('woods', 'forest.png');
 
     this.load.json('dialogue');
 
