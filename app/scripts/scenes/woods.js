@@ -49,8 +49,10 @@ export default class Woods extends Phaser.Scene {
 
     this.styledbox = this.add.image(0, 0, 'styledbox');
 
+    this.cutflesh = this.sound.add('cutflesh');
 
-    // let text = this.add.text(x, y, "TESTING PLS");
+
+    // let text = this.add.text(x, y, 'TESTING PLS');
     this.text = this.add.text(x, 150, this.dialogue.letter[0], {
       wordWrap: { width: 390 }
     });
@@ -118,6 +120,59 @@ export default class Woods extends Phaser.Scene {
       repeat: 1
     });
 
+    // Hoodgirl attack once
+    this.anims.create({
+      key: 'hgattack',
+      frames: this.anims.generateFrameNames('hoodgirl', { 
+        prefix: 'attack00', 
+        suffix: '.png',
+        start: 1,
+        end: 12 
+      }), 
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // Hoodgirl hurt once
+    this.anims.create({
+      key: 'hghurt',
+      frames: this.anims.generateFrameNames('hoodgirl', {
+        prefix: 'hurt00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // Hoodgirl dying once
+    this.anims.create({
+      key: 'hgdying',
+      frames: this.anims.generateFrameNames('hoodgirl', {
+        prefix: 'dying00',
+        suffix: '.png',
+        start: 1,
+        end: 15
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // Hoodgirl evade run animation
+    this.anims.create({
+      key: 'hgrunning',
+      frames: this.anims.generateFrameNames('hoodgirl', {
+        prefix: 'running00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+
 
     // Farmzombie animations:
 
@@ -147,6 +202,60 @@ export default class Woods extends Phaser.Scene {
       repeat: 2
     });
 
+    // farmzombie attack once
+    this.anims.create({
+      key: 'fzattack',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'attack00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // farmzombie hurt once
+    this.anims.create({
+      key: 'fzhurt',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'hurt00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // farmzombie dying once
+    this.anims.create({
+      key: 'fzdying',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'dying00',
+        suffix: '.png',
+        start: 1,
+        end: 15
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // farmzombie evade running (just duplicate of walking with repeat 0)
+    this.anims.create({
+      key: 'fzrunning',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'walking00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 30,
+      repeat: 0
+    });
+
+
+
 
     // CALLING ANIMATIONS
     this.hoodgirl.on('animationcomplete', () => {
@@ -156,6 +265,20 @@ export default class Woods extends Phaser.Scene {
     this.farmzombie.on('animationcomplete', () => {
       this.farmzombie.play('fzidle');
     });
+
+    // this.farmzombie.on('animationcomplete', function() {
+    //   // the zombie will idle on animation complete unless it just completed the dying animation
+    //   if (this.anims.currentAnim.key == 'fzdying') {
+    //       textcontainer2.visible = true;
+    //       textcontainer2.add(text);
+    //       text.visible = true;
+    //       storyText9.visible = false;
+    //       this.anims.pause(); // pauses the zombie on the last frame of the dying animation
+    //   } else {
+    //       farmzombie.play('fzidle');
+    //   }
+    // });
+
 
   }
 
@@ -182,8 +305,18 @@ export default class Woods extends Phaser.Scene {
         this.hgWalkOn.restart();
       }
     }
+    this.hgAttack();
   }
 
+
+  hgAttack() {
+    const keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+
+    if (Phaser.Input.Keyboard.JustDown(keyA)) {
+      this.cutflesh.play();
+      this.hoodgirl.anims.play('hgattack');
+    }
+  }
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
    *
