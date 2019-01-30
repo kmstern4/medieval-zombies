@@ -1,11 +1,4 @@
 let i = 1;
-let text;
-let dialogue;
-let container;
-let hoodgirl;
-let farmzombie;
-let hgWalkOn;
-let fzWalkOn;
 
 export default class Woods extends Phaser.Scene {
   /**
@@ -49,32 +42,32 @@ export default class Woods extends Phaser.Scene {
     
     this.add.image(x, y, 'woods');
 
-    hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
-    farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
+    this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
+    this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
-    dialogue = this.cache.json.get('dialogue');
+    this.dialogue = this.cache.json.get('dialogue');
 
-    let styledbox = this.add.image(0, 0, 'styledbox');
+    this.styledbox = this.add.image(0, 0, 'styledbox');
 
 
     // let text = this.add.text(x, y, "TESTING PLS");
-    text = this.add.text(x, 150, dialogue.letter[0], {
+    this.text = this.add.text(x, 150, this.dialogue.letter[0], {
       wordWrap: { width: 390 }
     });
-    text.setOrigin(0.5, 0.5);
-    text.setDepth(1);
+    this.text.setOrigin(0.5, 0.5);
+    this.text.setDepth(1);
 
 
-    container = this.add.container(x, 150, styledbox);
-    container.setSize(400, 100);
+    this.container = this.add.container(x, 150, this.styledbox);
+    this.container.setSize(400, 100);
 
 
 
     // TWEENS
 
     // tween to make player walk in to scene
-    hgWalkOn = this.tweens.add({
-      targets: hoodgirl,
+    this.hgWalkOn = this.tweens.add({
+      targets: this.hoodgirl,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -83,8 +76,8 @@ export default class Woods extends Phaser.Scene {
     });
 
     // zombie walks in to scene
-    fzWalkOn = this.tweens.add({
-      targets: farmzombie,
+    this.fzWalkOn = this.tweens.add({
+      targets: this.farmzombie,
       x: 500,
       ease: 'power1',
       duration: 2500,
@@ -156,12 +149,12 @@ export default class Woods extends Phaser.Scene {
 
 
     // CALLING ANIMATIONS
-    hoodgirl.on('animationcomplete', function() {
-      hoodgirl.play('hgidle');
+    this.hoodgirl.on('animationcomplete', () => {
+      this.hoodgirl.play('hgidle');
     });
 
-    farmzombie.on('animationcomplete', function() {
-      farmzombie.play('fzidle');
+    this.farmzombie.on('animationcomplete', () => {
+      this.farmzombie.play('fzidle');
     });
 
   }
@@ -177,16 +170,16 @@ export default class Woods extends Phaser.Scene {
     const keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(keySpace)) {
-      if (dialogue.letter[i] !== undefined) {
-        text.setText(dialogue.letter[i]);
+      if (this.dialogue.letter[i] !== undefined) {
+        this.text.setText(this.dialogue.letter[i]);
         i++;
       } else {
-        container.visible = false;
-        text.visible = false;
-        farmzombie.anims.play('fzwalking', true);
-        fzWalkOn.restart();
-        hoodgirl.anims.play('hgwalking', true);
-        hgWalkOn.restart();
+        this.container.visible = false;
+        this.text.visible = false;
+        this.farmzombie.anims.play('fzwalking', true);
+        this.fzWalkOn.restart();
+        this.hoodgirl.anims.play('hgwalking', true);
+        this.hgWalkOn.restart();
       }
     }
   }
