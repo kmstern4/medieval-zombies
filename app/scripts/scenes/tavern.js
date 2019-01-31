@@ -32,6 +32,7 @@ export default class Tavern extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   create(/* data */) {
+    console.log(this);
   }
 
   /**

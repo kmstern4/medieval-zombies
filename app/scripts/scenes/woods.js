@@ -362,6 +362,7 @@ export default class Woods extends Phaser.Scene {
       } else {
         switch(this.section) {
         case 1:
+          this.scene.start('Tavern');
           this.keySpace = false;
           this.container.visible = false;
           this.text.visible = false;
