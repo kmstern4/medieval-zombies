@@ -1,5 +1,4 @@
 let i = 1;
-
 export default class Woods extends Phaser.Scene {
   /**
    *  My custom scene.
@@ -327,7 +326,12 @@ export default class Woods extends Phaser.Scene {
     // })
 
     this.farmzombie.on('animationcomplete', () => {
-      this.farmzombie.play('fzidle');
+      if (this.farmzombie.anims.currentAnim.key === 'fzwalking') {
+        this.showMenu();
+        this.farmzombie.play('fzidle');
+      } else {
+        this.farmzombie.play('fzidle');
+      }
     });
 
     
@@ -420,6 +424,14 @@ export default class Woods extends Phaser.Scene {
       this.cutflesh.play();
       this.hoodgirl.anims.play('hgattack');
     }
+  }
+
+  showMenu() {
+    this.scene.launch('Ui');
+  }
+
+  hideMenu() {
+    this.scene.sleep('Ui');
   }
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
