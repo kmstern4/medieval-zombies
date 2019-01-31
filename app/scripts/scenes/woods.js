@@ -302,7 +302,6 @@ export default class Woods extends Phaser.Scene {
       // console.log(this.hoodgirl.anims.currentAnim.key);
       this.hoodgirl.play('hgidle');
     });
-
     // this.hoodgirl.on('animationupdate', () => {
     //   if (this.hoodgirl.anims.currentAnim.key === 'hgwalking' && this.hoodgirl.anims.currentFrame.index === 2) {
     //     console.log("this is frame 2");
@@ -312,6 +311,8 @@ export default class Woods extends Phaser.Scene {
     this.farmzombie.on('animationcomplete', () => {
       this.farmzombie.play('fzidle');
     });
+
+    
 
     // this.farmzombie.on('animationcomplete', () => {
     //   // the zombie will idle on animation complete unless it just completed the dying animation
