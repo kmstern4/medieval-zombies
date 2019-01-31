@@ -99,7 +99,7 @@ export default class Title extends Phaser.Scene {
 
     label2.setOrigin(0.5, 0.5).setInteractive();
 
-    label2.on('pointerup', () => this.scene.start('Letter'));
+    label2.on('pointerup', () => this.scene.start('Woods'));
     
   }
 

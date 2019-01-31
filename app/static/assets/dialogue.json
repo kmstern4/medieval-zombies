@@ -6,19 +6,25 @@
         "With haste, head to the town and investigate! If you are able to determine and fix the problem, you will be rewarded with 200 gold pieces.",
         "Time is of utmost importance here, I fear someone is trying to raise an undead army. Signed, King Erich"
     ],
-    "woods": [
+    "woods": {
+        "startnarration": [
         "After a short journey you approach the outskirts of Dreary Cove and you begin to hear screaming and what sounds like battle.",
-        "As you pick up your pace, you spot a townsperson making a break for it in your direction.",
-        "As the man takes off running, you notice another figure slowly making its' way towards you.",
+        "As you pick up your pace, you spot a townsperson making a break for it in your direction."
+        ],
+        "dialogue": [
         "Old Man:'What are you crazy? You’re supposed to run away!'", 
         "Hero:'What’s going on?'",
         "Old Man:'Zombies are overrunning Dreary Cove! Stay as far away as you can!'",
         "Hero:'You're just going to leave everyone behind?'",
         "Old Man:'I’m just an old man, I can’t fight zombies!'",
         "Hero:'Are you from Dreary Cove?'",
-        "Old Man:'Obviously, are you daft?'",
+        "Old Man:'Obviously, are you daft?'"
+        ],
+        "endnarration": [
+        "As the man takes off running, you notice another figure slowly making its' way towards you.",
         "Once it gets close enough, you see that although it's better looking than the old man, it's definitely a zombie."
-    ],
+        ]
+    },
     "town": [ 
         "As you enter the town you notice the poor conditions all around. Zombies and villagers alike litter the ground and only three structures remain standing.",
         "You slowly enter the house ready for anything. It's nearly silent save for some rustling at the back of the house.",
