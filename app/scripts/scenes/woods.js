@@ -315,6 +315,7 @@ export default class Woods extends Phaser.Scene {
       this.hoodgirl.play('hgidle');
     });
 
+
     this.oldman.on('animationcomplete', () => {
       this.oldman.play('omidle');
     });
@@ -328,6 +329,8 @@ export default class Woods extends Phaser.Scene {
     this.farmzombie.on('animationcomplete', () => {
       this.farmzombie.play('fzidle');
     });
+
+    
 
     // this.farmzombie.on('animationcomplete', () => {
     //   // the zombie will idle on animation complete unless it just completed the dying animation

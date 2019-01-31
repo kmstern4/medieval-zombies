@@ -11,5 +11,6 @@ export {default as Game} from './game';
 export {default as Title} from './title';
 export {default as Letter} from './letter';
 export {default as Woods} from './woods';
+export {default as Ui} from './ui';
 export {default as Tavern} from './tavern';
 export {default as Temple} from './temple';
