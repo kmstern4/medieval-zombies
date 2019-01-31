@@ -69,65 +69,65 @@ export default class Ui extends Phaser.Scene {
         this.currentMenu.select();
       } else if (event.code === 'ArrowLeft') {
         this.currentMenu = this.heroesMenu
-      } 
       }
-    }
-
-    /**
-     *  Handles updates to game logic, physics and game objects.
-     *
-     *  @protected
-     *  @param {number} t - Current internal clock time.
-     *  @param {number} dt - Time elapsed since last update.
-     */
-    update(/* t, dt */) {
-    }
-
-    /**
-     *  Called after a scene is rendered. Handles rendenring post processing.
-     *
-     *  @protected
-     */
-    render() {
-    }
-
-    /**
-     *  Called when a scene is about to shut down.
-     *
-     *  @protected
-     */
-    shutdown() {
-    }
-
-    /**
-     *  Called when a scene is about to be destroyed (i.e.: removed from scene
-     *  manager). All allocated resources that need clean up should be freed up
-     *  here.
-     *
-     *  @protected
-     */
-    destroy() {
     }
   }
 
+  /**
+   *  Handles updates to game logic, physics and game objects.
+   *
+   *  @protected
+   *  @param {number} t - Current internal clock time.
+   *  @param {number} dt - Time elapsed since last update.
+   */
+  update(/* t, dt */) {
+  }
+
+  /**
+   *  Called after a scene is rendered. Handles rendenring post processing.
+   *
+   *  @protected
+   */
+  render() {
+  }
+
+  /**
+   *  Called when a scene is about to shut down.
+   *
+   *  @protected
+   */
+  shutdown() {
+  }
+
+  /**
+   *  Called when a scene is about to be destroyed (i.e.: removed from scene
+   *  manager). All allocated resources that need clean up should be freed up
+   *  here.
+   *
+   *  @protected
+   */
+  destroy() {
+  }
+}
+
 var MenuItem = new Phaser.Class({
-    Extends: Phaser.GameObjects.Text,
+  Extends: Phaser.GameObjects.Text,
 
-    initialize:
+  initialize:
 
-      function MenuItem(x, y, text, scene) {
-        Phaser.GameObjects.Text.call(this, scene, x, y, text, { color: '#ffffff', align: 'left', fontSize: 15 });
-      },
-
-    select: function () {
-      this.setColor('#f8ff38');
+    function MenuItem(x, y, text, scene) {
+      Phaser.GameObjects.Text.call(this, scene, x, y, text, { color: '#ffffff', align: 'left', fontSize: 15 });
     },
 
-    deselect: function () {
-      this.setColor('#ffffff');
-    }
+  select: function () {
+    this.setColor('#f8ff38');
+  },
 
-  });
+  deselect: function () {
+    this.setColor('#ffffff');
+  }
+
+});
 
 var Menu = new Phaser.Class({
   Extends: Phaser.GameObjects.Container,
@@ -174,15 +174,6 @@ var Menu = new Phaser.Class({
   },
 
   confirm: function () {
-    // if ( this === 'Attack') {
-    //   console.log("Attack")
-    // } else if ( this === "Defend") {
-    //   console.log("Defend")
-    // } else if (this === "Heal") {
-    //   console.log("Heal")
-    // } else {
-    //   console.log(this)
-    // }  
     console.log("index", this.menuItemIndex)
     switch (this.menuItemIndex) {
       case 0:
@@ -249,33 +240,6 @@ var ActionsMenu = new Phaser.Class({
       this.addMenuItem('Defend');
       this.addMenuItem('Heal');
     }
-  // confirm: function() {      
-  //     // if ( this === 'Attack') {
-  //     //   console.log("Attack")
-  //     // } else if ( this === "Defend") {
-  //     //   console.log("Defend")
-  //     // } else if (this === "Heal") {
-  //     //   console.log("Heal")
-  //     // } else {
-  //     //   console.log(this)
-  //     // }  
-  //     console.log("index",this.menuItemIndex)
-  //     console.log("this test",this.menuItems[0]._text)
-  //     switch (this.menuItemIndex) {
-  //       case "Attack":
-  //         console.log("Attack")
-  //       break;
-  //       case "Defend": 
-  //         console.log("Defend")
-  //       break;
-  //       case "Heal": 
-  //         console.log("Heal")
-  //       break;
-  //       default: 
-  //         console.log(this)
-  //       break;
-  //     }
-
 
 });
 

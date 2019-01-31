@@ -1,11 +1,4 @@
 let i = 1;
-let text;
-let dialogue;
-let container;
-let hoodgirl;
-let farmzombie;
-let hgWalkOn;
-let fzWalkOn;
 
 export default class Woods extends Phaser.Scene {
   /**
@@ -49,32 +42,39 @@ export default class Woods extends Phaser.Scene {
     
     this.add.image(x, y, 'woods');
 
-    hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
-    farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
-
-    dialogue = this.cache.json.get('dialogue');
-
-    let styledbox = this.add.image(0, 0, 'styledbox');
+    this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
+    this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
+    this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
 
-    // let text = this.add.text(x, y, "TESTING PLS");
-    text = this.add.text(x, 150, dialogue.letter[0], {
+    this.dialogue = this.cache.json.get('dialogue');
+
+    this.styledbox = this.add.image(0, 0, 'styledbox');
+
+    this.cutflesh = this.sound.add('cutflesh');
+
+    this.section = 1;
+
+
+    // let text = this.add.text(x, y, 'TESTING PLS');
+    this.currentDialogue = this.dialogue.woods.startnarration;
+    this.text = this.add.text(x, 150, this.currentDialogue[0], {
       wordWrap: { width: 390 }
     });
-    text.setOrigin(0.5, 0.5);
-    text.setDepth(1);
+    this.text.setOrigin(0.5, 0.5);
+    this.text.setDepth(1);
 
 
-    container = this.add.container(x, 150, styledbox);
-    container.setSize(400, 100);
+    this.container = this.add.container(x, 150, this.styledbox);
+    this.container.setSize(400, 100);
 
 
 
     // TWEENS
 
     // tween to make player walk in to scene
-    hgWalkOn = this.tweens.add({
-      targets: hoodgirl,
+    this.hgWalkOn = this.tweens.add({
+      targets: this.hoodgirl,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -82,9 +82,19 @@ export default class Woods extends Phaser.Scene {
       paused: true
     });
 
+    // oldman runs in to scene
+    this.omRunOn = this.tweens.add({
+      targets: this.oldman,
+      x: 500,
+      ease: 'power1',
+      duration: 2200,
+      repeat: 0,
+      paused: true
+    });
+     
     // zombie walks in to scene
-    fzWalkOn = this.tweens.add({
-      targets: farmzombie,
+    this.fzWalkOn = this.tweens.add({
+      targets: this.farmzombie,
       x: 500,
       ease: 'power1',
       duration: 2500,
@@ -125,6 +135,84 @@ export default class Woods extends Phaser.Scene {
       repeat: 1
     });
 
+    // Hoodgirl attack once
+    this.anims.create({
+      key: 'hgattack',
+      frames: this.anims.generateFrameNames('hoodgirl', { 
+        prefix: 'attack00', 
+        suffix: '.png',
+        start: 1,
+        end: 12 
+      }), 
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // Hoodgirl hurt once
+    this.anims.create({
+      key: 'hghurt',
+      frames: this.anims.generateFrameNames('hoodgirl', {
+        prefix: 'hurt00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // Hoodgirl dying once
+    this.anims.create({
+      key: 'hgdying',
+      frames: this.anims.generateFrameNames('hoodgirl', {
+        prefix: 'dying00',
+        suffix: '.png',
+        start: 1,
+        end: 15
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // Hoodgirl evade run animation
+    this.anims.create({
+      key: 'hgrunning',
+      frames: this.anims.generateFrameNames('hoodgirl', {
+        prefix: 'running00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    
+    // Oldman idle infinite loop
+    this.anims.create({
+      key: 'omidle',
+      frames: this.anims.generateFrameNames('oldman', {
+        prefix: 'idle00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 15,
+      repeat: -1
+    });
+
+    // Oldman walking loops twice
+    this.anims.create({
+      key: 'omrunning',
+      frames: this.anims.generateFrameNames('oldman', {
+        prefix: 'running00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 3
+    });
 
     // Farmzombie animations:
 
@@ -154,15 +242,90 @@ export default class Woods extends Phaser.Scene {
       repeat: 2
     });
 
+    // farmzombie attack once
+    this.anims.create({
+      key: 'fzattack',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'attack00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // farmzombie hurt once
+    this.anims.create({
+      key: 'fzhurt',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'hurt00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // farmzombie dying once
+    this.anims.create({
+      key: 'fzdying',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'dying00',
+        suffix: '.png',
+        start: 1,
+        end: 15
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // farmzombie evade running (just duplicate of walking with repeat 0)
+    this.anims.create({
+      key: 'fzrunning',
+      frames: this.anims.generateFrameNames('farmzombie', {
+        prefix: 'walking00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 30,
+      repeat: 0
+    });
+
+
+
 
     // CALLING ANIMATIONS
-    hoodgirl.on('animationcomplete', function() {
-      hoodgirl.play('hgidle');
+    this.hoodgirl.on('animationcomplete', () => {
+      // console.log(this.hoodgirl.anims.currentAnim.key);
+      this.hoodgirl.play('hgidle');
     });
 
-    farmzombie.on('animationcomplete', function() {
-      farmzombie.play('fzidle');
+    // this.hoodgirl.on('animationupdate', () => {
+    //   if (this.hoodgirl.anims.currentAnim.key === 'hgwalking' && this.hoodgirl.anims.currentFrame.index === 2) {
+    //     console.log("this is frame 2");
+    //   }
+    // })
+
+    this.farmzombie.on('animationcomplete', () => {
+      this.farmzombie.play('fzidle');
     });
+
+    // this.farmzombie.on('animationcomplete', () => {
+    //   // the zombie will idle on animation complete unless it just completed the dying animation
+    //   if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
+    //       textcontainer2.visible = true;
+    //       textcontainer2.add(text);
+    //       text.visible = true;
+    //       storyText9.visible = false;
+    //       this.farmzombie.anims.pause(); // pauses the zombie on the last frame of the dying animation
+    //   } else {
+    //       farmzombie.play('fzidle');
+    //   }
+    // });
+
 
   }
 
@@ -177,20 +340,38 @@ export default class Woods extends Phaser.Scene {
     const keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(keySpace)) {
-      if (dialogue.letter[i] !== undefined) {
-        text.setText(dialogue.letter[i]);
+      if (this.currentDialogue[i] !== undefined) {
+        this.text.setText(this.currentDialogue[i]);
         i++;
       } else {
-        container.visible = false;
-        text.visible = false;
-        farmzombie.anims.play('fzwalking', true);
-        fzWalkOn.restart();
-        hoodgirl.anims.play('hgwalking', true);
-        hgWalkOn.restart();
+        // console.log('hitting else');
+        this.container.visible = false;
+        this.text.visible = false;
+        this.oldman.anims.play('omrunning', true);
+        this.omRunOn.restart();
+        this.hoodgirl.anims.play('hgwalking', true);
+        this.hgWalkOn.restart();
+        this.currentDialogue = this.dialogue.woods.dialogue;
+        i = 1;
+        setTimeout(() => {
+          this.container.visible = true;
+          this.text.visible = true;
+          this.text.setText(this.currentDialogue[0]);
+        } , 2700);
       }
     }
+    this.hgAttack();
   }
 
+
+  hgAttack() {
+    const keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+
+    if (Phaser.Input.Keyboard.JustDown(keyA)) {
+      this.cutflesh.play();
+      this.hoodgirl.anims.play('hgattack');
+    }
+  }
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
    *

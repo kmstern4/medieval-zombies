@@ -1,6 +1,4 @@
 let i = 1;
-let text;
-let dialogue;
 export default class Letter extends Phaser.Scene {
   /**
    *  My custom scene.
@@ -43,22 +41,22 @@ export default class Letter extends Phaser.Scene {
     const x = this.cameras.main.width / 2;
     // const y = this.cameras.main.width / 2;
 
-    dialogue = this.cache.json.get('dialogue');
+    this.dialogue = this.cache.json.get('dialogue');
 
     this.add.image(x, 150, 'letter');
-    let styledbox = this.add.image(0, 0, 'styledbox');
+    this.styledbox = this.add.image(0, 0, 'styledbox');
 
 
     // let text = this.add.text(x, y, "TESTING PLS");
-    text = this.add.text(x, 350, dialogue.letter[0], {
+    this.text = this.add.text(x, 350, this.dialogue.letter[0], {
       wordWrap: { width: 390 }
     });
-    text.setOrigin(0.5, 0.5);
-    text.setDepth(1);
+    this.text.setOrigin(0.5, 0.5);
+    this.text.setDepth(1);
 
 
-    let container = this.add.container(x, 350, styledbox);
-    container.setSize(400, 100);
+    this.container = this.add.container(x, 350, this.styledbox);
+    this.container.setSize(400, 100);
     // container.add(text);
     // container.visible = false;
 
@@ -91,8 +89,8 @@ export default class Letter extends Phaser.Scene {
     const keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(keySpace)) {
-      if (dialogue.letter[i] !== undefined) {
-        text.setText(dialogue.letter[i]);
+      if (this.dialogue.letter[i] !== undefined) {
+        this.text.setText(this.dialogue.letter[i]);
         i++;
       } else {
         this.scene.start('Woods');
