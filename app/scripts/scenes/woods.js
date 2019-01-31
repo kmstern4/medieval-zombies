@@ -43,7 +43,9 @@ export default class Woods extends Phaser.Scene {
     this.add.image(x, y, 'woods');
 
     this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
+    this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
+
 
     this.dialogue = this.cache.json.get('dialogue');
 
@@ -51,9 +53,12 @@ export default class Woods extends Phaser.Scene {
 
     this.cutflesh = this.sound.add('cutflesh');
 
+    this.section = 1;
+
 
     // let text = this.add.text(x, y, 'TESTING PLS');
-    this.text = this.add.text(x, 150, this.dialogue.letter[0], {
+    this.currentDialogue = this.dialogue.woods.startnarration;
+    this.text = this.add.text(x, 150, this.currentDialogue[0], {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
@@ -77,6 +82,16 @@ export default class Woods extends Phaser.Scene {
       paused: true
     });
 
+    // oldman runs in to scene
+    this.omRunOn = this.tweens.add({
+      targets: this.oldman,
+      x: 500,
+      ease: 'power1',
+      duration: 2200,
+      repeat: 0,
+      paused: true
+    });
+     
     // zombie walks in to scene
     this.fzWalkOn = this.tweens.add({
       targets: this.farmzombie,
@@ -172,7 +187,32 @@ export default class Woods extends Phaser.Scene {
       repeat: 0
     });
 
+    
+    // Oldman idle infinite loop
+    this.anims.create({
+      key: 'omidle',
+      frames: this.anims.generateFrameNames('oldman', {
+        prefix: 'idle00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 15,
+      repeat: -1
+    });
 
+    // Oldman walking loops twice
+    this.anims.create({
+      key: 'omrunning',
+      frames: this.anims.generateFrameNames('oldman', {
+        prefix: 'running00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 3
+    });
 
     // Farmzombie animations:
 
@@ -259,21 +299,28 @@ export default class Woods extends Phaser.Scene {
 
     // CALLING ANIMATIONS
     this.hoodgirl.on('animationcomplete', () => {
+      // console.log(this.hoodgirl.anims.currentAnim.key);
       this.hoodgirl.play('hgidle');
     });
+
+    // this.hoodgirl.on('animationupdate', () => {
+    //   if (this.hoodgirl.anims.currentAnim.key === 'hgwalking' && this.hoodgirl.anims.currentFrame.index === 2) {
+    //     console.log("this is frame 2");
+    //   }
+    // })
 
     this.farmzombie.on('animationcomplete', () => {
       this.farmzombie.play('fzidle');
     });
 
-    // this.farmzombie.on('animationcomplete', function() {
+    // this.farmzombie.on('animationcomplete', () => {
     //   // the zombie will idle on animation complete unless it just completed the dying animation
-    //   if (this.anims.currentAnim.key == 'fzdying') {
+    //   if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
     //       textcontainer2.visible = true;
     //       textcontainer2.add(text);
     //       text.visible = true;
     //       storyText9.visible = false;
-    //       this.anims.pause(); // pauses the zombie on the last frame of the dying animation
+    //       this.farmzombie.anims.pause(); // pauses the zombie on the last frame of the dying animation
     //   } else {
     //       farmzombie.play('fzidle');
     //   }
@@ -293,16 +340,24 @@ export default class Woods extends Phaser.Scene {
     const keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(keySpace)) {
-      if (this.dialogue.letter[i] !== undefined) {
-        this.text.setText(this.dialogue.letter[i]);
+      if (this.currentDialogue[i] !== undefined) {
+        this.text.setText(this.currentDialogue[i]);
         i++;
       } else {
+        // console.log('hitting else');
         this.container.visible = false;
         this.text.visible = false;
-        this.farmzombie.anims.play('fzwalking', true);
-        this.fzWalkOn.restart();
+        this.oldman.anims.play('omrunning', true);
+        this.omRunOn.restart();
         this.hoodgirl.anims.play('hgwalking', true);
         this.hgWalkOn.restart();
+        this.currentDialogue = this.dialogue.woods.dialogue;
+        i = 1;
+        setTimeout(() => {
+          this.container.visible = true;
+          this.text.visible = true;
+          this.text.setText(this.currentDialogue[0]);
+        } , 2700);
       }
     }
     this.hgAttack();
