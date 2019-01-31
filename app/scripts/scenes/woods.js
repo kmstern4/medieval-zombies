@@ -54,6 +54,8 @@ export default class Woods extends Phaser.Scene {
     this.cutflesh = this.sound.add('cutflesh');
 
     this.section = 1;
+    this.keySpace = true;
+    this.keyA = false;
 
 
     // let text = this.add.text(x, y, 'TESTING PLS');
@@ -86,6 +88,16 @@ export default class Woods extends Phaser.Scene {
     this.omRunOn = this.tweens.add({
       targets: this.oldman,
       x: 500,
+      ease: 'power1',
+      duration: 2200,
+      repeat: 0,
+      paused: true
+    });
+
+    // oldman runs out of scene
+    this.omRunOff = this.tweens.add({
+      targets: this.oldman,
+      x: -150,
       ease: 'power1',
       duration: 2200,
       repeat: 0,
@@ -214,6 +226,7 @@ export default class Woods extends Phaser.Scene {
       repeat: 3
     });
 
+
     // Farmzombie animations:
 
     // farmzombie idle infinite loop
@@ -299,8 +312,11 @@ export default class Woods extends Phaser.Scene {
 
     // CALLING ANIMATIONS
     this.hoodgirl.on('animationcomplete', () => {
-      // console.log(this.hoodgirl.anims.currentAnim.key);
       this.hoodgirl.play('hgidle');
+    });
+
+    this.oldman.on('animationcomplete', () => {
+      this.oldman.play('omidle');
     });
 
     // this.hoodgirl.on('animationupdate', () => {
@@ -337,27 +353,57 @@ export default class Woods extends Phaser.Scene {
    *  @param {number} dt - Time elapsed since last update.
    */
   update(/* t, dt */) {
-    const keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    const space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    if (Phaser.Input.Keyboard.JustDown(keySpace)) {
+    if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
       if (this.currentDialogue[i] !== undefined) {
         this.text.setText(this.currentDialogue[i]);
         i++;
       } else {
-        // console.log('hitting else');
-        this.container.visible = false;
-        this.text.visible = false;
-        this.oldman.anims.play('omrunning', true);
-        this.omRunOn.restart();
-        this.hoodgirl.anims.play('hgwalking', true);
-        this.hgWalkOn.restart();
-        this.currentDialogue = this.dialogue.woods.dialogue;
-        i = 1;
-        setTimeout(() => {
-          this.container.visible = true;
-          this.text.visible = true;
-          this.text.setText(this.currentDialogue[0]);
-        } , 2700);
+        switch(this.section) {
+        case 1:
+          this.keySpace = false;
+          this.container.visible = false;
+          this.text.visible = false;
+          this.oldman.anims.play('omrunning', true);
+          this.omRunOn.restart();
+          this.hoodgirl.anims.play('hgwalking', true);
+          this.hgWalkOn.restart();
+          this.currentDialogue = this.dialogue.woods.dialogue;
+          i = 1;
+          setTimeout(() => {
+            this.keySpace = true;
+            this.container.visible = true;
+            this.text.visible = true;
+            this.text.setText(this.currentDialogue[0]);
+            this.section = 2;
+          } ,2700);
+          break;
+        case 2:
+          this.keySpace = false;
+          this.container.visible = false;
+          this.text.visible = false;
+          this.omRunOff.restart();
+          this.oldman.anims.play('omrunning', true);
+          this.currentDialogue = this.dialogue.woods.endnarration;
+          i = 1;
+          setTimeout(() => {
+            this.keySpace = true;
+            this.container.visible = true;
+            this.text.visible = true;
+            this.text.setText(this.currentDialogue[0]);
+            this.section = 3;
+            this.oldman.anims.pause();
+          }, 2700);
+          break;
+        case 3:
+          this.keySpace = false;
+          this.keyA = true;
+          this.container.visible = false;
+          this.text.visible = false;
+          this.farmzombie.anims.play('fzwalking', true);
+          this.fzWalkOn.restart();
+        }
       }
     }
     this.hgAttack();
@@ -365,9 +411,9 @@ export default class Woods extends Phaser.Scene {
 
 
   hgAttack() {
-    const keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    const A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 
-    if (Phaser.Input.Keyboard.JustDown(keyA)) {
+    if (Phaser.Input.Keyboard.JustDown(A) && this.keyA) {
       this.cutflesh.play();
       this.hoodgirl.anims.play('hgattack');
     }
