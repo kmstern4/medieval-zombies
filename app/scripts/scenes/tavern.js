@@ -14,7 +14,9 @@ export default class Tavern extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    console.log(data);
+    this.char = data.char;
   }
 
   /**
@@ -32,6 +34,8 @@ export default class Tavern extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   create(/* data */) {
+    console.log(this.char);
+    this.player = this.add.sprite(400, 400, this.char, 'idle001.png');
   }
 
   /**

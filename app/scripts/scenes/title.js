@@ -42,13 +42,31 @@ export default class Title extends Phaser.Scene {
     this.background = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'dirt');
     this.background.setOrigin(0, 0);
 
+    this.rhythmloop = this.sound.add('rhythmloop');
+    this.rhythmloop.play({
+      volume: 0.5,
+      loop: true
+    });
+
     let hoodgirl = this.add.sprite(-100, 350, 'hoodgirl', 'idle001.png');
+    let hoodboy = this.add.sprite(750, 350, 'hoodboy', 'idle001.png');
+
+    hoodboy.scaleX = -1;
 
     this.tweens.add({
       targets: hoodgirl,
       x: 200,
       ease: 'power1',
       duration: 2500,
+      repeat: 0
+    });
+
+    this.tweens.add({
+      targets: hoodboy,
+      x: 450,
+      ease: 'power1',
+      duration: 2500,
+      flipX: true,
       repeat: 0
     });
 
@@ -76,10 +94,43 @@ export default class Title extends Phaser.Scene {
       repeat: 1
     });
 
+    this.anims.create({
+      key: 'hbwalking',
+      frames: this.anims.generateFrameNames('hoodboy', {
+        prefix: 'walking00',
+        suffix: '.png',
+        start: 1,
+        end: 24
+      }),
+      frameRate: 20,
+      repeat: 1
+    });
+
+    this.anims.create({
+      key: 'hbidle',
+      frames: this.anims.generateFrameNames('hoodboy', {
+        prefix: 'idle00',
+        suffix: '.png',
+        start: 1,
+        end: 18,
+      }),
+      repeat: -1,
+      frameRate: 15
+    })
+
     hoodgirl.play('hgwalking');
     hoodgirl.on('animationcomplete', function() {
       hoodgirl.play('hgidle');
+      hoodgirl.setInteractive();
     });
+
+    hoodboy.play('hbwalking');
+    hoodboy.on('animationcomplete', function() {
+      hoodboy.play('hbidle');
+      hoodboy.setInteractive();
+    });
+
+    
 
     const label = this.add.text(x, 100, 'Medieval Zombies', {
       font: '64px Lucida Console',
@@ -90,16 +141,24 @@ export default class Title extends Phaser.Scene {
 
     label.setOrigin(0.5, 0.5);
 
-    const label2 = this.add.text(x, 200, 'START', {
-      font: '80px Lucida Console',
+    const label2 = this.add.text(x, 200, 'Choose a character to get started!', {
+      font: '30px Lucida Console',
       color: 'green',
       stroke: 'black',
       strokeThickness: 6
     });
 
-    label2.setOrigin(0.5, 0.5).setInteractive();
+    hoodgirl.on('pointerup', () => {
+      this.rhythmloop.stop();
+      this.scene.start('Woods', { char: 'hoodgirl' });
+    });
 
-    label2.on('pointerup', () => this.scene.start('Woods'));
+    hoodboy.on('pointerup', () => {
+      this.rhythmloop.stop();
+      this.scene.start('Woods', { char: 'hoodboy' });
+    })
+
+    label2.setOrigin(0.5, 0.5);
     
   }
 
