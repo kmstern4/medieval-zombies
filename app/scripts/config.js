@@ -12,6 +12,10 @@ import * as scenes from '@/scenes';
 // import ExamplePlugin from 'example-plugin';
 // import ExampleScenePlugin from '@/plugins/example-scene-plugin';
 
+// export const audio = {
+//   disableWebAudio: true
+// };
+
 /**
  *  Game canvas width.
  */

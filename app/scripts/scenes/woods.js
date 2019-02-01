@@ -16,7 +16,8 @@ export default class Woods extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    this.char = data.char;
   }
 
   /**
@@ -42,16 +43,19 @@ export default class Woods extends Phaser.Scene {
     
     this.add.image(x, y, 'woods');
 
-    this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
+    this.player = this.add.sprite(-150, 400, this.char, 'idle001.png');
     this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
 
     this.dialogue = this.cache.json.get('dialogue');
 
-    this.styledbox = this.add.image(0, 0, 'styledbox');
+    this.textbox = this.add.image(0, 0, 'textbox');
+    // this.menubox = this.add.image(0, 0, 'menubox');
 
     this.cutflesh = this.sound.add('cutflesh');
+    this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
+    this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true })
 
     this.section = 1;
     this.keySpace = true;
@@ -66,17 +70,43 @@ export default class Woods extends Phaser.Scene {
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
 
+    // this.arrow = this.add.image(250, 150, 'arrow');
+    // this.arrow.setDepth(1);
+    // this.arrow.visible = false;
+    // this.textA = this.add.text(x, 40, 'Battle Menu', { font: '30px Lucida Console'});
+    // this.textB = this.add.text(x, 150, 'Attack', { font: '20px Lucida Console' });
+    // this.textC = this.add.text(x, 200, 'Special Attack', { font: '20px Lucida Console' });
+    // this.textD = this.add.text(x, 250, 'Potion', { font: '20px Lucida Console' });
+    // this.textA.visible = false;
+    // this.textB.visible = false;
+    // this.textC.visible = false;
+    // this.textD.visible = false;
+    // this.textA.setOrigin(0.5, 0.5);
+    // this.textB.setOrigin(0.5, 0.5);
+    // this.textC.setOrigin(0.5, 0.5);
+    // this.textD.setOrigin(0.5, 0.5);
+    // this.textA.setDepth(1);
+    // this.textB.setDepth(1);
+    // this.textC.setDepth(1);
+    // this.textD.setDepth(1);
 
-    this.container = this.add.container(x, 150, this.styledbox);
+
+    this.container = this.add.container(x, 150, this.textbox);
     this.container.setSize(400, 100);
+
+    // this.menucontainer = this.add.container(x, 150, this.menubox);
+    // this.menucontainer.setSize(340, 300);
+    // this.menucontainer.visible = false;
+
+
 
 
 
     // TWEENS
 
     // tween to make player walk in to scene
-    this.hgWalkOn = this.tweens.add({
-      targets: this.hoodgirl,
+    this.pWalkOn = this.tweens.add({
+      targets: this.player,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -113,6 +143,7 @@ export default class Woods extends Phaser.Scene {
       repeat: 0,
       paused: true
     });
+
  
 
 
@@ -123,8 +154,8 @@ export default class Woods extends Phaser.Scene {
 
     // Hoodgirl idle infinite loop
     this.anims.create({
-      key: 'hgidle',
-      frames: this.anims.generateFrameNames('hoodgirl', {
+      key: 'pidle',
+      frames: this.anims.generateFrameNames(this.char, {
         prefix: 'idle00',
         suffix: '.png',
         start: 1,
@@ -136,8 +167,8 @@ export default class Woods extends Phaser.Scene {
 
     // Hoodgirl walking loops twice
     this.anims.create({
-      key: 'hgwalking',
-      frames: this.anims.generateFrameNames('hoodgirl', {
+      key: 'pwalking',
+      frames: this.anims.generateFrameNames(this.char, {
         prefix: 'walking00',
         suffix: '.png',
         start: 1,
@@ -149,8 +180,8 @@ export default class Woods extends Phaser.Scene {
 
     // Hoodgirl attack once
     this.anims.create({
-      key: 'hgattack',
-      frames: this.anims.generateFrameNames('hoodgirl', { 
+      key: 'pattack',
+      frames: this.anims.generateFrameNames(this.char, { 
         prefix: 'attack00', 
         suffix: '.png',
         start: 1,
@@ -162,8 +193,8 @@ export default class Woods extends Phaser.Scene {
 
     // Hoodgirl hurt once
     this.anims.create({
-      key: 'hghurt',
-      frames: this.anims.generateFrameNames('hoodgirl', {
+      key: 'phurt',
+      frames: this.anims.generateFrameNames(this.char, {
         prefix: 'hurt00',
         suffix: '.png',
         start: 1,
@@ -175,8 +206,8 @@ export default class Woods extends Phaser.Scene {
 
     // Hoodgirl dying once
     this.anims.create({
-      key: 'hgdying',
-      frames: this.anims.generateFrameNames('hoodgirl', {
+      key: 'pdying',
+      frames: this.anims.generateFrameNames(this.char, {
         prefix: 'dying00',
         suffix: '.png',
         start: 1,
@@ -188,8 +219,8 @@ export default class Woods extends Phaser.Scene {
 
     // Hoodgirl evade run animation
     this.anims.create({
-      key: 'hgrunning',
-      frames: this.anims.generateFrameNames('hoodgirl', {
+      key: 'prunning',
+      frames: this.anims.generateFrameNames(this.char, {
         prefix: 'running00',
         suffix: '.png',
         start: 1,
@@ -311,8 +342,8 @@ export default class Woods extends Phaser.Scene {
 
 
     // CALLING ANIMATIONS
-    this.hoodgirl.on('animationcomplete', () => {
-      this.hoodgirl.play('hgidle');
+    this.player.on('animationcomplete', () => {
+      this.player.play('pidle');
     });
 
 
@@ -320,16 +351,27 @@ export default class Woods extends Phaser.Scene {
       this.oldman.play('omidle');
     });
 
-    // this.hoodgirl.on('animationupdate', () => {
-    //   if (this.hoodgirl.anims.currentAnim.key === 'hgwalking' && this.hoodgirl.anims.currentFrame.index === 2) {
+    // this.player.on('animationupdate', () => {
+    //   if (this.player.anims.currentAnim.key === 'pwalking' && this.player.anims.currentFrame.index === 2) {
     //     console.log("this is frame 2");
     //   }
     // })
 
     this.farmzombie.on('animationcomplete', () => {
-      this.farmzombie.play('fzidle');
+      if (this.farmzombie.anims.currentAnim.key === 'fzwalking') {
+        this.farmzombie.play('fzidle');
+        // this.menucontainer.visible = true;
+        // this.textA.visible = true;
+        // this.textB.visible = true;
+        // this.textC.visible = true;
+        // this.textD.visible = true;
+        // this.arrow.visible = true;
+        // console.log(this.arrow);
+        // this.arrow.y = 200;
+        // this.arrow.x = 220;
+        this.showMenu();
+      }
     });
-
     
 
     // this.farmzombie.on('animationcomplete', () => {
@@ -365,14 +407,13 @@ export default class Woods extends Phaser.Scene {
       } else {
         switch(this.section) {
         case 1:
-          this.scene.start('Tavern');
           this.keySpace = false;
           this.container.visible = false;
           this.text.visible = false;
           this.oldman.anims.play('omrunning', true);
           this.omRunOn.restart();
-          this.hoodgirl.anims.play('hgwalking', true);
-          this.hgWalkOn.restart();
+          this.player.anims.play('pwalking', true);
+          this.pWalkOn.restart();
           this.currentDialogue = this.dialogue.woods.dialogue;
           i = 1;
           setTimeout(() => {
@@ -405,21 +446,34 @@ export default class Woods extends Phaser.Scene {
           this.keyA = true;
           this.container.visible = false;
           this.text.visible = false;
+          this.dangerstinger.play();
           this.farmzombie.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
+          setTimeout(() => {
+            this.rhythmloop.play();
+          }, 15500);
         }
       }
     }
-    this.hgAttack();
+    this.pAttack();
+  }
+
+  showMenu() {
+    this.scene.launch('Ui', { woods: this });
+  }
+
+  hideMenu() {
+    this.scene.sleep('Ui');
   }
 
 
-  hgAttack() {
+  pAttack() {
     const A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 
     if (Phaser.Input.Keyboard.JustDown(A) && this.keyA) {
       this.cutflesh.play();
-      this.hoodgirl.anims.play('hgattack');
+      this.player.anims.play('pattack');
+      console.log(Phaser.Scene);
     }
   }
   /**

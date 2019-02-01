@@ -35,22 +35,25 @@ export default class SplashScreen extends Phaser.Scene {
 
     //  HINT: Declare all game assets to be loaded here.
     this.load
-      .image('logo')
-      .image('sky', 'space3.png')
-      .image('red')
       .image('dirt')
       .image('letter')
-      .image('styledbox')
+      .image('textbox')
+      .image('menubox')
+      .image('arrow')
       .image('woods', 'forest.png');
 
     this.load.json('dialogue');
 
-    this.load.atlas('hoodgirl', 'hoodgirl.png', 'hoodgirl.json');
-    this.load.atlas('farmzombie', 'farmzombie.png', 'farmzombie.json');
-    this.load.atlas('woodzombie', 'woodzombie.png', 'woodzombie.json');
-    this.load.atlas('oldman', 'oldman.png', 'oldman.json');
+    this.load.atlas('hoodgirl', 'hoodgirl.png', 'hoodgirl.json')
+      .atlas('farmzombie', 'farmzombie.png', 'farmzombie.json')
+      .atlas('woodzombie', 'woodzombie.png', 'woodzombie.json')
+      .atlas('oldman', 'oldman.png', 'oldman.json')
+      .atlas('hoodboy', 'hoodboy.png', 'hoodboy.json');
 
-    this.load.audio('cutflesh', 'cutflesh.mp3');
+    this.load
+      .audio('cutflesh', 'cutflesh.mp3')
+      .audio('rhythmloop', 'assault1loop.wav')
+      .audio('dangerstinger', 'assaultDangerStinger.wav');
   }
 
   /**
