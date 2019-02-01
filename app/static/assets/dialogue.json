@@ -36,7 +36,7 @@
         ]
         },
     "house": {
-        "hgenterhouse": [
+        "penterhouse": [
         "It's nearly silent save for some rustling at the back of the house."
         ],
         "childenterhouse": [
@@ -53,19 +53,26 @@
         "Child:'I just ran and hid, i'm so scared.'"
         ]
     },
-    "tavern": [
-        "You swing the doors of the tavern open. The Spooky Tap may have been nice at one point, but that time is long gone.",
+    "tavern": {
+        "pentertavern": [
+        "You swing the doors of the tavern open."
+        ],
+        "startnarration": ["The Spooky Tap may have been nice at one point, but that time is long gone.",
         "Sprawled out in the middle of a table is a large detailed map of the area. There's a large X right on a cave not far from town.",
         "Next to the map is a note that reads 'Map to secret hideout. Burn after reading! -Lord of Bones'"
-    ], 
-    "church": [
-        "You enter the church through a shattered stain glass window. ",
-        "Immediately catching your eye, you see a zombie shambling through the pews.",
+        ]
+    },
+    "temple": {
+        "pentertemple": [
+        "You enter the church through a shattered stain glass window. "
+        ],
+        "startnarration": ["Immediately catching your eye, you see a zombie shambling through the pews.",
         "It notices you too and begins to attack.",
         "The zombie falls over motionless. As you search the body you notice writing on the zombies clothing.",
         "It reads 'If lost return to Lord of Bone's secret cave 1 mile down the road from Dreary Cove.'",
         "While there was nearly nothing left of the town, everything pointed you to a cave close to town."
-    ], 
+        ] 
+    },
     "cave1": [
         "The cave is lit by torches and as you traverse further in you hear the distinct sound of two human voices.",
         "Before you stands two figures. One with a skull face, and the other with a red mask.",
