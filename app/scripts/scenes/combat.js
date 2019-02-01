@@ -1,18 +1,16 @@
-var playerStrength = 10;
-var playerDefense = 10;
-var playerEvasion = 10;
-var playerDefend = false;
+// var playerStrength = 10;
+// var playerDefense = 10;
+// var playerEvasion = 10;
+// var playerDefend = false;
 
-//player moves
+//player actions
 
 //normal Attack = damage will equal playerstrength * 1.
 function pAttack() {
     //when the function is called run the normal Attack anim and generate the evasion threshold
     var evasionGenerate = Math.floor(Math.random() * 100);
 
-    if (enemyHealth <= 0) {
-        //if the enemy has no health run death anim
-    } else if (evasionGenerate > enemyEvasion) {
+    if (evasionGenerate > enemyEvasion) {
         //if the enemy evasion is lower than the threshold calculate normal attack damage 
     } else {
         //if the enemy evasion is greater than the threshold they evade your attack
@@ -33,9 +31,7 @@ function stunAttack() {
     //when the function is call run the stun attack anim and generate evasion threshold
 
     var evasionGenerate = Math.floor(Math.random() * 100);
-    if (enemyhealth <= 0) {
-        //if the enemy has no health run death anim
-    } else if (evasionGenerate > enemyEvasion) {
+    if (evasionGenerate > enemyEvasion) {
         //if the enemy evasion is lower than the threshold calculate stun attack damage, and set enemyStunned = true. Put stun attack on cooldown.
     } else {
         //if the enemy evasion is greater than the threshold they evade your attack. Put stunAttack on cooldown.
@@ -46,9 +42,7 @@ function heavyAttack() {
     //when the function is called run the heavyAttack anim and generate a smaller evasion threshold
 
     var evasionGenerate = Math.floor(Math.random() * 50);
-    if (enemyhealth <= 0) {
-        //if the enemy has no health run death anim
-    } else if (evasionGenerate > enemyEvasion) {
+    if (evasionGenerate > enemyEvasion) {
         //if the enemy evasion is lower than the threshold calculate heavy attack damage.
     } else {
         //if the enemy evasion is greater than the threshold they evade your attack.
@@ -59,12 +53,12 @@ function defend() {
     //set playerDefend = true
 }
 
-var enemyStrength = 10;
-var enemyDefense = 10;
-var enemyEvasion = 10;
-var attackCounter = 0;
+// var enemyStrength = 10;
+// var enemyDefense = 10;
+// var enemyEvasion = 10;
+// var attackCounter = 0;
 
-//enemy moves
+//enemy actions
 
 // normal attack = damage will equal enemystrength * 1.
 function enemyAttack() {
@@ -79,6 +73,7 @@ function enemyAttack() {
             if (playerDefend === true) {
                 // enemy attack damage is reduced by player defense / 2
                 //add 1 to the enemy attack counter
+                //set playerDefend = false
             } else {
                 //calculate full enemy attack damage
                 //add 1 to the enemy attack counter
@@ -97,6 +92,7 @@ function specialAttack() {
         if (playerDefend === true) {
             //enemy attack damage is = to enemystrength * 2 reduced by player defense / 2
             //set attackCounter = 0
+            //set playerDefend = false
         } else {
             //enemy attack damage is = to enemystrength * 2
             //set attack counter = 0
@@ -106,8 +102,3 @@ function specialAttack() {
         // set attack counter = 0
     }
 } 
-
-this.actionsMenu.defaultSelect();
-defaultSelect: function() {
-  this.menuItems[0].select();
-},
