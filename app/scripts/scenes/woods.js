@@ -70,33 +70,11 @@ export default class Woods extends Phaser.Scene {
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
 
-    // this.arrow = this.add.image(250, 150, 'arrow');
-    // this.arrow.setDepth(1);
-    // this.arrow.visible = false;
-    // this.textA = this.add.text(x, 40, 'Battle Menu', { font: '30px Lucida Console'});
-    // this.textB = this.add.text(x, 150, 'Attack', { font: '20px Lucida Console' });
-    // this.textC = this.add.text(x, 200, 'Special Attack', { font: '20px Lucida Console' });
-    // this.textD = this.add.text(x, 250, 'Potion', { font: '20px Lucida Console' });
-    // this.textA.visible = false;
-    // this.textB.visible = false;
-    // this.textC.visible = false;
-    // this.textD.visible = false;
-    // this.textA.setOrigin(0.5, 0.5);
-    // this.textB.setOrigin(0.5, 0.5);
-    // this.textC.setOrigin(0.5, 0.5);
-    // this.textD.setOrigin(0.5, 0.5);
-    // this.textA.setDepth(1);
-    // this.textB.setDepth(1);
-    // this.textC.setDepth(1);
-    // this.textD.setDepth(1);
 
 
     this.container = this.add.container(x, 150, this.textbox);
     this.container.setSize(400, 100);
 
-    // this.menucontainer = this.add.container(x, 150, this.menubox);
-    // this.menucontainer.setSize(340, 300);
-    // this.menucontainer.visible = false;
 
 
 
@@ -356,15 +334,7 @@ export default class Woods extends Phaser.Scene {
     this.farmzombie.on('animationcomplete', () => {
       if (this.farmzombie.anims.currentAnim.key === 'fzwalking') {
         this.farmzombie.play('fzidle');
-        // this.menucontainer.visible = true;
-        // this.textA.visible = true;
-        // this.textB.visible = true;
-        // this.textC.visible = true;
-        // this.textD.visible = true;
-        // this.arrow.visible = true;
-        // console.log(this.arrow);
-        // this.arrow.y = 200;
-        // this.arrow.x = 220;
+
         this.showMenu();
       }
     });
