@@ -16,7 +16,8 @@ export default class House extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    this.char = data.char;
   }
 
   /**
@@ -55,7 +56,7 @@ export default class House extends Phaser.Scene {
 
 
     // let text = this.add.text(x, y, 'TESTING PLS');
-    this.currentDialogue = this.dialogue.house.hgenterhouse;
+    this.currentDialogue = this.dialogue.house.penterhouse;
     this.text = this.add.text(x, 150, this.currentDialogue[0], {
       wordWrap: { width: 390 }
     });
@@ -177,11 +178,12 @@ export default class House extends Phaser.Scene {
           break;
         case 3:
           this.keySpace = false;
-          this.keyA = true;
           this.container.visible = false;
           this.text.visible = false;
           this.keySpace = true;
-          // this.scene.start('Tavern');
+          setTimeout(() => {
+          this.scene.start('Tavern');
+          }, 2000); 
         }
       }
     }
