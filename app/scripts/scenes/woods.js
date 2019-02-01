@@ -406,6 +406,9 @@ export default class Woods extends Phaser.Scene {
           this.text.visible = false;
           this.farmzombie.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
+          // add fight scene stuff here
+          this.keySpace = true;
+          this.scene.start('Town');
         }
       }
     }
