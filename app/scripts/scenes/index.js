@@ -14,9 +14,6 @@ export {default as Woods} from './woods';
 export {default as Ui} from './ui';
 export {default as Tavern} from './tavern';
 export {default as Temple} from './temple';
-<<<<<<< HEAD
 export {default as AttackMenu} from './attack-menu';
-=======
 export {default as Town} from './town';
 export {default as House} from './house';
->>>>>>> 05fb19edcc0e44742c3b34ae15da390e860ec047
