@@ -71,7 +71,7 @@ export default class Ui extends Phaser.Scene {
         this.currentMenu.moveSelectionDown();
       } else if (event.code === 'Enter') {
         this.currentMenu.select();
-      }
+      } 
     }
   }
 

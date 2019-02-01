@@ -40,7 +40,9 @@ export default class SplashScreen extends Phaser.Scene {
       .image('textbox')
       .image('menubox')
       .image('arrow')
-      .image('woods', 'forest.png');
+      .image('woods', 'forest.png')
+      .image('town', 'town.png')
+      .image('house', 'house.png');
 
     this.load.json('dialogue');
 
@@ -48,7 +50,9 @@ export default class SplashScreen extends Phaser.Scene {
       .atlas('farmzombie', 'farmzombie.png', 'farmzombie.json')
       .atlas('woodzombie', 'woodzombie.png', 'woodzombie.json')
       .atlas('oldman', 'oldman.png', 'oldman.json')
-      .atlas('hoodboy', 'hoodboy.png', 'hoodboy.json');
+      .atlas('hoodboy', 'hoodboy.png', 'hoodboy.json')
+      .atlas('child', 'child.png', 'child.json');
+
 
     this.load
       .audio('cutflesh', 'cutflesh.mp3')

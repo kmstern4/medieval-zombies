@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "generator-phaser-plus": "^3.0.0-beta.7",
     "phaser": "^3.12.0"
   },
   "private": true
