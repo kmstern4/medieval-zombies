@@ -1,3 +1,5 @@
+import Menu from '../objects/menu';
+
 let i = 1;
 
 export default class Woods extends Phaser.Scene {
@@ -51,11 +53,10 @@ export default class Woods extends Phaser.Scene {
     this.dialogue = this.cache.json.get('dialogue');
 
     this.textbox = this.add.image(0, 0, 'textbox');
-    // this.menubox = this.add.image(0, 0, 'menubox');
 
     this.cutflesh = this.sound.add('cutflesh');
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
-    this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true })
+    this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
     this.section = 1;
     this.keySpace = true;
@@ -75,9 +76,20 @@ export default class Woods extends Phaser.Scene {
     this.container = this.add.container(x, 150, this.textbox);
     this.container.setSize(400, 100);
 
+    // BATTLE MENU UI
+    this.menubox = this.add.image(325, 333, 'menubox');
+    this.menu = this.add.container();
+    this.actionsMenu = new Menu(this, 262, 306);
+    this.arrows = false;
+
+    this.menu.setSize(120, 140);
+    this.menu.add(this.menubox);
+    this.menu.add(this.actionsMenu);
+
+    this.menu.visible = false;
 
 
-
+    this.input.keyboard.on('keydown', this.onKeyInput, this);
 
 
     // TWEENS
@@ -334,8 +346,8 @@ export default class Woods extends Phaser.Scene {
     this.farmzombie.on('animationcomplete', () => {
       if (this.farmzombie.anims.currentAnim.key === 'fzwalking') {
         this.farmzombie.play('fzidle');
-
-        this.showMenu();
+        this.arrows = true;
+        this.menu.visible = true;
       }
     });
     
@@ -419,20 +431,23 @@ export default class Woods extends Phaser.Scene {
             this.rhythmloop.play();
           }, 15500);
           // add fight scene stuff here
-          this.keySpace = true;
-          this.scene.start('Town');
+
         }
       }
     }
     this.pAttack();
   }
 
-  showMenu() {
-    this.scene.launch('Ui', { woods: this });
-  }
-
-  hideMenu() {
-    this.scene.sleep('Ui');
+  onKeyInput(event) {
+    if (this.arrows) {
+      if (event.code === 'ArrowUp') {
+        this.actionsMenu.moveSelectionUp();
+      } else if (event.code === 'ArrowDown') {
+        this.actionsMenu.moveSelectionDown();
+      } else if (event.code === 'Enter') {
+        this.actionsMenu.confirm();
+      } 
+    }
   }
 
 
@@ -442,7 +457,6 @@ export default class Woods extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(A) && this.keyA) {
       this.cutflesh.play();
       this.player.anims.play('pattack');
-      console.log(Phaser.Scene);
     }
   }
   /**

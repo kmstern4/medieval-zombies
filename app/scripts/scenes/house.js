@@ -47,7 +47,7 @@ export default class House extends Phaser.Scene {
 
     this.dialogue = this.cache.json.get('dialogue');
 
-    this.styledbox = this.add.image(0, 0, 'styledbox');
+    this.styledbox = this.add.image(0, 0, 'textbox');
 
     this.section = 1;
     this.keySpace = true;
