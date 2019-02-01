@@ -106,3 +106,8 @@ function specialAttack() {
         // set attack counter = 0
     }
 } 
+
+this.actionsMenu.defaultSelect();
+defaultSelect: function() {
+  this.menuItems[0].select();
+},
