@@ -64,11 +64,11 @@ export default class Ui extends Phaser.Scene {
       } else if (event.code === 'ArrowDown') {
         this.currentMenu.moveSelectionDown();
       } else if (event.code === 'ArrowRight' || event.code === 'Shift') {
-        this.currentMenu = this.actionsMenu
+        this.currentMenu = this.actionsMenu;
       } else if (event.code === 'Enter') {
         this.currentMenu.select();
       } else if (event.code === 'ArrowLeft') {
-        this.currentMenu = this.heroesMenu
+        this.currentMenu = this.heroesMenu;
       }
     }
   }
@@ -163,31 +163,31 @@ var Menu = new Phaser.Class({
   },
   // select the menu as a whole and an element with index from it
   select: function () {
-    console.log("select", this.menuItemIndex)
+    // console.log('select', this.menuItemIndex);
     // if(!index)
     //     index = 0;
     this.menuItems[this.menuItemIndex].deselect();
     //this.menuItemIndex = index;
     this.menuItems[this.menuItemIndex].select();
-    console.log("select console log", this.menuItems[this.menuItemIndex])
-    this.confirm()
+    // console.log('select console log', this.menuItems[this.menuItemIndex]);
+    this.confirm();
   },
 
   confirm: function () {
-    console.log("index", this.menuItemIndex)
+    // console.log('index', this.menuItemIndex);
     switch (this.menuItemIndex) {
-      case 0:
-        console.log("Attack")
-        break;
-      case 1:
-        console.log("Defend")
-        break;
-      case 2:
-        console.log("Heal")
-        break;
-      default:
-        console.log(this)
-        break;
+    case 0:
+      // console.log('Attack');
+      break;
+    case 1:
+      // console.log('Defend');
+      break;
+    case 2:
+      // console.log('Heal');
+      break;
+    default:
+      // console.log(this);
+      break;
     }
   },
   // deselect this menu
@@ -221,11 +221,11 @@ var HeroesMenu = new Phaser.Class({
 
     function HeroesMenu(x, y, scene) {
       Menu.call(this, x, y, scene);
-      this.addMenuItem('Hood Girl')
-      this.addMenuItem('Hp: 50')
-      this.addMenuItem('Str: 15')
-      this.addMenuItem('Def: 5')
-      this.addMenuItem('Potions: 2')
+      this.addMenuItem('Hood Girl');
+      this.addMenuItem('Hp: 50');
+      this.addMenuItem('Str: 15');
+      this.addMenuItem('Def: 5');
+      this.addMenuItem('Potions: 2');
     }
 });
 

@@ -35,13 +35,15 @@ export default class SplashScreen extends Phaser.Scene {
 
     //  HINT: Declare all game assets to be loaded here.
     this.load
-      .image('logo')
-      .image('sky', 'space3.png')
-      .image('red')
+      // .image('logo')
+      // .image('sky', 'space3.png')
+      // .image('red')
       .image('dirt')
       .image('letter')
       .image('styledbox')
-      .image('woods', 'forest.png');
+      .image('woods', 'forest.png')
+      .image('town', 'town.png')
+      .image('house', 'house.png');
 
     this.load.json('dialogue');
 
@@ -49,6 +51,7 @@ export default class SplashScreen extends Phaser.Scene {
     this.load.atlas('farmzombie', 'farmzombie.png', 'farmzombie.json');
     this.load.atlas('woodzombie', 'woodzombie.png', 'woodzombie.json');
     this.load.atlas('oldman', 'oldman.png', 'oldman.json');
+    this.load.atlas('child', 'child.png', 'child.json');
 
     this.load.audio('cutflesh', 'cutflesh.mp3');
   }

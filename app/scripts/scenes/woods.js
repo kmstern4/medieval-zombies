@@ -103,7 +103,7 @@ export default class Woods extends Phaser.Scene {
       repeat: 0,
       paused: true
     });
-     
+
     // zombie walks in to scene
     this.fzWalkOn = this.tweens.add({
       targets: this.farmzombie,
@@ -113,9 +113,6 @@ export default class Woods extends Phaser.Scene {
       repeat: 0,
       paused: true
     });
- 
-
-
 
     // DEFINING ANIMATIONS
 
@@ -213,7 +210,7 @@ export default class Woods extends Phaser.Scene {
       repeat: -1
     });
 
-    // Oldman walking loops twice
+    // Oldman running loops twice
     this.anims.create({
       key: 'omrunning',
       frames: this.anims.generateFrameNames('oldman', {
@@ -406,6 +403,9 @@ export default class Woods extends Phaser.Scene {
           this.text.visible = false;
           this.farmzombie.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
+          // add fight scene stuff here
+          this.keySpace = true;
+          this.scene.start('Town');
         }
       }
     }
@@ -451,7 +451,7 @@ export default class Woods extends Phaser.Scene {
 function resize() {
   let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
   let wratio = width / height, ratio = canvas.width / canvas.height;
- 
+
   if (wratio < ratio) {
     canvas.style.width = width + 'px';
     canvas.style.height = (width / ratio) + 'px';

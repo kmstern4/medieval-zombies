@@ -14,3 +14,5 @@ export {default as Woods} from './woods';
 export {default as Ui} from './ui';
 export {default as Tavern} from './tavern';
 export {default as Temple} from './temple';
+export {default as Town} from './town';
+export {default as House} from './house';
