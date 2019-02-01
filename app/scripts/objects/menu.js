@@ -17,9 +17,11 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.index = 0;
     this.x = x;
     this.y = y;
+    this.scene = scene;
     this.addMenuItem('Attack');
     this.addMenuItem('Special Attack');
-    this.addMenuItem('Potion');  
+    this.addMenuItem('Potion'); 
+    this.defaultSelect(); 
     //  Add this game object to the owner scene.
     scene.children.add(this);
   }
@@ -48,10 +50,15 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.menuItems[this.index].select();
   }
 
+  defaultSelect() {
+    this.menuItems[0].select();
+  }
+
   confirm() {
     switch(this.index) {
     case 0:
       console.log('Attack');
+      this.playerAttack();
       break;
     case 1: 
       console.log('Defend');
@@ -63,6 +70,12 @@ export default class Menu extends Phaser.GameObjects.Container {
       console.log(`You somehow hit a wrong index of ${this.index}`);
       break;
     }
+  }
+
+  // FIGHT FUNCTIONS
+  playerAttack() {
+    this.scene.cutflesh.play();
+    this.scene.player.anims.play('pattack');
   }
 
   
