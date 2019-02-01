@@ -60,7 +60,6 @@ export default class Woods extends Phaser.Scene {
 
     this.section = 1;
     this.keySpace = true;
-    this.keyA = false;
 
 
     // let text = this.add.text(x, y, 'TESTING PLS');
@@ -348,6 +347,8 @@ export default class Woods extends Phaser.Scene {
         this.farmzombie.play('fzidle');
         this.arrows = true;
         this.menu.visible = true;
+      } else {
+        this.farmzombie.play('fzidle');
       }
     });
     
@@ -421,7 +422,6 @@ export default class Woods extends Phaser.Scene {
           break;
         case 3:
           this.keySpace = false;
-          this.keyA = true;
           this.container.visible = false;
           this.text.visible = false;
           this.dangerstinger.play();
@@ -435,7 +435,6 @@ export default class Woods extends Phaser.Scene {
         }
       }
     }
-    this.pAttack();
   }
 
   onKeyInput(event) {
@@ -450,15 +449,6 @@ export default class Woods extends Phaser.Scene {
     }
   }
 
-
-  pAttack() {
-    const A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-
-    if (Phaser.Input.Keyboard.JustDown(A) && this.keyA) {
-      this.cutflesh.play();
-      this.player.anims.play('pattack');
-    }
-  }
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
    *
