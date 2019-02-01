@@ -1,3 +1,4 @@
+let i = 1;
 export default class Temple extends Phaser.Scene {
   /**
    *  My custom scene.
@@ -14,7 +15,8 @@ export default class Temple extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    this.char = data.char;
   }
 
   /**
@@ -31,28 +33,73 @@ export default class Temple extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
+
   create(/* data */) {
+    window.addEventListener('resize', resize);
+    resize();
+
+    const x = this.cameras.main.width / 2;
+    const y = this.cameras.main.height / 2;
+    
+    this.add.image(x, y, 'temple');
 
     this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
-    this.woodzombie = this.add.sprite(80, 400, 'woodzombie', 'idle001.png');
+    this.woodzombie = this.add.sprite(800, 400, 'woodzombie', 'idle001.png');
 
-    // for hoodgirl walking on to scene
-    this.anims.add('hgwalking');
+    this.dialogue = this.cache.json.get('dialogue');
 
-    
+    this.styledbox = this.add.image(0, 0, 'textbox');
+
+    this.section = 1;
+    this.keySpace = true;
+    this.keyA = false;
 
 
-    // Woodzombie Animations
-    this.anims.create({
-      key: 'wzidle',
-      frames: this.anims.generateFrameNames('woodzombie', {
-        prefix: 'idle00',
-        suffix: '.png',
-        start: 1,
-        end: 12
-      }),
-      frameRate: 20,
-      repeat: -1
+    // let text = this.add.text(x, y, 'TESTING PLS');
+    this.currentDialogue = this.dialogue.temple.pentertemple;
+    this.text = this.add.text(x, 150, this.currentDialogue[0], {
+      wordWrap: { width: 390 }
+    });
+    this.text.setOrigin(0.5, 0.5);
+    this.text.setDepth(1);
+
+
+    this.container = this.add.container(x, 150, this.styledbox);
+    this.container.setSize(400, 100);
+
+    // TWEENS
+
+    // tween to make player walk in to scene
+    this.hgWalkOn = this.tweens.add({
+      targets: this.hoodgirl,
+      x: 150,
+      ease: 'power1',
+      duration: 2500,
+      repeat: 0,
+      paused: true
+    });
+
+
+
+    // DEFINING ANIMATIONS
+
+      // Woodzombie Animations
+      this.anims.create({
+        key: 'wzidle',
+        frames: this.anims.generateFrameNames('woodzombie', {
+          prefix: 'idle00',
+          suffix: '.png',
+          start: 1,
+          end: 12
+        }),
+        frameRate: 20,
+        repeat: -1
+      });
+
+    // CALLING ANIMATIONS
+
+    this.hoodgirl.on('animationcomplete', () => {
+      this.hoodgirl.play('hgidle');
     });
 
   }
@@ -65,8 +112,59 @@ export default class Temple extends Phaser.Scene {
    *  @param {number} dt - Time elapsed since last update.
    */
   update(/* t, dt */) {
-  }
+    const space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
+      if (this.currentDialogue[i] !== undefined) {
+        this.text.setText(this.currentDialogue[i]);
+        i++;
+      } else {
+        switch(this.section) {
+        case 1:
+          this.hoodgirl.anims.play('hgwalking', true);
+          this.hgWalkOn.restart();
+          this.keySpace = false;
+          this.container.visible = false;
+          this.text.visible = false;
+          this.currentDialogue = this.dialogue.temple.pentertemple;
+          setTimeout(() => {
+            this.child.anims.play('cwalking', true);
+            this.cWalkOn.restart();
+            i = 1;
+            this.keySpace = true;
+            this.container.visible = true;
+            this.text.visible = true;
+            this.text.setText(this.currentDialogue[0]);
+            this.section = 2;
+          } ,2700);
+          break;
+        case 2:
+          this.keySpace = false;
+          this.container.visible = false;
+          this.text.visible = false;
+          this.currentDialogue = this.dialogue.house.dialogue;
+          i = 1;
+          setTimeout(() => {
+            this.keySpace = true;
+            this.container.visible = true;
+            this.text.visible = true;
+            this.text.setText(this.currentDialogue[0]);
+            this.section = 3;
+          }, 2000);
+          break;
+        case 3:
+          this.keySpace = false;
+          this.keyA = true;
+          this.container.visible = false;
+          this.text.visible = false;
+          this.keySpace = true;
+          setTimeout(() => {
+          this.scene.start('Cave');
+          }, 2000); 
+        }
+      }
+    }
+  }
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
    *
@@ -91,5 +189,18 @@ export default class Temple extends Phaser.Scene {
    *  @protected
    */
   destroy() {
+  }
+}
+
+function resize() {
+  let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
+  let wratio = width / height, ratio = canvas.width / canvas.height;
+
+  if (wratio < ratio) {
+    canvas.style.width = width + 'px';
+    canvas.style.height = (width / ratio) + 'px';
+  } else {
+    canvas.style.width = (height * ratio) + 'px';
+    canvas.style.height = height + 'px';
   }
 }

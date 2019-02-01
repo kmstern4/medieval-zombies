@@ -16,7 +16,8 @@ export default class Town extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    this.char = data.char;
   }
 
   /**
@@ -40,7 +41,7 @@ export default class Town extends Phaser.Scene {
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
     
-    this.add.image(x, y, 'town');
+    this.add.image(x, y, 'town'); 
 
     this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
 
@@ -131,7 +132,7 @@ export default class Town extends Phaser.Scene {
           this.hgWalkOff.restart();
           this.hoodgirl.anims.play('hgwalking', true);
           setTimeout(() => {
-            this.scene.start('House');
+          this.scene.start('House');
           }, 2700);
           break;
         }
