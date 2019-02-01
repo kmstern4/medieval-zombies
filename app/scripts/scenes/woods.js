@@ -419,8 +419,7 @@ export default class Woods extends Phaser.Scene {
             this.rhythmloop.play();
           }, 15500);
           // add fight scene stuff here
-          this.keySpace = true;
-          this.scene.start('Town');
+
         }
       }
     }
