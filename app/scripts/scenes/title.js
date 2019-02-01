@@ -116,7 +116,7 @@ export default class Title extends Phaser.Scene {
       }),
       repeat: -1,
       frameRate: 15
-    })
+    });
 
     hoodgirl.play('hgwalking');
     hoodgirl.on('animationcomplete', function() {
@@ -148,7 +148,7 @@ export default class Title extends Phaser.Scene {
       strokeThickness: 6
     });
 
-    const townLabel = this.add.text(x, 450, 'Skip to Town', {
+    const townLabel = this.add.text(x, 450, 'Town Scene', {
       font: '20px Lucida Console',
       color: 'white',
       stroke: 'black',
@@ -163,7 +163,7 @@ export default class Title extends Phaser.Scene {
     hoodboy.on('pointerup', () => {
       this.rhythmloop.stop();
       this.scene.start('Woods', { char: 'hoodboy' });
-    })
+    });
 
     label2.setOrigin(0.5, 0.5);
 
@@ -172,7 +172,7 @@ export default class Title extends Phaser.Scene {
     townLabel.on('pointerup', () => {
       this.rhythmloop.stop();
       this.scene.start('Town');
-    })
+    });
     
   }
 
