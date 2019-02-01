@@ -66,8 +66,6 @@ export default class House extends Phaser.Scene {
     this.container = this.add.container(x, 150, this.styledbox);
     this.container.setSize(400, 100);
 
-
-
     // TWEENS
 
     // tween to make player walk in to scene
@@ -91,12 +89,6 @@ export default class House extends Phaser.Scene {
     });
 
     // DEFINING ANIMATIONS
-
-    // Hoodgirl animations:
-
-    // Hoodgirl idle infinite loop
-
-    // Hoodgirl walking loops twice
 
     // child idle infinite loop
     this.anims.create({
@@ -124,13 +116,11 @@ export default class House extends Phaser.Scene {
       repeat: 2
     });
 
-
     // CALLING ANIMATIONS
 
     this.hoodgirl.on('animationcomplete', () => {
       this.hoodgirl.play('hgidle');
     });
-
 
     this.child.on('animationcomplete', () => {
       this.child.play('cidle');

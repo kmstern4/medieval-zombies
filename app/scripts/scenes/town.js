@@ -44,7 +44,6 @@ export default class Town extends Phaser.Scene {
 
     this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
 
-
     this.dialogue = this.cache.json.get('dialogue');
 
     this.styledbox = this.add.image(0, 0, 'styledbox');
@@ -63,7 +62,6 @@ export default class Town extends Phaser.Scene {
 
     this.container = this.add.container(x, 150, this.styledbox);
     this.container.setSize(400, 100);
-
 
     // TWEENS
 
@@ -86,7 +84,6 @@ export default class Town extends Phaser.Scene {
       repeat: 0,
       paused: true
     });
-
 
     // CALLING ANIMATIONS
     this.hoodgirl.on('animationcomplete', () => {
