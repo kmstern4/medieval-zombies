@@ -259,25 +259,3 @@ function resize() {
     canvas.style.height = height + 'px';
   }
 }
-
-
-
-
-this.pRunAttack = this.tweens.add({
-  targets: this.player,
-  x: 250,
-  ease: 'power1',
-  duration: 300,
-  paused: true,
-  yoyo: true
-});
-
-this.weaponThrow = this.tweens.add({
-  targets: this.weapon,
-  x: 450,
-  ease: 'power1',
-  angle: 360,
-  duration: 300,
-  paused: true,
-  yoyo: true
-});
