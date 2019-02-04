@@ -15,7 +15,9 @@ export default class Letter extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    this.char = data.char;
+    this.weap = data.weap;
   }
 
   /**
@@ -24,6 +26,125 @@ export default class Letter extends Phaser.Scene {
    *  @protected
    */
   preload() {
+    // player idle infinite loop
+    this.anims.create({
+      key: 'pidle',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'idle00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 15,
+      repeat: -1
+    });
+
+    // player walking loops twice
+    this.anims.create({
+      key: 'pwalking',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'walking00',
+        suffix: '.png',
+        start: 1,
+        end: 24
+      }),
+      frameRate: 20,
+      repeat: 1
+    });
+
+    // player hurt once
+    this.anims.create({
+      key: 'phurt',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'hurt00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // player dying once
+    this.anims.create({
+      key: 'pdying',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'dying00',
+        suffix: '.png',
+        start: 1,
+        end: 15
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // player evade run animation
+    this.anims.create({
+      key: 'prunning',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'running00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // player basic attack
+    this.anims.create({
+      key: 'pattack',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'attack00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 15,
+      repeat: 0
+    });
+
+    // player jump attack
+    this.anims.create({
+      key: 'pjump',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'jump00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 25,
+      repeat: 0
+    });
+
+    // player running attack needs tween
+    this.anims.create({
+      key: 'prunattack',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'runattack00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 15,
+      repeat: 0
+    });
+
+    // player throw weapon
+    this.anims.create({
+      key: 'pthrow',
+      frames: this.anims.generateFrameNames(this.char, {
+        prefix: 'throw00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 15,
+      repeat: 0
+    });
+
+
+
   }
 
   /**
@@ -93,7 +214,7 @@ export default class Letter extends Phaser.Scene {
         this.text.setText(this.dialogue.letter[i]);
         i++;
       } else {
-        this.scene.start('Woods');
+        this.scene.start('Woods', { char: this.char, weap: this.weap });
       }
     }
 
@@ -138,5 +259,3 @@ function resize() {
     canvas.style.height = height + 'px';
   }
 }
-
-

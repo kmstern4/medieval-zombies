@@ -20,6 +20,7 @@ export default class Woods extends Phaser.Scene {
    */
   init(data) {
     this.char = data.char;
+    this.weap = data.weap;
   }
 
   /**
@@ -46,6 +47,8 @@ export default class Woods extends Phaser.Scene {
     this.add.image(x, y, 'woods');
 
     this.player = this.add.sprite(-150, 400, this.char, 'idle001.png');
+    this.weapon = this.add.image(210, 420, this.weap);
+    this.weapon.visible = false;
     this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
@@ -103,6 +106,28 @@ export default class Woods extends Phaser.Scene {
       paused: true
     });
 
+    // run attack
+    this.pRunAttack = this.tweens.add({
+      targets: this.player,
+      x: 250,
+      ease: 'power1',
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
+    
+    // weapon being thrown
+    this.weaponThrow = this.tweens.add({
+      targets: this.weapon,
+      x: 450,
+      ease: 'power1',
+      angle: 360,
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
+
+
     // oldman runs in to scene
     this.omRunOn = this.tweens.add({
       targets: this.oldman,
@@ -153,88 +178,7 @@ export default class Woods extends Phaser.Scene {
       yoyo: true
     });
 
-    // DEFINING ANIMATIONS
-
-    // Hoodgirl animations:
-
-    // Hoodgirl idle infinite loop
-    this.anims.create({
-      key: 'pidle',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'idle00',
-        suffix: '.png',
-        start: 1,
-        end: 18
-      }),
-      frameRate: 15,
-      repeat: -1
-    });
-
-    // Hoodgirl walking loops twice
-    this.anims.create({
-      key: 'pwalking',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'walking00',
-        suffix: '.png',
-        start: 1,
-        end: 24
-      }),
-      frameRate: 20,
-      repeat: 1
-    });
-
-    // Hoodgirl attack once
-    this.anims.create({
-      key: 'pattack',
-      frames: this.anims.generateFrameNames(this.char, { 
-        prefix: 'attack00', 
-        suffix: '.png',
-        start: 1,
-        end: 12 
-      }), 
-      frameRate: 20,
-      repeat: 0
-    });
-
-    // Hoodgirl hurt once
-    this.anims.create({
-      key: 'phurt',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'hurt00',
-        suffix: '.png',
-        start: 1,
-        end: 12
-      }),
-      frameRate: 20,
-      repeat: 0
-    });
-
-    // Hoodgirl dying once
-    this.anims.create({
-      key: 'pdying',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'dying00',
-        suffix: '.png',
-        start: 1,
-        end: 15
-      }),
-      frameRate: 20,
-      repeat: 0
-    });
-
-    // Hoodgirl evade run animation
-    this.anims.create({
-      key: 'prunning',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'running00',
-        suffix: '.png',
-        start: 1,
-        end: 12
-      }),
-      frameRate: 20,
-      repeat: 0
-    });
-
+    // DEFINING ANIMATIONS    
     
     // Oldman idle infinite loop
     this.anims.create({
