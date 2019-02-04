@@ -20,6 +20,7 @@ export default class Woods extends Phaser.Scene {
    */
   init(data) {
     this.char = data.char;
+    this.weap = data.weap;
   }
 
   /**
@@ -46,6 +47,8 @@ export default class Woods extends Phaser.Scene {
     this.add.image(x, y, 'woods');
 
     this.player = this.add.sprite(-150, 400, this.char, 'idle001.png');
+    this.weapon = this.add.image(210, 420, this.weap);
+    this.weapon.visible = false;
     this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
@@ -102,6 +105,7 @@ export default class Woods extends Phaser.Scene {
       repeat: 0,
       paused: true
     });
+
 
     // oldman runs in to scene
     this.omRunOn = this.tweens.add({
