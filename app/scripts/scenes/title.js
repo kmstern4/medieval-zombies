@@ -171,7 +171,7 @@ export default class Title extends Phaser.Scene {
     townLabel.setInteractive();
     townLabel.on('pointerup', () => {
       this.rhythmloop.stop();
-      this.scene.start('Kellytest');
+      this.scene.start('Town');
     });
 
     hoodgirl.on('animationcomplete', () => {
