@@ -128,7 +128,12 @@ export default class Menu extends Phaser.GameObjects.Container {
   //throw attack = damage will equal playerstrength / 2, cannot be evaded
   throwAttack() {
     //when the function is called run the throwAttack anim
-    this.scene.player.anims.play('pattack', true);
+    this.scene.player.anims.play('pthrow', true);
+    this.scene.weapon.visible = true;
+    this.scene.weaponThrow.restart();
+    setTimeout(() => {
+      this.scene.weapon.visible = false;
+    }, 600);
     this.scene.farmzombie.anims.play('fzhurt', true);
     //calculate the throw attack damage
     enemyHealth -= (playerStrength / 2);
