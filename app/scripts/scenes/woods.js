@@ -137,6 +137,26 @@ export default class Woods extends Phaser.Scene {
       paused: true
     });
 
+    // player moves back on evade, use pevade.restart() to play
+    this.pEvade = this.tweens.add({
+      targets: this.player,
+      x: 160,
+      ease: "power1",
+      duration: 300,
+      paused: true, // won't play on page load
+      yoyo: true // player will move to x: 160 and then move back to starting point
+    });
+
+    // zombie moves back on evade, use fzevade.restart() to play
+    this.fzEvade = this.tweens.add({
+      targets: this.farmzombie,
+      x: 640,
+      ease: "power1",
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
+
     // DEFINING ANIMATIONS
 
     // Hoodgirl animations:
@@ -332,7 +352,11 @@ export default class Woods extends Phaser.Scene {
 
     // CALLING ANIMATIONS
     this.player.on('animationcomplete', () => {
-      this.player.play('pidle');
+      if(this.player.anims.currentAnim.key === 'pdying') {
+        this.player.anims.pause();
+      } else {
+        this.player.play('pidle');
+      }
     });
 
 
@@ -351,26 +375,12 @@ export default class Woods extends Phaser.Scene {
         this.farmzombie.play('fzidle');
         this.arrows = true;
         this.menu.visible = true;
+      } else if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
+        this.farmzombie.anims.pause();
       } else {
-        this.farmzombie.play('fzidle');
+        this.farmzombie.play('fzidle')
       }
-    });
-    
-
-    // this.farmzombie.on('animationcomplete', () => {
-    //   // the zombie will idle on animation complete unless it just completed the dying animation
-    //   if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
-    //       textcontainer2.visible = true;
-    //       textcontainer2.add(text);
-    //       text.visible = true;
-    //       storyText9.visible = false;
-    //       this.farmzombie.anims.pause(); // pauses the zombie on the last frame of the dying animation
-    //   } else {
-    //       farmzombie.play('fzidle');
-    //   }
-    // });
-
-
+    });    
   }
 
   /**

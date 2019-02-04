@@ -1,19 +1,33 @@
-// var playerStrength = 10;
-// var playerDefense = 10;
-// var playerEvasion = 10;
-// var playerDefend = false;
-
+const playerStrength = 10;
+const playerDefense = 10;
+const playerEvasion = 10;
+let playerDefend = false;
+let playerHealth = 50;
 //player actions
 
 //normal Attack = damage will equal playerstrength * 1.
 function pAttack() {
     //when the function is called run the normal Attack anim and generate the evasion threshold
+    player.anims.play("pAttack", true);
     var evasionGenerate = Math.floor(Math.random() * 100);
 
     if (evasionGenerate > enemyEvasion) {
-        //if the enemy evasion is lower than the threshold calculate normal attack damage 
+        //if the enemy evasion is lower than the threshold calculate normal attack damage
+        setTimeout(function() {
+            farmzombie.anims.play("fzhurt", true);
+        }, 200);
+        zombietext.setText("Hit!");
+        zalphaup.restart();
+        zalphadown.restart();
+        setTimeout(fzAttack, 1000);
+        enemyHealth -= playerStrength; 
     } else {
         //if the enemy evasion is greater than the threshold they evade your attack
+        farmzombie.anims.play("fzrunning", true);
+        fzevade.restart();
+        zalphaup.restart();
+        zalphadown.restart();
+        setTimeout(fzAttack, 1000);
     }
 };
 
@@ -53,10 +67,11 @@ function defend() {
     //set playerDefend = true
 }
 
-// var enemyStrength = 10;
-// var enemyDefense = 10;
-// var enemyEvasion = 10;
-// var attackCounter = 0;
+const enemyStrength = 10;
+const enemyDefense = 10;
+const enemyEvasion = 10;
+let attackCounter = 0;
+let enemyHealth = 50;
 
 //enemy actions
 
