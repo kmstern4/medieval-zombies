@@ -165,7 +165,7 @@ export default class Letter extends Phaser.Scene {
     this.dialogue = this.cache.json.get('dialogue');
 
     this.add.image(x, 150, 'letter');
-    this.styledbox = this.add.image(0, 0, 'styledbox');
+    this.textbox = this.add.image(0, 0, 'textbox');
 
 
     // let text = this.add.text(x, y, "TESTING PLS");
@@ -176,7 +176,7 @@ export default class Letter extends Phaser.Scene {
     this.text.setDepth(1);
 
 
-    this.container = this.add.container(x, 350, this.styledbox);
+    this.container = this.add.container(x, 350, this.textbox);
     this.container.setSize(400, 100);
     // container.add(text);
     // container.visible = false;

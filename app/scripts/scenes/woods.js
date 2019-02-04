@@ -151,7 +151,7 @@ export default class Woods extends Phaser.Scene {
     // zombie walks in to scene
     this.fzWalkOn = this.tweens.add({
       targets: this.farmzombie,
-      x: 500,
+      x: 475,
       ease: 'power1',
       duration: 2500,
       repeat: 0,
@@ -161,7 +161,7 @@ export default class Woods extends Phaser.Scene {
     // player moves back on evade, use pevade.restart() to play
     this.pEvade = this.tweens.add({
       targets: this.player,
-      x: 160,
+      x: 125,
       ease: "power1",
       duration: 300,
       paused: true, // won't play on page load
