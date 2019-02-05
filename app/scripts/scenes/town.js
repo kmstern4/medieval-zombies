@@ -132,7 +132,7 @@ export default class Town extends Phaser.Scene {
           this.hgWalkOff.restart();
           this.hoodgirl.anims.play('hgwalking', true);
           setTimeout(() => {
-          this.scene.start('House');
+            this.scene.start('House');
           }, 2700);
           break;
         }
