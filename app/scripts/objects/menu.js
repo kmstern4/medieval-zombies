@@ -15,7 +15,8 @@ let enemy = {
   strength: 10,
   evasion: 10,
   attackCounter: 0,
-  health: 100
+  health: 100,
+  stunned: false
 }
 
 export default class Menu extends Phaser.GameObjects.Container {
@@ -95,9 +96,12 @@ export default class Menu extends Phaser.GameObjects.Container {
   }
 
   stunOff() {
-    if (player.stunCd < 2) {
+    if (player.stunCd === 0) {
       this.menuItems[2].onCd();
-      this.menuItems[2].setText('Stun on CD')
+      this.menuItems[2].setText('Stun (2 Turns)')
+    } else if (player.stunCd === 1) {
+      this.menuItems[2].onCd();
+      this.menuItems[2].setText('Stun (1 Turn)')
     } else {
       this.menuItems[2].deselect();
       this.menuItems[2].setText('Stun')
@@ -124,7 +128,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       case 2:
         if (player.stunCd >= 2) {
           this.menuItems[2].onCd();
-          this.menuItems[2].setText('Stun on CD')
+          this.menuItems[2].setText('Stun (2 Turns)')
           this.stunAttack();
           this.index ++;
           this.menuItems[3].select();
