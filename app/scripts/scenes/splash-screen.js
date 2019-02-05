@@ -61,7 +61,8 @@ export default class SplashScreen extends Phaser.Scene {
     this.load
       .audio('cutflesh', 'cutflesh.mp3')
       .audio('rhythmloop', 'assault1loop.wav')
-      .audio('dangerstinger', 'assaultDangerStinger.wav');
+      .audio('dangerstinger', 'assaultDangerStinger.wav')
+      .audio('impact', 'impact.mp3');
   }
 
   /**

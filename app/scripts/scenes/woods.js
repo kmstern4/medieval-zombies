@@ -21,6 +21,7 @@ export default class Woods extends Phaser.Scene {
   init(data) {
     this.char = data.char;
     this.weap = data.weap;
+    this.noises = data.noises;
   }
 
   /**
@@ -41,6 +42,8 @@ export default class Woods extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
+    console.log(this.noises);
+
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
     
@@ -57,7 +60,7 @@ export default class Woods extends Phaser.Scene {
 
     this.textbox = this.add.image(0, 0, 'textbox');
 
-    this.cutflesh = this.sound.add('cutflesh');
+    this.noise = this.sound.add(this.noises);
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
@@ -292,12 +295,18 @@ export default class Woods extends Phaser.Scene {
 
     // CALLING ANIMATIONS
     this.player.on('animationcomplete', () => {
-      if(this.player.anims.currentAnim.key === 'pdying') {
+      if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
       } else {
         this.player.play('pidle');
       }
     });
+
+    this.player.on('animationstart', () => {
+      if (this.player.anims.currentAnim.key === 'pattack') {
+        this.noise.play();
+      }
+    })
 
 
     this.oldman.on('animationcomplete', () => {
@@ -340,51 +349,40 @@ export default class Woods extends Phaser.Scene {
       } else {
         switch(this.section) {
         case 1:
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
+          this.turnOff();
           this.oldman.anims.play('omrunning', true);
           this.omRunOn.restart();
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
           this.currentDialogue = this.dialogue.woods.dialogue;
-          i = 1;
           setTimeout(() => {
-            this.keySpace = true;
-            this.container.visible = true;
-            this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
+            this.turnOn();
             this.section = 2;
           } ,2700);
           break;
         case 2:
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
+          this.turnOff();
           this.omRunOff.restart();
           this.oldman.anims.play('omrunning', true);
           this.currentDialogue = this.dialogue.woods.endnarration;
-          i = 1;
           setTimeout(() => {
-            this.keySpace = true;
-            this.container.visible = true;
-            this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
+            this.turnOn();
             this.section = 3;
             this.oldman.anims.pause();
           }, 2700);
           break;
         case 3:
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
+          this.turnOff();
           this.dangerstinger.play();
           this.farmzombie.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
           setTimeout(() => {
+            this.section = 4;
             this.rhythmloop.play();
           }, 15500);
-          // add fight scene stuff here
+          break;
+        case 4:
+          this.scene.start('Town', { char: this.char, weap: this.weap })
 
         }
       }
@@ -401,6 +399,20 @@ export default class Woods extends Phaser.Scene {
         this.actionsMenu.confirm();
       } 
     }
+  }
+
+  turnOff() {
+    this.keySpace = false;
+    this.container.visible = false;
+    this.text.visible = false;
+  }
+
+  turnOn() {
+    i = 1;
+    this.keySpace = true;
+    this.container.visible = true;
+    this.text.visible = true;
+    this.text.setText(this.currentDialogue[0]);
   }
 
   /**
