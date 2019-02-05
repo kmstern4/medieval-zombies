@@ -20,6 +20,8 @@ export default class Woods extends Phaser.Scene {
    */
   init(data) {
     this.char = data.char;
+    this.weap = data.weap;
+    this.noises = data.noises;
   }
 
   /**
@@ -40,12 +42,16 @@ export default class Woods extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
+    console.log(this.noises);
+
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
     this.add.image(x, y, 'woods');
 
     this.player = this.add.sprite(-150, 400, this.char, 'idle001.png');
+    this.weapon = this.add.image(210, 420, this.weap);
+    this.weapon.visible = false;
     this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
@@ -55,7 +61,7 @@ export default class Woods extends Phaser.Scene {
 
     this.textbox = this.add.image(0, 0, 'textbox');
 
-    this.cutflesh = this.sound.add('cutflesh');
+    this.noise = this.sound.add(this.noises);
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
@@ -111,6 +117,28 @@ export default class Woods extends Phaser.Scene {
       paused: true
     });
 
+    // run attack
+    this.pRunAttack = this.tweens.add({
+      targets: this.player,
+      x: 250,
+      ease: 'power1',
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
+    
+    // weapon being thrown
+    this.weaponThrow = this.tweens.add({
+      targets: this.weapon,
+      x: 450,
+      ease: 'power1',
+      angle: 360,
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
+
+
     // oldman runs in to scene
     this.omRunOn = this.tweens.add({
       targets: this.oldman,
@@ -134,96 +162,35 @@ export default class Woods extends Phaser.Scene {
     // zombie walks in to scene
     this.fzWalkOn = this.tweens.add({
       targets: this.farmzombie,
-      x: 500,
+      x: 475,
       ease: 'power1',
       duration: 2500,
       repeat: 0,
       paused: true
     });
 
-    // DEFINING ANIMATIONS
-
-    // Hoodgirl animations:
-
-    // Hoodgirl idle infinite loop
-    this.anims.create({
-      key: 'pidle',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'idle00',
-        suffix: '.png',
-        start: 1,
-        end: 18
-      }),
-      frameRate: 15,
-      repeat: -1
+    // player moves back on evade, use pevade.restart() to play
+    this.pEvade = this.tweens.add({
+      targets: this.player,
+      x: 125,
+      ease: "power1",
+      duration: 300,
+      paused: true, // won't play on page load
+      yoyo: true // player will move to x: 160 and then move back to starting point
     });
 
-    // Hoodgirl walking loops twice
-    this.anims.create({
-      key: 'pwalking',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'walking00',
-        suffix: '.png',
-        start: 1,
-        end: 24
-      }),
-      frameRate: 20,
-      repeat: 1
+    // zombie moves back on evade, use fzevade.restart() to play
+    this.fzEvade = this.tweens.add({
+      targets: this.farmzombie,
+      x: 640,
+      ease: "power1",
+      duration: 300,
+      paused: true,
+      yoyo: true
     });
 
-    // Hoodgirl attack once
-    this.anims.create({
-      key: 'pattack',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'attack00',
-        suffix: '.png',
-        start: 1,
-        end: 12
-      }),
-      frameRate: 20,
-      repeat: 0
-    });
-
-    // Hoodgirl hurt once
-    this.anims.create({
-      key: 'phurt',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'hurt00',
-        suffix: '.png',
-        start: 1,
-        end: 12
-      }),
-      frameRate: 20,
-      repeat: 0
-    });
-
-    // Hoodgirl dying once
-    this.anims.create({
-      key: 'pdying',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'dying00',
-        suffix: '.png',
-        start: 1,
-        end: 15
-      }),
-      frameRate: 20,
-      repeat: 0
-    });
-
-    // Hoodgirl evade run animation
-    this.anims.create({
-      key: 'prunning',
-      frames: this.anims.generateFrameNames(this.char, {
-        prefix: 'running00',
-        suffix: '.png',
-        start: 1,
-        end: 12
-      }),
-      frameRate: 20,
-      repeat: 0
-    });
-
-
+    // DEFINING ANIMATIONS    
+    
     // Oldman idle infinite loop
     this.anims.create({
       key: 'omidle',
@@ -336,8 +303,18 @@ export default class Woods extends Phaser.Scene {
 
     // CALLING ANIMATIONS
     this.player.on('animationcomplete', () => {
-      this.player.play('pidle');
+      if (this.player.anims.currentAnim.key === 'pdying') {
+        this.player.anims.pause();
+      } else {
+        this.player.play('pidle');
+      }
     });
+
+    this.player.on('animationstart', () => {
+      if (this.player.anims.currentAnim.key === 'pattack') {
+        this.noise.play();
+      }
+    })
 
 
     this.oldman.on('animationcomplete', () => {
@@ -355,25 +332,12 @@ export default class Woods extends Phaser.Scene {
         this.farmzombie.play('fzidle');
         this.arrows = true;
         this.menu.visible = true;
+      } else if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
+        this.farmzombie.anims.pause();
       } else {
-        this.farmzombie.play('fzidle');
+        this.farmzombie.play('fzidle')
       }
-    });
-
-
-    // this.farmzombie.on('animationcomplete', () => {
-    //   // the zombie will idle on animation complete unless it just completed the dying animation
-    //   if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
-    //       textcontainer2.visible = true;
-    //       textcontainer2.add(text);
-    //       text.visible = true;
-    //       storyText9.visible = false;
-    //       this.farmzombie.anims.pause(); // pauses the zombie on the last frame of the dying animation
-    //   } else {
-    //       farmzombie.play('fzidle');
-    //   }
-    // });
-
+    });    
 
   }
 
@@ -401,57 +365,42 @@ export default class Woods extends Phaser.Scene {
         }
         i++;
       } else {
-        switch (this.section) {
-          case 1:
-            this.keySpace = false;
-            this.container.visible = false;
-            this.text.visible = false;
-            this.oldman.anims.play('omrunning', true);
-            this.omRunOn.restart();
-            this.player.anims.play('pwalking', true);
-            this.pWalkOn.restart();
-            this.currentDialogue = this.dialogue.woods.dialogue;
-            i = 1;
-            setTimeout(() => {
-              this.keySpace = true;
-              this.container.visible = true;
-              this.text.visible = true;
-              this.text.setText(this.currentDialogue[0].text);
-              this.omhead.visible = true;
-              this.section = 2;
-            }, 2700);
-            break;
-          case 2:
-            this.hghead.visible = false;
-            this.omhead.visible = false;
-            this.keySpace = false;
-            this.container.visible = false;
-            this.text.visible = false;
-            this.omRunOff.restart();
-            this.oldman.anims.play('omrunning', true);
-            this.currentDialogue = this.dialogue.woods.endnarration;
-            i = 1;
-            setTimeout(() => {
-              this.keySpace = true;
-              this.container.visible = true;
-              this.text.visible = true;
-              this.text.setText(this.currentDialogue[0].text);
-              this.section = 3;
-              this.oldman.anims.pause();
-            }, 2700);
-            break;
-          case 3:
-            this.keySpace = false;
-            this.container.visible = false;
-            this.text.visible = false;
-            this.dangerstinger.play();
-            this.farmzombie.anims.play('fzwalking', true);
-            this.fzWalkOn.restart();
-            setTimeout(() => {
-              this.rhythmloop.play();
-            }, 15500);
-          // add fight scene stuff here
-
+        switch(this.section) {
+        case 1:
+          this.turnOff();
+          this.oldman.anims.play('omrunning', true);
+          this.omRunOn.restart();
+          this.player.anims.play('pwalking', true);
+          this.pWalkOn.restart();
+          this.currentDialogue = this.dialogue.woods.dialogue;
+          setTimeout(() => {
+            this.turnOn();
+            this.section = 2;
+          } ,2700);
+          break;
+        case 2:
+          this.turnOff();
+          this.omRunOff.restart();
+          this.oldman.anims.play('omrunning', true);
+          this.currentDialogue = this.dialogue.woods.endnarration;
+          setTimeout(() => {
+            this.turnOn();
+            this.section = 3;
+            this.oldman.anims.pause();
+          }, 2700);
+          break;
+        case 3:
+          this.turnOff();
+          this.dangerstinger.play();
+          this.farmzombie.anims.play('fzwalking', true);
+          this.fzWalkOn.restart();
+          setTimeout(() => {
+            this.section = 4;
+            this.rhythmloop.play();
+          }, 15500);
+          break;
+        case 4:
+          this.scene.start('Town', { char: this.char, weap: this.weap });
         }
       }
     }
@@ -467,6 +416,20 @@ export default class Woods extends Phaser.Scene {
         this.actionsMenu.confirm();
       }
     }
+  }
+
+  turnOff() {
+    this.keySpace = false;
+    this.container.visible = false;
+    this.text.visible = false;
+  }
+
+  turnOn() {
+    i = 1;
+    this.keySpace = true;
+    this.container.visible = true;
+    this.text.visible = true;
+    this.text.setText(this.currentDialogue[0]);
   }
 
   /**
