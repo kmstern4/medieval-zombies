@@ -116,15 +116,15 @@ export default class Tavern extends Phaser.Scene {
           this.hoodgirl.anims.play('hgwalking', true);
           this.hgWalkOn.restart();
           setTimeout(() => {
-          this.currentDialogue = this.dialogue.tavern.startnarration;
-          this.keySpace = true;
-          this.container.visible = true;
-          this.text.visible = true;
-          this.text.setText(this.currentDialogue[0]);
-          this.section = 2;
+            this.currentDialogue = this.dialogue.tavern.startnarration;
+            this.keySpace = true;
+            this.container.visible = true;
+            this.text.visible = true;
+            this.text.setText(this.currentDialogue[0]);
+            this.section = 2;
           } ,2700);
           break;
-          case 2:
+        case 2:
           this.keySpace = false;
           this.container.visible = false;
           this.text.visible = false;

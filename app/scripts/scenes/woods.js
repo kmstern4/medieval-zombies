@@ -55,13 +55,14 @@ export default class Woods extends Phaser.Scene {
     this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
-
-
     this.dialogue = this.cache.json.get('dialogue');
 
     this.textbox = this.add.image(0, 0, 'textbox');
 
     this.noise = this.sound.add(this.noises);
+    this.stab = this.sound.add('stab');
+    this.heal = this.sound.add('heal');
+    this.shield = this.sound.add('shield');
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
@@ -173,7 +174,7 @@ export default class Woods extends Phaser.Scene {
     this.pEvade = this.tweens.add({
       targets: this.player,
       x: 125,
-      ease: "power1",
+      ease: 'power1',
       duration: 300,
       paused: true, // won't play on page load
       yoyo: true // player will move to x: 160 and then move back to starting point
@@ -183,7 +184,7 @@ export default class Woods extends Phaser.Scene {
     this.fzEvade = this.tweens.add({
       targets: this.farmzombie,
       x: 640,
-      ease: "power1",
+      ease: 'power1',
       duration: 300,
       paused: true,
       yoyo: true
@@ -314,18 +315,36 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'pattack') {
         this.noise.play();
       }
-    })
+    });
+
+    this.player.on('animationupdate', () => {
+      if (this.player.anims.currentAnim.key === 'pthrow' && this.player.anims.currentFrame.index === 3) {
+        this.weapon.visible = true;
+        this.weaponThrow.restart();
+        setTimeout(() => {
+          this.noise.play();
+        }, 100);
+        setTimeout(() => {
+          this.weapon.visible = false;
+        }, 600);
+      }
+      if (this.player.anims.currentAnim.key === 'prunattack' && this.player.anims.currentFrame.index === 3) {
+        this.noise.play();
+      }
+    });
 
 
     this.oldman.on('animationcomplete', () => {
       this.oldman.play('omidle');
     });
 
-    // this.player.on('animationupdate', () => {
-    //   if (this.player.anims.currentAnim.key === 'pwalking' && this.player.anims.currentFrame.index === 2) {
-    //     console.log("this is frame 2");
-    //   }
-    // })
+    this.farmzombie.on('animationstart', () => {
+      if (this.farmzombie.anims.currentAnim.key === 'fzattack') {
+        setTimeout(() => {
+          this.stab.play();
+        }, 100);
+      }
+    });
 
     this.farmzombie.on('animationcomplete', () => {
       if (this.farmzombie.anims.currentAnim.key === 'fzwalking') {
@@ -335,7 +354,7 @@ export default class Woods extends Phaser.Scene {
       } else if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
         this.farmzombie.anims.pause();
       } else {
-        this.farmzombie.play('fzidle')
+        this.farmzombie.play('fzidle');
       }
     });    
 
@@ -375,11 +394,13 @@ export default class Woods extends Phaser.Scene {
           this.currentDialogue = this.dialogue.woods.dialogue;
           setTimeout(() => {
             this.turnOn();
+            this.omhead.visible = true;
             this.section = 2;
           } ,2700);
           break;
         case 2:
           this.turnOff();
+          this.omhead.visible = false;
           this.omRunOff.restart();
           this.oldman.anims.play('omrunning', true);
           this.currentDialogue = this.dialogue.woods.endnarration;
@@ -429,7 +450,7 @@ export default class Woods extends Phaser.Scene {
     this.keySpace = true;
     this.container.visible = true;
     this.text.visible = true;
-    this.text.setText(this.currentDialogue[0]);
+    this.text.setText(this.currentDialogue[0].text);
   }
 
   /**

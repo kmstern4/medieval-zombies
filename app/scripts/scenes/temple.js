@@ -83,18 +83,18 @@ export default class Temple extends Phaser.Scene {
 
     // DEFINING ANIMATIONS
 
-      // Woodzombie Animations
-      this.anims.create({
-        key: 'wzidle',
-        frames: this.anims.generateFrameNames('woodzombie', {
-          prefix: 'idle00',
-          suffix: '.png',
-          start: 1,
-          end: 12
-        }),
-        frameRate: 20,
-        repeat: -1
-      });
+    // Woodzombie Animations
+    this.anims.create({
+      key: 'wzidle',
+      frames: this.anims.generateFrameNames('woodzombie', {
+        prefix: 'idle00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: -1
+    });
 
     // CALLING ANIMATIONS
 
@@ -152,14 +152,14 @@ export default class Temple extends Phaser.Scene {
             this.section = 3;
           }, 2000);
           break;
-        case 3:
+          case 3:
           this.keySpace = false;
           this.keyA = true;
           this.container.visible = false;
           this.text.visible = false;
           this.keySpace = true;
           setTimeout(() => {
-          this.scene.start('Cave');
+            this.scene.start('Cave');
           }, 2000); 
         }
       }
