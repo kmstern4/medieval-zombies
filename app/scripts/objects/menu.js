@@ -100,6 +100,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   }
 
   confirm() {
+    this.scene.keyEnter = false;
     switch (this.index) {
       case 0:
         this.pAttack();
@@ -188,6 +189,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       enemy.health -= (player.strength * 2);
       console.log(`enemy health: ${enemy.health}`);
       //stun on cooldown
+      this.scene.keyEnter = true;
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack. Put stunAttack on cooldown.
       this.scene.farmzombie.anims.play('fzrunning', true);
