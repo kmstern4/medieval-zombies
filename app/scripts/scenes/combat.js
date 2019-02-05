@@ -51,28 +51,7 @@ function stunAttack() {
         //if the enemy evasion is greater than the threshold they evade your attack. Put stunAttack on cooldown.
     }
 }
-  // //Heavy (slow) attack = damage will equal playerstrength * 2, but zombie evasion is higher.
-  // heavyAttack() {
-  //   //when the function is called run the heavyAttack anim and generate a smaller evasion threshold
-  //   this.scene.player.anims.play('pjump', true);
-  //   this.scene.farmzombie.anims.play('fzhurt', true);
-  //   var evasionGenerate = Math.floor(Math.random() * 50);
-  //   if (evasionGenerate > enemyEvasion) {
-  //     //if the enemy evasion is lower than the threshold calculate heavy attack damage.
-  //     enemyHealth -= (playerStrength * 2);
-  //     console.log(`enemy health: ${enemyHealth}`);
-  //     setTimeout(() => {
-  //       this.enemyAttack();
-  //     }, 1000);
-  //   } else {
-  //     //if the enemy evasion is greater than the threshold they evade your attack.
-  //     this.scene.farmzombie.anims.play('fzrunning', true);
-  //     this.scene.fzEvade.restart();
-  //     setTimeout(() => {
-  //       this.enemyAttack();
-  //     }, 1000);
-  //   }
-  // }
+
 //Defend = reduce damage taken by playerDefense / 2.
 function defend() {
     //set playerDefend = true
