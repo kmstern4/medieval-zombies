@@ -61,8 +61,8 @@ export default class Woods extends Phaser.Scene {
 
     this.noise = this.sound.add(this.noises);
     this.stab = this.sound.add('stab');
-    this.heal = this.sound.add('heal');
-    this.shield = this.sound.add('shield');
+    this.heal = this.sound.add('heal', { volume: 0.5 });
+    this.shield = this.sound.add('shield', { volume: 0.5 });
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
@@ -347,19 +347,22 @@ export default class Woods extends Phaser.Scene {
     });
 
     this.farmzombie.on('animationcomplete', () => {
-      if (this.farmzombie.anims.currentAnim.key === 'fzwalking') {
-        this.farmzombie.play('fzidle');
-        this.arrows = true;
-        this.menu.visible = true;
-      } 
-      if (this.farmzombie.anims.currentAnim.key === 'fzdying') {
-        this.farmzombie.anims.pause();
-      } 
-      if (this.farmzombie.anims.currentAnim.key === 'fzattack') {
-        this.farmzombie.play('fzidle');
-        this.keyEnter = true;
+      switch(this.farmzombie.anims.currentAnim.key) {
+        case 'fzwalking':
+          this.farmzombie.play('fzidle');
+          this.arrows = true;
+          this.menu.visible = true;
+          break;
+        case 'fzdying':
+          this.farmzombie.anims.pause();
+          break;
+        case 'fzattack':
+          this.farmzombie.play('fzidle');
+          this.keyEnter = true;
+          break;
+        default: 
+          this.farmzombie.play('fzidle');
       }
-      this.farmzombie.play('fzidle');    
     });    
 
   }

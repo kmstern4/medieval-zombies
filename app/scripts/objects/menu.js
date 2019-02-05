@@ -202,6 +202,7 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   //Defend = reduce damage taken by playerDefense / 2.
   defend() {
+    this.scene.shield.play();
     player.stunCd += 1;
     this.scene.player.anims.play('phurt', true);
     player.defend = true
@@ -212,6 +213,7 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   usePotion() {
     if (player.potions >= 1) {
+      this.scene.heal.play();
       player.stunCd += 1;
       this.scene.player.anims.play('phurt', true);
       player.health += 25;
