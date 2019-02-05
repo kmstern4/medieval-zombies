@@ -55,6 +55,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   moveSelectionUp() {
     this.menuItems[this.index].deselect();
     this.stunOff();
+    this.noPot();
     this.index--;
     if (this.index < 0) {
       this.index = this.menuItems.length - 1;
@@ -62,6 +63,10 @@ export default class Menu extends Phaser.GameObjects.Container {
       this.menuItems[1].select();
       this.menuItems[2].onCd();
       this.index = 1;
+    } else if (this.index === 4 && player.potions < 1) {
+      this.menuItems[0].select();
+      this.menuItems[4].onCd();
+      this.index = 0;
     }
     this.menuItems[this.index].select();
   }
@@ -69,6 +74,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   moveSelectionDown() {
     this.menuItems[this.index].deselect();
     this.stunOff();
+    this.noPot();
     this.index++;
     if (this.index >= this.menuItems.length) {
       this.index = 0;
@@ -76,6 +82,10 @@ export default class Menu extends Phaser.GameObjects.Container {
       this.menuItems[3].select();
       this.menuItems[2].onCd();
       this.index = 3;
+    } else if (this.index === 4 && player.potions < 1) {
+      this.menuItems[0].select();
+      this.menuItems[4].onCd();
+      this.index = 0;
     }
     this.menuItems[this.index].select();
   }
@@ -95,6 +105,13 @@ export default class Menu extends Phaser.GameObjects.Container {
       this.menuItems[2].deselect();
       this.menuItems[2].setText('Stun');
       enemy.stunned = false;
+    }
+  }
+
+  noPot() {
+    if (player.potions < 1) {
+      this.menuItems[4].onCd();
+      this.menuItems[4].setText('No Potions');
     }
   }
 
@@ -129,6 +146,10 @@ export default class Menu extends Phaser.GameObjects.Container {
         if(player.potions >= 1) {
           this.usePotion();
           this.stunOff();
+          this.menuItems[4].onCd();
+          this.menuItems[4].setText('No Potions');
+          this.index = 0;
+          this.menuItems[0].select();
         } else {
           this.scene.keyEnter = true;
         }
