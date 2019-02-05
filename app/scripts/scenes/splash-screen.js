@@ -44,7 +44,10 @@ export default class SplashScreen extends Phaser.Scene {
       .image('town', 'town.png')
       .image('house', 'house.png')
       .image('tavern', 'tavern.png')
-      .image('temple', 'temple.png');
+      .image('temple', 'temple.png')
+      .image('hghead', 'hghead1.png')
+      .image('omhead', 'omhead1.png')
+
 
     this.load.json('dialogue');
 
