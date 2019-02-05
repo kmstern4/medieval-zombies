@@ -52,38 +52,38 @@ export default class Woods extends Phaser.Scene {
   // emitter0.explode(); turns particle emitter off
   // DEFEND
     this.emitterBlue = this.add.particles('blue').createEmitter({
-    x: 150,
-    y: 400,
-    speed: { min: -100, max: 100 },
-    angle: { min: 0, max: 360 },
-    scale: { start: 2, end: 1 },
-    blendMode: 'SCREEN',
-    // frequency of -1 turns it off
-    frequency: -1,
-    lifespan: 300
-    // gravityY: 800
+      x: 150,
+      y: 400,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      // frequency of -1 turns it off
+      frequency: -1,
+      lifespan: 300
+      // gravityY: 800
     });
     // ENEMY RAGE
     this.emitterRed = this.add.particles('red').createEmitter({
-    x: 490,
-    y: 400,
-    speed: { min: -100, max: 100 },
-    angle: { min: 0, max: 360 },
-    scale: { start: 2, end: 1 },
-    blendMode: 'SCREEN',
-    frequency: -1,
-    lifespan: 300
+      x: 490,
+      y: 400,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      frequency: -1,
+      lifespan: 300
     });
     // POTION
     this.emitterGreen = this.add.particles('green').createEmitter({
-    x: 150,
-    y: 400,
-    speed: { min: -100, max: 100 },
-    angle: { min: 0, max: 360 },
-    scale: { start: 2, end: 1 },
-    blendMode: 'SCREEN',
-    frequency: -1,
-    lifespan: 300
+      x: 150,
+      y: 400,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      frequency: -1,
+      lifespan: 300
     });
     
 
@@ -340,7 +340,8 @@ export default class Woods extends Phaser.Scene {
 
 
 
-    // CALLING ANIMATIONS
+    // ANIMATION EVENTS
+    
     this.player.on('animationcomplete', () => {
       if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
