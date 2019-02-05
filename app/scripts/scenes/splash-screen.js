@@ -45,8 +45,11 @@ export default class SplashScreen extends Phaser.Scene {
       .image('house', 'house.png')
       .image('tavern', 'tavern.png')
       .image('temple', 'temple.png')
+      .image('hghead', 'hghead1.png')
+      .image('omhead', 'omhead1.png')
       .image('stick')
       .image('sword');
+
 
     this.load.json('dialogue');
 
@@ -62,7 +65,10 @@ export default class SplashScreen extends Phaser.Scene {
       .audio('cutflesh', 'cutflesh.mp3')
       .audio('rhythmloop', 'assault1loop.wav')
       .audio('dangerstinger', 'assaultDangerStinger.wav')
-      .audio('impact', 'impact.mp3');
+      .audio('impact', 'impact.mp3')
+      .audio('heal', 'heal.mp3')
+      .audio('shield', 'shield.mp3')
+      .audio('stab', 'stab.mp3');
   }
 
   /**

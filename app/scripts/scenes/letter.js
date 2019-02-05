@@ -170,7 +170,7 @@ export default class Letter extends Phaser.Scene {
 
 
     // let text = this.add.text(x, y, "TESTING PLS");
-    this.text = this.add.text(x, 350, this.dialogue.letter[0], {
+    this.text = this.add.text(x, 350, this.dialogue.letter.narration[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
@@ -211,8 +211,8 @@ export default class Letter extends Phaser.Scene {
     const keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(keySpace)) {
-      if (this.dialogue.letter[i] !== undefined) {
-        this.text.setText(this.dialogue.letter[i]);
+      if (this.dialogue.letter.narration[i] !== undefined) {
+        this.text.setText(this.dialogue.letter.narration[i].text);
         i++;
       } else {
         this.scene.start('Woods', { char: this.char, weap: this.weap, noises: this.noises });
