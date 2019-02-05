@@ -150,11 +150,6 @@ export default class Menu extends Phaser.GameObjects.Container {
     //when the function is called run the throwAttack anim
     player.stunCd += 1;
     this.scene.player.anims.play('pthrow', true);
-    this.scene.weapon.visible = true;
-    this.scene.weaponThrow.restart();
-    setTimeout(() => {
-      this.scene.weapon.visible = false;
-    }, 600);
     this.scene.farmzombie.anims.play('fzhurt', true);
     //calculate the throw attack damage
     enemy.health -= (player.strength / 2);
@@ -169,6 +164,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   stunAttack() {
     //when the function is call run the stun attack anim and generate evasion threshold
     this.scene.player.anims.play('prunattack', true);
+    this.scene.pRunAttack.restart();
     this.scene.farmzombie.anims.play('fzhurt', true);
     var evasionGenerate = Math.floor(Math.random() * 100);
     player.stunCd = 0;

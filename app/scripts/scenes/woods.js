@@ -55,7 +55,6 @@ export default class Woods extends Phaser.Scene {
     this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
-
     this.dialogue = this.cache.json.get('dialogue');
 
     this.textbox = this.add.image(0, 0, 'textbox');
@@ -306,7 +305,23 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'pattack') {
         this.noise.play();
       }
-    })
+    });
+
+    this.player.on('animationupdate', () => {
+      if (this.player.anims.currentAnim.key === 'pthrow' && this.player.anims.currentFrame.index === 3) {
+        this.weapon.visible = true;
+        this.weaponThrow.restart();
+        setTimeout(() => {
+          this.noise.play();
+        }, 100);
+        setTimeout(() => {
+          this.weapon.visible = false;
+        }, 600);
+      }
+      if (this.player.anims.currentAnim.key === 'prunattack' && this.player.anims.currentFrame.index === 3) {
+        this.noise.play();
+      }
+    });
 
 
     this.oldman.on('animationcomplete', () => {
@@ -378,7 +393,7 @@ export default class Woods extends Phaser.Scene {
           this.fzWalkOn.restart();
           setTimeout(() => {
             this.section = 4;
-            this.rhythmloop.play();
+            // this.rhythmloop.play();
           }, 15500);
           break;
         case 4:
