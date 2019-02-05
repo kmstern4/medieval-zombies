@@ -70,7 +70,6 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.menuItems[this.index].deselect();
     this.stunOff();
     this.index++;
-    console.log(this.index);
     if (this.index >= this.menuItems.length) {
       this.index = 0;
     } else if (this.index === 2 && enemy.stunned === true) {
@@ -116,6 +115,8 @@ export default class Menu extends Phaser.GameObjects.Container {
           this.menuItems[2].onCd();
           this.menuItems[2].setText('Stun (2 Turns)')
           this.stunAttack();
+          this.index ++;
+          this.menuItems[3].select();
         } else {
           enemy.stunned = false;
         }
@@ -125,8 +126,12 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.stunOff();
         break;
       case 4:
-        this.usePotion();
-        this.stunOff();
+        if(player.potions >= 1) {
+          this.usePotion();
+          this.stunOff();
+        } else {
+          this.scene.keyEnter = true;
+        }
         break;
       default:
         console.log(`You somehow hit a wrong index of ${this.index}`);
