@@ -131,3 +131,222 @@ function specialAttack() {
 
 //Red mask enemy
 
+  maskAttack() {
+    if (enemy.health <= 0) {
+      setTimeout(() => {
+        // this.scene.farmzombie.anims.play('fzdying', true)
+      }, 200);
+    } else if (enemy.attackCounter === 3 || enemy.attackCounter === 6) {
+        this.specialAttack();
+    } else if (enemy.attackCounter === 8) {
+        this.maskHeartAttack();
+    } else {
+    //   this.scene.farmzombie.anims.play('fzattack', true)
+      //run enemy attack anim and generate evasion threshold
+      var evasionGenerate = Math.floor(Math.random() * 100);
+      if (evasionGenerate > player.evasion) {
+        if (player.defend === true) {
+          this.scene.player.anims.play('phurt', true);
+          player.health -= (enemy.strength - (player.defense / 2));
+          // enemy attack damage is reduced by player defense / 2
+          enemy.attackCounter++;
+          //add 1 to the enemy attack counter
+          player.defend = false;
+          //set playerDefend = false
+          console.log(player.health);
+          if (player.health <= 0) {
+            setTimeout(() => {
+              this.scene.player.anims.play('pdying', true)
+            }, 100);
+          }
+        } else {
+          this.scene.player.anims.play('phurt', true);
+          //calculate full enemy attack damage
+          player.health -= enemy.strength;
+          //add 1 to the enemy attack counter
+          enemy.attackCounter++;
+          console.log(player.health);
+          if (player.health <= 0) {
+            setTimeout(() => {
+              this.scene.player.anims.play('pdying', true)
+            }, 100);
+          }
+        }
+      } else {
+        // if the playerevasion is greater than the threshold the player evades the attack
+        this.scene.player.anims.play('prunning', true)
+        this.scene.pEvade.restart();
+        //add 1 to the enemy attack counter
+        enemy.attackCounter++;
+      }
+    }
+  };
+
+  maskSpecialAttack() {
+    //if the special attack counter = 2 this attack will run instead of enemy attack
+    console.log("Mask Special")
+    // this.scene.farmzombie.anims.play('fzattack', true);
+    var evasionGenerate = Math.floor(Math.random() * 100);
+    if (evasionGenerate > player.evasion) {
+      if (player.defend === true) {
+        //if the player is defending the attack won't land.
+        this.scene.player.anims.play('phurt', true);
+        enemy.attackCounter ++;
+        //set playerDefend = false
+        player.defend = false;
+      } else {
+        //enemy attack damage is = to enemystrength and 
+        this.scene.player.anims.play('phurt', true);
+        player.health -= enemy.strength;
+        enemy.health += enemyStrength;
+        //set attack counter = 0
+        enemy.attackCounter ++;
+        console.log(player.health);
+        console.log(enemy.health)
+        if (player.health <= 0) {
+          setTimeout(() => {
+            this.scene.player.anims.play('pdying', true)
+          }, 100);
+        }
+      }
+    } else {
+      // if the player evasion is greater than the generated threshold the player evades the attack
+      this.scene.player.anims.play('prunning', true)
+      this.scene.pEvade.restart();
+      // set attack counter = 0
+      enemy.attackCounter ++;
+    }
+  };
+
+  maskHeartAttack() {
+      console.log('Heart Attack')
+      //masked man hurt anim
+      enemy.health = 0;
+      //masked man death anim after a short timeout
+  }
+
+  //Lord of Bones actions
+
+  lobAttack() {
+    if (enemy.health <= 0) {
+      setTimeout(() => {
+        // this.scene.farmzombie.anims.play('fzdying', true)
+      }, 200);
+    } else if (enemy.attackCounter === 3 || enemy.attackCounter === 6) {
+        this.lobSpecialAttack();
+    } else if (enemy.attackCounter === 10) {
+        this.lobUltimateAttack();
+    } else {
+    //   this.scene.farmzombie.anims.play('fzattack', true)
+      //run enemy attack anim and generate evasion threshold
+      var evasionGenerate = Math.floor(Math.random() * 100);
+      if (evasionGenerate > player.evasion) {
+        if (player.defend === true) {
+          this.scene.player.anims.play('phurt', true);
+          player.health -= (enemy.strength - (player.defense / 2));
+          // enemy attack damage is reduced by player defense / 2
+          enemy.attackCounter++;
+          //add 1 to the enemy attack counter
+          player.defend = false;
+          //set playerDefend = false
+          console.log(player.health);
+          if (player.health <= 0) {
+            setTimeout(() => {
+              this.scene.player.anims.play('pdying', true)
+            }, 100);
+          }
+        } else {
+          this.scene.player.anims.play('phurt', true);
+          //calculate full enemy attack damage
+          player.health -= enemy.strength;
+          //add 1 to the enemy attack counter
+          enemy.attackCounter++;
+          console.log(player.health);
+          if (player.health <= 0) {
+            setTimeout(() => {
+              this.scene.player.anims.play('pdying', true)
+            }, 100);
+          }
+        }
+      } else {
+        // if the playerevasion is greater than the threshold the player evades the attack
+        this.scene.player.anims.play('prunning', true)
+        this.scene.pEvade.restart();
+        //add 1 to the enemy attack counter
+        enemy.attackCounter++;
+      }
+    }
+  };
+
+  lobSpecialAttack() {
+    //if the special attack counter = 2 this attack will run instead of enemy attack
+    console.log("Lob Special")
+    // this.scene.farmzombie.anims.play('fzattack', true);
+    var evasionGenerate = Math.floor(Math.random() * 100);
+    if (evasionGenerate > player.evasion) {
+      if (player.defend === true) {
+        this.scene.player.anims.play('phurt', true);
+        //if defending the damage is reduced by half of the players defense stat
+        player.health -= ((enemy.strength * 2) - (player.defense / 2))
+        //set playerDefend = false
+        player.defend = false;
+        enemy.attackCounter ++;
+      } else {
+        //enemy attack damage is = to enemystrength and 
+        this.scene.player.anims.play('phurt', true);
+        player.health -= (enemy.strength * 2);
+        console.log(player.health);
+        enemy.attackCounter ++;
+        if (player.health <= 0) {
+          setTimeout(() => {
+            this.scene.player.anims.play('pdying', true)
+          }, 100);
+        }
+      }
+    } else {
+      // if the player evasion is greater than the generated threshold the player evades the attack
+      this.scene.player.anims.play('prunning', true)
+      this.scene.pEvade.restart();
+      enemy.attackCounter ++;
+    }
+  };
+
+  lobUltimateAttack() {
+    //if the special attack counter = 2 this attack will run instead of enemy attack
+    console.log("LOB Ult")
+    // this.scene.farmzombie.anims.play('fzattack', true);
+    var evasionGenerate = Math.floor(Math.random() * 100);
+    if (evasionGenerate > player.evasion) {
+      if (player.defend === true) {
+        //if the player is defending the damage will be reduced and the player won't be stunned
+        player.health -= ((enemy.strength * 3) - (player.defense / 2)) 
+        this.scene.player.anims.play('phurt', true);
+        enemy.attackCounter = 0;
+        //set playerDefend = false
+        player.defend = false;
+      } else {
+        //enemy attack damage is = to enemystrength and 
+        this.scene.player.anims.play('phurt', true);
+        player.health -= (enemy.strength * 3);
+        player.stunned = true;
+        //set attack counter = 0
+        enemy.attackCounter = 0;
+        console.log(player.health);
+        //gray out menu to signify stun status
+        setTimeout (() => {
+            this.lobAttack();
+        }, 1000)
+        if (player.health <= 0) {
+          setTimeout(() => {
+            this.scene.player.anims.play('pdying', true)
+          }, 100);
+        }
+      }
+    } else {
+      // if the player evasion is greater than the generated threshold the player evades the attack
+      this.scene.player.anims.play('prunning', true)
+      this.scene.pEvade.restart();
+      // set attack counter = 0
+      enemy.attackCounter = 0;
+    }
+  };

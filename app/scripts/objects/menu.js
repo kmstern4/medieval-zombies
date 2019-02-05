@@ -14,7 +14,8 @@ let enemy = {
   strength: 10,
   evasion: 10,
   attackCounter: 0,
-  health: 100
+  health: 100,
+  stunned: false
 }
 
 export default class Menu extends Phaser.GameObjects.Container {
@@ -57,6 +58,10 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.index--;
     if (this.index < 0) {
       this.index = this.menuItems.length - 1;
+    } else if (this.index === 2 && enemy.stunned === true) {
+      this.menuItems[1].select();
+      this.menuItems[2].onCd();
+      this.index = 1;
     }
     this.menuItems[this.index].select();
   }
@@ -65,8 +70,13 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.menuItems[this.index].deselect();
     this.stunOff();
     this.index++;
+    console.log(this.index);
     if (this.index >= this.menuItems.length) {
       this.index = 0;
+    } else if (this.index === 2 && enemy.stunned === true) {
+      this.menuItems[3].select();
+      this.menuItems[2].onCd();
+      this.index = 3;
     }
     this.menuItems[this.index].select();
   }
@@ -76,12 +86,16 @@ export default class Menu extends Phaser.GameObjects.Container {
   }
 
   stunOff() {
-    if (player.stunCd < 2) {
+    if (player.stunCd === 0) {
       this.menuItems[2].onCd();
-      this.menuItems[2].setText('Stun on CD')
+      this.menuItems[2].setText('Stun (2 Turns)')
+    } else if (player.stunCd === 1) {
+      this.menuItems[2].onCd();
+      this.menuItems[2].setText('Stun (1 Turn)')
     } else {
       this.menuItems[2].deselect();
-      this.menuItems[2].setText('Stun')
+      this.menuItems[2].setText('Stun');
+      enemy.stunned = false;
     }
   }
 
@@ -97,11 +111,12 @@ export default class Menu extends Phaser.GameObjects.Container {
         break;
       case 2:
         if (player.stunCd >= 2) {
+          enemy.stunned = true;
           this.menuItems[2].onCd();
-          this.menuItems[2].setText('Stun on CD')
+          this.menuItems[2].setText('Stun (2 Turns)')
           this.stunAttack();
         } else {
-          return false;
+          enemy.stunned = false;
         }
         break;
       case 3:
@@ -150,11 +165,6 @@ export default class Menu extends Phaser.GameObjects.Container {
     //when the function is called run the throwAttack anim
     player.stunCd += 1;
     this.scene.player.anims.play('pthrow', true);
-    this.scene.weapon.visible = true;
-    this.scene.weaponThrow.restart();
-    setTimeout(() => {
-      this.scene.weapon.visible = false;
-    }, 600);
     this.scene.farmzombie.anims.play('fzhurt', true);
     //calculate the throw attack damage
     enemy.health -= (player.strength / 2);
@@ -169,6 +179,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   stunAttack() {
     //when the function is call run the stun attack anim and generate evasion threshold
     this.scene.player.anims.play('prunattack', true);
+    this.scene.pRunAttack.restart();
     this.scene.farmzombie.anims.play('fzhurt', true);
     var evasionGenerate = Math.floor(Math.random() * 100);
     player.stunCd = 0;
