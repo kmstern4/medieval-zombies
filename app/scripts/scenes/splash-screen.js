@@ -47,6 +47,9 @@ export default class SplashScreen extends Phaser.Scene {
       .image('temple', 'temple.png')
       .image('hghead', 'hghead1.png')
       .image('omhead', 'omhead1.png')
+      .image('red', 'red.png')
+      .image('blue', 'blue.png')
+      .image('green', 'green.png')
       .image('stick')
       .image('sword');
 
