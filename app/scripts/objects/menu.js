@@ -1,15 +1,21 @@
 import MenuItem from './menu-item';
 
-var playerStrength = 10;
-var playerDefense = 10;
-var playerEvasion = 10;
-var playerDefend = false;
-var playerHealth = 100;
-var potions = 1;
-var enemyStrength = 10;
-var enemyEvasion = 10;
-var attackCounter = 0;
-var enemyHealth = 100;
+let player = {
+  strength: 10,
+  defense: 10,
+  evasion: 10,
+  health: 100,
+  defend: false,
+  potions: 1,
+  stunCd: 2
+}
+
+let enemy = {
+  strength: 10,
+  evasion: 10,
+  attackCounter: 0,
+  health: 100
+}
 
 export default class Menu extends Phaser.GameObjects.Container {
   /**
@@ -30,9 +36,8 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.y = y;
     this.scene = scene;
     this.addMenuItem('Attack');
-    this.addMenuItem('Boomerang Attack');
-    this.addMenuItem('Heavy Attack');
-    this.addMenuItem('Stun Attack');
+    this.addMenuItem('Boomerang');
+    this.addMenuItem('Stun');
     this.addMenuItem('Defend');
     this.addMenuItem('Potion');
     this.defaultSelect();
@@ -48,6 +53,7 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   moveSelectionUp() {
     this.menuItems[this.index].deselect();
+    this.stunOff();
     this.index--;
     if (this.index < 0) {
       this.index = this.menuItems.length - 1;
@@ -57,6 +63,7 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   moveSelectionDown() {
     this.menuItems[this.index].deselect();
+    this.stunOff();
     this.index++;
     if (this.index >= this.menuItems.length) {
       this.index = 0;
@@ -68,31 +75,42 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.menuItems[0].select();
   }
 
+  stunOff() {
+    if (player.stunCd < 2) {
+      this.menuItems[2].onCd();
+      this.menuItems[2].setText('Stun on CD')
+    } else {
+      this.menuItems[2].deselect();
+      this.menuItems[2].setText('Stun')
+    }
+  }
+
   confirm() {
     switch (this.index) {
       case 0:
-        console.log('Attack');
         this.pAttack();
+        this.stunOff();
         break;
       case 1:
-        console.log('Throw');
         this.throwAttack();
+        this.stunOff();
         break;
       case 2:
-        this.heavyAttack();
-        console.log('Heavy');
+        if (player.stunCd >= 2) {
+          this.menuItems[2].onCd();
+          this.menuItems[2].setText('Stun on CD')
+          this.stunAttack();
+        } else {
+          return false;
+        }
         break;
       case 3:
-        this.stunAttack();
-        console.log('Stun')
+        this.defend();
+        this.stunOff();
         break;
       case 4:
-        this.defend();
-        console.log('defend');
-        break;
-      case 5:
         this.usePotion();
-        console.log('potion');
+        this.stunOff();
         break;
       default:
         console.log(`You somehow hit a wrong index of ${this.index}`);
@@ -103,18 +121,20 @@ export default class Menu extends Phaser.GameObjects.Container {
   // FIGHT FUNCTIONS
 
   //Player Actions
+
   pAttack() {
     //when the function is called run the normal Attack anim and generate the evasion threshold
     this.scene.player.anims.play('pattack', true);
     let evasionGenerate = Math.floor(Math.random() * 100);
-    if (evasionGenerate > enemyEvasion) {
+    player.stunCd += 1;
+    if (evasionGenerate > enemy.evasion) {
       //if the enemy evasion is lower than the threshold calculate normal attack damage
       this.scene.farmzombie.anims.play('fzhurt', true)
       setTimeout(() => {
         this.enemyAttack();
       }, 1000);
-      enemyHealth -= playerStrength;
-      console.log(`enemy health: ${enemyHealth}`);
+      enemy.health -= player.strength;
+      console.log(`enemy health: ${enemy.health}`);
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack
       this.scene.farmzombie.anims.play('fzrunning', true);
@@ -128,6 +148,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   //throw attack = damage will equal playerstrength / 2, cannot be evaded
   throwAttack() {
     //when the function is called run the throwAttack anim
+    player.stunCd += 1;
     this.scene.player.anims.play('pthrow', true);
     this.scene.weapon.visible = true;
     this.scene.weaponThrow.restart();
@@ -136,23 +157,25 @@ export default class Menu extends Phaser.GameObjects.Container {
     }, 600);
     this.scene.farmzombie.anims.play('fzhurt', true);
     //calculate the throw attack damage
-    enemyHealth -= (playerStrength / 2);
-    console.log(`enemy health: ${enemyHealth}`);
+    enemy.health -= (player.strength / 2);
+    console.log(`enemy health: ${enemy.health}`);
     //after the attack is finished the zombie takes its' turn
     setTimeout(() => {
       this.enemyAttack();
     }, 1000);
   };
-  //stun attack = damage will equal playerstrength /2, enemy is stunned until their next turn if they don't evade.
+
+  //stun attack = damage will equal playerstrength * 2, enemy is stunned until their next turn if they don't evade.
   stunAttack() {
     //when the function is call run the stun attack anim and generate evasion threshold
-    this.scene.player.anims.play('pattack', true);
+    this.scene.player.anims.play('prunattack', true);
     this.scene.farmzombie.anims.play('fzhurt', true);
     var evasionGenerate = Math.floor(Math.random() * 100);
-    if (evasionGenerate > enemyEvasion) {
+    player.stunCd = 0;
+    if (evasionGenerate > enemy.evasion) {
       //if the enemy evasion is lower than the threshold calculate stun attack damage, and set enemyStunned = true. Put stun attack on cooldown.
-      enemyHealth -= (playerStrength / 2);
-      console.log(`enemy health: ${enemyHealth}`);
+      enemy.health -= (player.strength * 2);
+      console.log(`enemy health: ${enemy.health}`);
       //stun on cooldown
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack. Put stunAttack on cooldown.
@@ -163,43 +186,24 @@ export default class Menu extends Phaser.GameObjects.Container {
       }, 1000);
     }
   }
-  //Heavy (slow) attack = damage will equal playerstrength * 2, but zombie evasion is higher.
-  heavyAttack() {
-    //when the function is called run the heavyAttack anim and generate a smaller evasion threshold
-    this.scene.player.anims.play('pattack', true);
-    this.scene.farmzombie.anims.play('fzhurt', true);
-    var evasionGenerate = Math.floor(Math.random() * 50);
-    if (evasionGenerate > enemyEvasion) {
-      //if the enemy evasion is lower than the threshold calculate heavy attack damage.
-      enemyHealth -= (playerStrength * 2);
-      console.log(`enemy health: ${enemyHealth}`);
-      setTimeout(() => {
-        this.enemyAttack();
-      }, 1000);
-    } else {
-      //if the enemy evasion is greater than the threshold they evade your attack.
-      this.scene.farmzombie.anims.play('fzrunning', true);
-      this.scene.fzEvade.restart();
-      setTimeout(() => {
-        this.enemyAttack();
-      }, 1000);
-    }
-  }
+
   //Defend = reduce damage taken by playerDefense / 2.
   defend() {
+    player.stunCd += 1;
     this.scene.player.anims.play('phurt', true);
-    playerDefend = true
+    player.defend = true
     setTimeout(() => {
       this.enemyAttack();
     }, 1000);
   }
 
   usePotion() {
-    if (potions >= 1) {
+    if (player.potions >= 1) {
+      player.stunCd += 1;
       this.scene.player.anims.play('phurt', true);
-      playerHealth += 25;
-      potions -= 1
-      console.log(playerHealth);
+      player.health += 25;
+      player.potions -= 1
+      console.log(player.health);
       setTimeout(() => {
         this.enemyAttack();
       }, 1000);
@@ -210,27 +214,27 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   //Enemy Actions
   enemyAttack() {
-    if (enemyHealth <= 0) {
+    if (enemy.health <= 0) {
       setTimeout(() => {
         this.scene.farmzombie.anims.play('fzdying', true)
       }, 200);
-    } else if (attackCounter === 3) {
+    } else if (enemy.attackCounter === 3) {
       this.specialAttack();
     } else {
       this.scene.farmzombie.anims.play('fzattack', true)
       //run enemy attack anim and generate evasion threshold
       var evasionGenerate = Math.floor(Math.random() * 100);
-      if (evasionGenerate > playerEvasion) {
-        if (playerDefend === true) {
+      if (evasionGenerate > player.evasion) {
+        if (player.defend === true) {
           this.scene.player.anims.play('phurt', true);
-          playerHealth -= (enemyStrength - (playerDefense / 2));
+          player.health -= (enemy.strength - (player.defense / 2));
           // enemy attack damage is reduced by player defense / 2
-          attackCounter++;
+          enemy.attackCounter++;
           //add 1 to the enemy attack counter
-          playerDefend = false;
+          player.defend = false;
           //set playerDefend = false
-          console.log(playerHealth);
-          if (playerHealth <= 0) {
+          console.log(player.health);
+          if (player.health <= 0) {
             setTimeout(() => {
               this.scene.player.anims.play('pdying', true)
             }, 100);
@@ -238,11 +242,11 @@ export default class Menu extends Phaser.GameObjects.Container {
         } else {
           this.scene.player.anims.play('phurt', true);
           //calculate full enemy attack damage
-          playerHealth -= enemyStrength;
+          player.health -= enemy.strength;
           //add 1 to the enemy attack counter
-          attackCounter++;
-          console.log(playerHealth);
-          if (playerHealth <= 0) {
+          enemy.attackCounter++;
+          console.log(player.health);
+          if (player.health <= 0) {
             setTimeout(() => {
               this.scene.player.anims.play('pdying', true)
             }, 100);
@@ -253,7 +257,7 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.scene.player.anims.play('prunning', true)
         this.scene.pEvade.restart();
         //add 1 to the enemy attack counter
-        attackCounter++;
+        enemy.attackCounter++;
       }
     }
   };
@@ -263,29 +267,29 @@ export default class Menu extends Phaser.GameObjects.Container {
     console.log("Pissed off zombie attack")
     this.scene.farmzombie.anims.play('fzattack', true);
     var evasionGenerate = Math.floor(Math.random() * 100);
-    if (evasionGenerate > playerEvasion) {
-      if (playerDefend === true) {
+    if (evasionGenerate > player.evasion) {
+      if (player.defend === true) {
         //enemy attack damage is = to enemystrength * 2 reduced by player defense / 2
         this.scene.player.anims.play('phurt', true);
-        playerHealth -= ((enemyStrength * 2) - (playerDefense / 2));
+        player.health -= ((enemy.strength * 2) - (player.defense / 2));
         //set attackCounter = 0
-        attackCounter = 0;
+        enemy.attackCounter = 0;
         //set playerDefend = false
-        playerDefend = false;
-        console.log(playerHealth);
-        if (playerHealth <= 0) {
+        player.defend = false;
+        console.log(player.health);
+        if (player.health <= 0) {
           setTimeout(() => {
             this.scene.player.anims.play('pdying', true)
           }, 100);
-        } 
+        }
       } else {
         //enemy attack damage is = to enemystrength * 2
         this.scene.player.anims.play('phurt', true);
-        playerHealth -= (enemyStrength * 2);
+        player.health -= (enemy.strength * 2);
         //set attack counter = 0
-        attackCounter = 0;
-        console.log(playerHealth);
-        if (playerHealth <= 0) {
+        enemy.attackCounter = 0;
+        console.log(player.health);
+        if (player.health <= 0) {
           setTimeout(() => {
             this.scene.player.anims.play('pdying', true)
           }, 100);
@@ -296,7 +300,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       this.scene.player.anims.play('prunning', true)
       this.scene.pEvade.restart();
       // set attack counter = 0
-      attackCounter = 0;
+      enemy.attackCounter = 0;
     }
   };
 
