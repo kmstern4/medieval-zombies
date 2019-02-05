@@ -55,9 +55,21 @@ export default class Menu extends Phaser.GameObjects.Container {
   moveSelectionUp() {
     this.menuItems[this.index].deselect();
     this.stunOff();
+    this.noPot();
     this.index--;
     if (this.index < 0) {
       this.index = this.menuItems.length - 1;
+<<<<<<< HEAD
+=======
+    } else if (this.index === 2 && enemy.stunned === true) {
+      this.menuItems[1].select();
+      this.menuItems[2].onCd();
+      this.index = 1;
+    } else if (this.index === 4 && player.potions < 1) {
+      this.menuItems[0].select();
+      this.menuItems[4].onCd();
+      this.index = 0;
+>>>>>>> 29883856961131e6253a2e2cd526e22a89ed6ee4
     }
     this.menuItems[this.index].select();
   }
@@ -65,9 +77,21 @@ export default class Menu extends Phaser.GameObjects.Container {
   moveSelectionDown() {
     this.menuItems[this.index].deselect();
     this.stunOff();
+    this.noPot();
     this.index++;
     if (this.index >= this.menuItems.length) {
       this.index = 0;
+<<<<<<< HEAD
+=======
+    } else if (this.index === 2 && enemy.stunned === true) {
+      this.menuItems[3].select();
+      this.menuItems[2].onCd();
+      this.index = 3;
+    } else if (this.index === 4 && player.potions < 1) {
+      this.menuItems[0].select();
+      this.menuItems[4].onCd();
+      this.index = 0;
+>>>>>>> 29883856961131e6253a2e2cd526e22a89ed6ee4
     }
     this.menuItems[this.index].select();
   }
@@ -86,6 +110,13 @@ export default class Menu extends Phaser.GameObjects.Container {
     }
   }
 
+  noPot() {
+    if (player.potions < 1) {
+      this.menuItems[4].onCd();
+      this.menuItems[4].setText('No Potions');
+    }
+  }
+
   confirm() {
     switch (this.index) {
       case 0:
@@ -101,6 +132,8 @@ export default class Menu extends Phaser.GameObjects.Container {
           this.menuItems[2].onCd();
           this.menuItems[2].setText('Stun on CD')
           this.stunAttack();
+          this.index ++;
+          this.menuItems[3].select();
         } else {
           return false;
         }
@@ -110,8 +143,16 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.stunOff();
         break;
       case 4:
-        this.usePotion();
-        this.stunOff();
+        if(player.potions >= 1) {
+          this.usePotion();
+          this.stunOff();
+          this.menuItems[4].onCd();
+          this.menuItems[4].setText('No Potions');
+          this.index = 0;
+          this.menuItems[0].select();
+        } else {
+          this.scene.keyEnter = true;
+        }
         break;
       default:
         console.log(`You somehow hit a wrong index of ${this.index}`);
