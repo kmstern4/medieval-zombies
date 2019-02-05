@@ -52,38 +52,38 @@ export default class Woods extends Phaser.Scene {
   // emitter0.explode(); turns particle emitter off
   // DEFEND
     this.emitterBlue = this.add.particles('blue').createEmitter({
-    x: 150,
-    y: 400,
-    speed: { min: -100, max: 100 },
-    angle: { min: 0, max: 360 },
-    scale: { start: 2, end: 1 },
-    blendMode: 'SCREEN',
-    // frequency of -1 turns it off
-    frequency: -1,
-    lifespan: 300
-    // gravityY: 800
+      x: 150,
+      y: 400,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      // frequency of -1 turns it off
+      frequency: -1,
+      lifespan: 300
+      // gravityY: 800
     });
     // ENEMY RAGE
     this.emitterRed = this.add.particles('red').createEmitter({
-    x: 490,
-    y: 400,
-    speed: { min: -100, max: 100 },
-    angle: { min: 0, max: 360 },
-    scale: { start: 2, end: 1 },
-    blendMode: 'SCREEN',
-    frequency: -1,
-    lifespan: 300
+      x: 490,
+      y: 400,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      frequency: -1,
+      lifespan: 300
     });
     // POTION
     this.emitterGreen = this.add.particles('green').createEmitter({
-    x: 150,
-    y: 400,
-    speed: { min: -100, max: 100 },
-    angle: { min: 0, max: 360 },
-    scale: { start: 2, end: 1 },
-    blendMode: 'SCREEN',
-    frequency: -1,
-    lifespan: 300
+      x: 150,
+      y: 400,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      frequency: -1,
+      lifespan: 300
     });
     
 
@@ -99,8 +99,8 @@ export default class Woods extends Phaser.Scene {
 
     this.noise = this.sound.add(this.noises);
     this.stab = this.sound.add('stab');
-    this.heal = this.sound.add('heal');
-    this.shield = this.sound.add('shield');
+    this.heal = this.sound.add('heal', { volume: 0.5 });
+    this.shield = this.sound.add('shield', { volume: 0.5 });
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
@@ -340,7 +340,8 @@ export default class Woods extends Phaser.Scene {
 
 
 
-    // CALLING ANIMATIONS
+    // ANIMATION EVENTS
+    
     this.player.on('animationcomplete', () => {
       if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
@@ -385,19 +386,22 @@ export default class Woods extends Phaser.Scene {
     });
 
     this.farmzombie.on('animationcomplete', () => {
-      if (this.farmzombie.anims.currentAnim.key === 'fzwalking') {
-        this.farmzombie.play('fzidle');
-        this.arrows = true;
-        this.menu.visible = true;
-      } 
-      if (this.farmzombie.anims.currentAnim.key === 'fzdying') {
-        this.farmzombie.anims.pause();
-      } 
-      if (this.farmzombie.anims.currentAnim.key === 'fzattack') {
-        this.farmzombie.play('fzidle');
-        this.keyEnter = true;
+      switch(this.farmzombie.anims.currentAnim.key) {
+        case 'fzwalking':
+          this.farmzombie.play('fzidle');
+          this.arrows = true;
+          this.menu.visible = true;
+          break;
+        case 'fzdying':
+          this.farmzombie.anims.pause();
+          break;
+        case 'fzattack':
+          this.farmzombie.play('fzidle');
+          this.keyEnter = true;
+          break;
+        default: 
+          this.farmzombie.play('fzidle');
       }
-      this.farmzombie.play('fzidle');    
     });    
 
   }

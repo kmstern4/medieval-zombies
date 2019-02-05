@@ -59,8 +59,6 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.index--;
     if (this.index < 0) {
       this.index = this.menuItems.length - 1;
-<<<<<<< HEAD
-=======
     } else if (this.index === 2 && enemy.stunned === true) {
       this.menuItems[1].select();
       this.menuItems[2].onCd();
@@ -69,7 +67,6 @@ export default class Menu extends Phaser.GameObjects.Container {
       this.menuItems[0].select();
       this.menuItems[4].onCd();
       this.index = 0;
->>>>>>> 29883856961131e6253a2e2cd526e22a89ed6ee4
     }
     this.menuItems[this.index].select();
   }
@@ -81,8 +78,6 @@ export default class Menu extends Phaser.GameObjects.Container {
     this.index++;
     if (this.index >= this.menuItems.length) {
       this.index = 0;
-<<<<<<< HEAD
-=======
     } else if (this.index === 2 && enemy.stunned === true) {
       this.menuItems[3].select();
       this.menuItems[2].onCd();
@@ -91,7 +86,6 @@ export default class Menu extends Phaser.GameObjects.Container {
       this.menuItems[0].select();
       this.menuItems[4].onCd();
       this.index = 0;
->>>>>>> 29883856961131e6253a2e2cd526e22a89ed6ee4
     }
     this.menuItems[this.index].select();
   }
@@ -214,6 +208,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     //when the function is call run the stun attack anim and generate evasion threshold
     player.attackCounter += 1;
     this.scene.player.anims.play('prunattack', true);
+    this.scene.pRunAttack.restart();
     this.scene.farmzombie.anims.play('fzhurt', true);
     var evasionGenerate = Math.floor(Math.random() * 100);
     player.stunCd = 0;
@@ -234,6 +229,7 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   //Defend = reduce damage taken by playerDefense / 2.
   defend() {
+    this.scene.shield.play();
     player.stunCd += 1;
     player.defend = true
     // particle emitter
@@ -251,6 +247,7 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   usePotion() {
     if (player.potions >= 1) {
+      this.scene.heal.play();
       player.stunCd += 1;
       // particle emitter
       this.scene.emitterGreen.frequency = 0;
