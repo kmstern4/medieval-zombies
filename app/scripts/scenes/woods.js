@@ -68,7 +68,7 @@ export default class Woods extends Phaser.Scene {
 
     this.section = 1;
     this.keySpace = true;
-
+    this.keyEnter = true;
 
     // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.woods.startnarration;
@@ -351,11 +351,15 @@ export default class Woods extends Phaser.Scene {
         this.farmzombie.play('fzidle');
         this.arrows = true;
         this.menu.visible = true;
-      } else if (this.farmzombie.anims.currentAnim.key == 'fzdying') {
+      } 
+      if (this.farmzombie.anims.currentAnim.key === 'fzdying') {
         this.farmzombie.anims.pause();
-      } else {
+      } 
+      if (this.farmzombie.anims.currentAnim.key === 'fzattack') {
         this.farmzombie.play('fzidle');
+        this.keyEnter = true;
       }
+      this.farmzombie.play('fzidle');    
     });    
 
   }
@@ -433,7 +437,7 @@ export default class Woods extends Phaser.Scene {
         this.actionsMenu.moveSelectionUp();
       } else if (event.code === 'ArrowDown') {
         this.actionsMenu.moveSelectionDown();
-      } else if (event.code === 'Enter') {
+      } else if (event.code === 'Enter' && this.keyEnter) {
         this.actionsMenu.confirm();
       }
     }

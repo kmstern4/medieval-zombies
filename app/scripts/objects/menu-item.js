@@ -26,6 +26,6 @@ export default class MenuItem extends Phaser.GameObjects.Text {
   }
 
   onCd () {
-    this.setColor('#FF0000');
+    this.setColor('#202020');
   }
 }
