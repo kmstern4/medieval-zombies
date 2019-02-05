@@ -396,6 +396,8 @@ export default class Woods extends Phaser.Scene {
           break;
         case 'fzdying':
           this.farmzombie.anims.pause();
+          this.currentDialogue = dialogue.woods.afterzombiedies[0].text;
+          this.turnOn();
           break;
         case 'fzattack':
           this.farmzombie.play('fzidle');
@@ -469,7 +471,8 @@ export default class Woods extends Phaser.Scene {
           }, 15500);
           break;
         case 4:
-          this.scene.start('Town', { char: this.char, weap: this.weap });
+          // add case 4 stuff here
+          break;
         }
       }
     }

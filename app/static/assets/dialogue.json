@@ -77,6 +77,12 @@
                 "text": "Once it gets close enough, you see that although it's better looking than the old man, it's definitely a zombie.",
                 "char": "narration"
             }
+        ],
+        "afterzombiedies": [
+            {
+                "text": "The zombie falls and is lifeless, you continue on your way to Dreary Cove",
+                "char": "narration"
+            }
         ]
     },
     "town": {
