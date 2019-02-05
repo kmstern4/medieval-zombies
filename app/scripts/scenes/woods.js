@@ -22,6 +22,7 @@ export default class Woods extends Phaser.Scene {
     this.char = data.char;
     this.weap = data.weap;
     this.noises = data.noises;
+    this.head = data.head;
   }
 
   /**
@@ -42,6 +43,7 @@ export default class Woods extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
+    console.log(this.head);
     console.log(this.noises);
 
     const x = this.cameras.main.width / 2;
@@ -78,9 +80,9 @@ export default class Woods extends Phaser.Scene {
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
 
-    this.hghead = this.add.image(130, 150, 'hghead');
-    this.hghead.setDepth(1);
-    this.hghead.visible = false;
+    this.phead = this.add.image(130, 150, this.head);
+    this.phead.setDepth(1);
+    this.phead.visible = false;
 
     this.omhead = this.add.image(130, 150, 'omhead');
     this.omhead.setDepth(1);
@@ -380,11 +382,11 @@ export default class Woods extends Phaser.Scene {
         this.text.setText(this.currentDialogue[i].text);
         // write code here for head animation for dialogue
         if (this.currentDialogue[i].char === 'hero') {
-          this.hghead.visible = true;
+          this.phead.visible = true;
           this.omhead.visible = false;
         } else if (this.currentDialogue[i].char === 'oldman') {
           this.omhead.visible = true;
-          this.hghead.visible = false;
+          this.phead.visible = false;
         }
         i++;
       } else {

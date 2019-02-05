@@ -157,12 +157,17 @@ export default class Title extends Phaser.Scene {
 
     hoodgirl.on('pointerup', () => {
       this.rhythmloop.stop();
-      this.scene.start('Letter', { char: 'hoodgirl', weap: 'stick', noises: 'impact' });
+      this.scene.start('Letter', { 
+        char: 'hoodgirl', 
+        weap: 'stick', 
+        noises: 'impact', 
+        head: 'hghead' 
+      });
     });
 
     hoodboy.on('pointerup', () => {
       this.rhythmloop.stop();
-      this.scene.start('Letter', { char: 'hoodboy', weap: 'sword', noises: 'cutflesh' });
+      this.scene.start('Letter', { char: 'hoodboy', weap: 'sword', noises: 'cutflesh', head: 'hbhead' });
     });
 
     label2.setOrigin(0.5, 0.5);

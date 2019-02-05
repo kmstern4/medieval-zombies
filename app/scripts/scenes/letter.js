@@ -19,6 +19,7 @@ export default class Letter extends Phaser.Scene {
     this.char = data.char;
     this.weap = data.weap;
     this.noises = data.noises;
+    this.head = data.head;
   }
 
   /**
@@ -215,7 +216,7 @@ export default class Letter extends Phaser.Scene {
         this.text.setText(this.dialogue.letter.narration[i].text);
         i++;
       } else {
-        this.scene.start('Woods', { char: this.char, weap: this.weap, noises: this.noises });
+        this.scene.start('Woods', { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
       }
     }
 
