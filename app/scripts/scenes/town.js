@@ -18,6 +18,10 @@ export default class Town extends Phaser.Scene {
    */
   init(data) {
     this.char = data.char;
+    this.weap = data.weap;
+    this.noises = data.noises;
+    this.head = data.head;
+    this.zombie = data.zombie;
   }
 
   /**
@@ -53,22 +57,18 @@ export default class Town extends Phaser.Scene {
     // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
 
-    this.styledbox = this.add.image(0, 0, 'textbox');
-
-    this.section = 1;
     // Keypress Variables
     this.keySpace = true;
 
-    // let text = this.add.text(x, y, 'TESTING PLS');
+    // Narration text and associated textbox
+    this.textbox = this.add.image(0, 0, 'textbox');
     this.currentDialogue = this.dialogue.town.startnarration;
-    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
+    this.text = this.add.text(x, 400, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
-
-
-    this.container = this.add.container(x, 150, this.styledbox);
+    this.container = this.add.container(x, 400, this.textbox);
     this.container.setSize(400, 100);
 
     // this.input.keyboard.on('keydown', this.onKeyInput, this);
@@ -77,7 +77,7 @@ export default class Town extends Phaser.Scene {
 
     // tween to make player walk in to scene
     this.pWalkOn = this.tweens.add({
-      targets: this.hoodgirl,
+      targets: this.player,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -85,15 +85,15 @@ export default class Town extends Phaser.Scene {
       paused: true
     });
 
-    // tween to make player walk off screen into house
+    // tween to make player walk off scene
     this.pWalkOff = this.tweens.add({
-      targets: this.hoodgirl,
+      targets: this.player,
       x: 700,
       ease: 'power1',
       duration: 2200,
       repeat: 0,
       paused: true
-    });
+      });
 
     // ANIMATION EVENTS
 
@@ -113,6 +113,7 @@ export default class Town extends Phaser.Scene {
     const space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
+
       if (this.currentDialogue[i] !== undefined) {
         this.text.setText(this.currentDialogue[i].text);
         i++;
@@ -125,29 +126,28 @@ export default class Town extends Phaser.Scene {
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
+          this.section = 2;
+          console.log(this.section);
           setTimeout(() => {
-            this.section = 2;
+            this.currentDialogue = this.dialogue.town.entertown;
+            this.turnOn();
           } ,2700);
           break;
         case 2:
-          this.turnOn();
-          this.currentDialogue = this.dialogue.town.entertown;
-          i = 1;
+
+          // i = 1;
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOff.restart();
           setTimeout(() => {
-            this.section = 3;
+          this.scene.start('House');
           } ,2700);
-        case 3:
-          setTimeout(() => {
-            this.scene.start('House');
-          }, 1000);
           break;
         }
       }
     }
   }
+
 
   turnOff() {
     this.keySpace = false;
