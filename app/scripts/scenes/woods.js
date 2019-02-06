@@ -132,11 +132,10 @@ export default class Woods extends Phaser.Scene {
     this.container.setSize(400, 100);
 
     // Hit Text
-    this.ptext = this.add.text(200, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
+    this.ptext = this.add.text(200, 170, '', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
     this.ptext.setOrigin(0.5, 0.5);
     this.ptext.setAlpha(0);
-    console.log(this.ptext);
-    this.ztext = this.add.text(435, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
+    this.ztext = this.add.text(435, 170, '', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
     this.ztext.setOrigin(0.5, 0.5);
     this.ztext.setAlpha(0);
 
@@ -255,35 +254,6 @@ export default class Woods extends Phaser.Scene {
     });
 
     // HIT TEXT TWEENS
-    // 200, 170        435, 170
-
-    this.pHitText = this.tweens.createTimeline();
-    
-    this.pHitText.add({
-      targets: this.ptext,
-      ease: 'Power1',
-      x: 205,
-      y: 165,
-      alpha: 1,
-      duration: 300
-    });
-
-    this.pHitText.add({
-      targets: this.ptext,
-      ease: 'Power1',
-      x: 215,
-      y: 155,
-      duration: 300,
-    });
-    this.pHitText.add({
-      targets: this.ptext,
-      ease: 'Power1',
-      alpha: 0,
-      duration: 300
-    });
-    console.log(this.pHitText);
-
-
 
     // player hit text fade in
     this.pAlphaUp = this.tweens.add({
@@ -454,12 +424,14 @@ export default class Woods extends Phaser.Scene {
         this.noise.play();
       }
       if (this.player.anims.currentAnim.key === 'phurt') {
-        this.pHitText.play();
-        console.log(this.pHitText);
-        setTimeout(() => {
-          // this.pHitText.progress = 0;
-          console.log(this.pHitText);
-        }, 1000);
+        this.ptext.setText('Hit!');
+        this.pAlphaUp.restart();
+        this.pAlphaDown.restart();
+      }
+      if (this.player.anims.currentAnim.key === 'prunning') {
+        this.ptext.setText('Miss!');
+        this.pAlphaUp.restart();
+        this.pAlphaDown.restart();
       }
     });
 
@@ -490,6 +462,16 @@ export default class Woods extends Phaser.Scene {
           this.stab.play();
         }, 100);
       }
+      if (this.enemy.anims.currentAnim.key === 'fzhurt') {
+        this.ztext.setText('Hit!');
+        this.zAlphaUp.restart();
+        this.zAlphaDown.restart();
+      }
+      if (this.enemy.anims.currentAnim.key === 'fzrunning') {
+        this.ztext.setText('Miss!');
+        this.zAlphaUp.restart();
+        this.zAlphaDown.restart();
+      }
     });
 
     this.enemy.on('animationcomplete', () => {
@@ -508,7 +490,7 @@ export default class Woods extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           setTimeout(() => {
           this.rhythmloop.stop();
-          this.scene.start('Town', { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
+          this.scene.start('Town', { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: this.zombie });
           }, 3000);
           break;
         case 'fzattack':
