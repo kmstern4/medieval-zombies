@@ -14,3 +14,5 @@ export {default as Tavern} from './tavern';
 export {default as Temple} from './temple';
 export {default as Town} from './town';
 export {default as House} from './house';
+export {default as CC} from './cc';
+export {default as TestTitle} from './testtitle';
