@@ -174,7 +174,7 @@ export default class TestTitle extends Phaser.Scene {
     townLabel.setInteractive();
     townLabel.on('pointerup', () => {
       this.rhythmloop.stop();
-      this.scene.start('Title');
+      this.scene.start('Town');
     });
 
 

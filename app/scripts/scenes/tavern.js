@@ -54,7 +54,7 @@ export default class Tavern extends Phaser.Scene {
 
     // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.tavern.pentertavern;
-    this.text = this.add.text(x, 150, this.currentDialogue[0], {
+    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
@@ -105,7 +105,7 @@ export default class Tavern extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
       if (this.currentDialogue[i] !== undefined) {
-        this.text.setText(this.currentDialogue[i]);
+        this.text.setText(this.currentDialogue[i].text);
         i++;
       } else {
         switch(this.section) {
@@ -120,7 +120,7 @@ export default class Tavern extends Phaser.Scene {
             this.keySpace = true;
             this.container.visible = true;
             this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
+            this.text.setText(this.currentDialogue[0].text);
             this.section = 2;
           } ,2700);
           break;

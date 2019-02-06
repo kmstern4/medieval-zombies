@@ -1,4 +1,4 @@
-let i =1;
+let i = 1;
 
 export default class House extends Phaser.Scene {
   /**
@@ -7,7 +7,7 @@ export default class House extends Phaser.Scene {
    *  @extends Phaser.Scene
    */
   constructor() {
-    super({key: 'House'});
+    super({ key: 'House' });
   }
 
   /**
@@ -18,6 +18,7 @@ export default class House extends Phaser.Scene {
    */
   init(data) {
     this.char = data.char;
+    this.head = data.head;
   }
 
   /**
@@ -40,7 +41,7 @@ export default class House extends Phaser.Scene {
 
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
-    
+
     this.add.image(x, y, 'house');
 
     this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
@@ -57,13 +58,17 @@ export default class House extends Phaser.Scene {
 
     // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.house.penterhouse;
-    this.text = this.add.text(x, 150, this.currentDialogue[0], {
+    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
-
-
+    this.phead = this.add.image(160, 150, this.head);
+    this.phead.setDepth(1);
+    this.phead.visible = false;
+    this.childhead = this.add.image(160, 150, 'childhead');
+    this.childhead.setDepth(1);
+    this.childhead.visible = false;
     this.container = this.add.container(x, 150, this.styledbox);
     this.container.setSize(400, 100);
 
@@ -140,50 +145,59 @@ export default class House extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
       if (this.currentDialogue[i] !== undefined) {
-        this.text.setText(this.currentDialogue[i]);
+        this.text.setText(this.currentDialogue[i].text);
+        if (this.currentDialogue[i].char === 'hero') {
+          this.phead.visible = true;
+          this.childhead.visible = false;
+        } else if (this.currentDialogue[i].char === 'child') {
+          this.childhead.visible = true;
+          this.phead.visible = false;
+        }
         i++;
       } else {
-        switch(this.section) {
-        case 1:
-          this.hoodgirl.anims.play('hgwalking', true);
-          this.hgWalkOn.restart();
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
-          this.currentDialogue = this.dialogue.house.childenterhouse;
-          setTimeout(() => {
-            this.child.anims.play('cwalking', true);
-            this.cWalkOn.restart();
+        switch (this.section) {
+          case 1:
+            this.hoodgirl.anims.play('hgwalking', true);
+            this.hgWalkOn.restart();
+            this.keySpace = false;
+            this.container.visible = false;
+            this.text.visible = false;
+            this.currentDialogue = this.dialogue.house.childenterhouse;
+            setTimeout(() => {
+              this.child.anims.play('cwalking', true);
+              this.cWalkOn.restart();
+              i = 1;
+              this.keySpace = true;
+              this.container.visible = true;
+              this.text.visible = true;
+              this.text.setText(this.currentDialogue[0].text);
+              this.section = 2;
+            }, 2700);
+            break;
+          case 2:
+            this.keySpace = false;
+            this.container.visible = false;
+            this.text.visible = false;
+            this.currentDialogue = this.dialogue.house.dialogue;
             i = 1;
+            setTimeout(() => {
+              this.keySpace = true;
+              this.container.visible = true;
+              this.childhead.visible = true;
+              this.text.visible = true;
+              this.text.setText(this.currentDialogue[0].text);
+              this.section = 3;
+            }, 2000);
+            break;
+          case 3:
+            this.keySpace = false;
+            this.container.visible = false;
+            this.childhead.visible = false;
+            this.text.visible = false;
             this.keySpace = true;
-            this.container.visible = true;
-            this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
-            this.section = 2;
-          } ,2700);
-          break;
-        case 2:
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
-          this.currentDialogue = this.dialogue.house.dialogue;
-          i = 1;
-          setTimeout(() => {
-            this.keySpace = true;
-            this.container.visible = true;
-            this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
-            this.section = 3;
-          }, 2000);
-          break;
-        case 3:
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
-          this.keySpace = true;
-          setTimeout(() => {
-          this.scene.start('Tavern');
-          }, 2000); 
+            setTimeout(() => {
+              this.scene.start('Tavern');
+            }, 2000);
         }
       }
     }
