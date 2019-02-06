@@ -34,24 +34,24 @@ export default class Gameover extends Phaser.Scene {
    */
   create(/* data */) {
 
-  window.addEventListener('resize', resize);
-  resize();
+    window.addEventListener('resize', resize);
+    resize();
 
-  const x = this.cameras.main.width / 2;
-  const y = this.cameras.main.height / 2;
+    const x = this.cameras.main.width / 2;
+    // const y = this.cameras.main.height / 2;
 
-  this.add.image(x, 170, 'youdied');
-  this.retry = this.add.image(x, 340, 'retry');
+    this.add.image(x, 170, 'youdied');
+    this.retry = this.add.image(x, 340, 'retry');
 
-  this.retry.setInteractive();
-  this.retry.on('pointerup', () => {
-    const woods = this.scene.get(this.currentScene);
-    console.log(woods);
-    woods.scene.restart();
-    this.scene.sleep();
-  // this.scene.start(this.currentScene);
-  // console.log(this.currentScene);
-  });
+    this.retry.setInteractive();
+    this.retry.on('pointerup', () => {
+      const woods = this.scene.get(this.currentScene);
+      // console.log(woods);
+      woods.scene.restart();
+      this.scene.sleep();
+      // this.scene.start(this.currentScene);
+      // console.log(this.currentScene);
+    });
   }
 
   /**
