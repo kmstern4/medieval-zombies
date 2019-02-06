@@ -183,6 +183,9 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.enemyAttack();
       }, 1000);
       enemy.health -= player.strength;
+      if (enemy.health < 0) {
+        enemy.health = 0;
+      }
       setTimeout(() => {
         this.scene.enemy.anims.play('fzhurt', true)
         this.scene.enemyHP.setText(enemy.health)
@@ -239,8 +242,10 @@ export default class Menu extends Phaser.GameObjects.Container {
           enemy.health = 0;
         }
         setTimeout(() => {
+          this.scene.enemy.clearTint();
+          this.scene.emitterRed.frequency = -1;
           this.scene.enemy.anims.play('fzdying', true)
-        }, 200);
+        }, 1000);
       } else if (player.attackCounter === 2) {
         setTimeout(() => {
           this.scene.emitterRed.frequency = 0;
@@ -378,13 +383,12 @@ export default class Menu extends Phaser.GameObjects.Container {
   specialAttack() {
     //if the special attack counter = 2 this attack will run instead of enemy attack
     player.attackCounter = 0;
-    console.log("Pissed off zombie attack")
     this.scene.enemy.anims.play('fzattack', true);
-        // particle emitter
-        setTimeout(() => {
-        this.scene.enemy.clearTint();
-        this.scene.emitterRed.frequency = -1;
-        }, 1000);
+    // particle emitter
+    setTimeout(() => {
+      this.scene.enemy.clearTint();
+      this.scene.emitterRed.frequency = -1;
+    }, 1000);
     var evasionGenerate = Math.floor(Math.random() * 100);
     if (evasionGenerate > player.evasion) {
       if (player.defend === true) {

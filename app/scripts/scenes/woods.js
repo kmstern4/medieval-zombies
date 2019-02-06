@@ -455,16 +455,6 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'phurt') {
         this.pHitText.play();
         console.log(this.pHitText);
-        setTimeout(() => {
-          this.pHitText.state = 20;
-          this.pHitText.progress = 0;
-          this.pHitText.totalProgress = 0;
-          this.pHitText.totalDuration = 0;
-          this.pHitText.totalElapsed = 0;
-          this.pHitText.duration = 0;
-          this.pHitText.elapsed = 0;
-          console.log(this.pHitText);
-        }, 1000);
       }
     });
 
