@@ -1,3 +1,5 @@
+import Menu from '../objects/menu';
+
 let i = 1;
 export default class Temple extends Phaser.Scene {
   /**
@@ -17,6 +19,10 @@ export default class Temple extends Phaser.Scene {
    */
   init(data) {
     this.char = data.char;
+    this.weap = data.weap;
+    this.noises = data.noises;
+    this.head = data.head;
+    this.zombie = data.zombie;
   }
 
   /**
@@ -33,45 +39,113 @@ export default class Temple extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-
   create(/* data */) {
     window.addEventListener('resize', resize);
     resize();
 
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
-    
+
+    // background image
     this.add.image(x, y, 'temple');
 
-    this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
-    this.woodzombie = this.add.sprite(800, 400, 'woodzombie', 'idle001.png');
+    // Section VERY IMPORTANT******
+    this.section = 1;
 
+  // emitter0.explode(); turns particle emitter off
+  // DEFEND
+    this.emitterBlue = this.add.particles('blue').createEmitter({
+      x: 150,
+      y: 240,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      // frequency of -1 turns it off
+      frequency: -1,
+      lifespan: 300
+      // gravityY: 800
+    });
+    // ENEMY RAGE
+    this.emitterRed = this.add.particles('red').createEmitter({
+      x: 490,
+      y: 240,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      frequency: -1,
+      lifespan: 300
+    });
+    // POTION
+    this.emitterGreen = this.add.particles('green').createEmitter({
+      x: 150,
+      y: 240,
+      speed: { min: -100, max: 100 },
+      angle: { min: 0, max: 360 },
+      scale: { start: 2, end: 1 },
+      blendMode: 'SCREEN',
+      frequency: -1,
+      lifespan: 300
+    });
+    
+    // Adding Sprites
+    this.player = this.add.sprite(-150, 240, this.char, 'idle001.png');
+    this.weapon = this.add.image(210, 260, this.weap);
+    this.weapon.visible = false;
+    this.woodzombie = this.add.sprite(800, 240, 'woodombie', 'idle001.png');
+
+    // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
 
-    this.styledbox = this.add.image(0, 0, 'textbox');
+    // All Audio
+    this.noise = this.sound.add(this.noises);
+    this.stab = this.sound.add('stab');
+    this.heal = this.sound.add('heal', { volume: 0.5 });
+    this.shield = this.sound.add('shield', { volume: 0.5 });
+    this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
+    this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
-    this.section = 1;
+
+    // Keypress Variables
     this.keySpace = true;
-    this.keyA = false;
+    this.keyEnter = true;
+    this.arrows = false;
 
-
-    // let text = this.add.text(x, y, 'TESTING PLS');
+    // Narration text and associated textbox
+    this.textbox = this.add.image(0, 0, 'textbox');
     this.currentDialogue = this.dialogue.temple.pentertemple;
-    this.text = this.add.text(x, 150, this.currentDialogue[0], {
+    this.text = this.add.text(x, 400, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
-
-
-    this.container = this.add.container(x, 150, this.styledbox);
+    this.container = this.add.container(x, 400, this.textbox);
     this.container.setSize(400, 100);
+
+    // BATTLE MENU UI
+    // this.menubox = this.add.image(325, 333, 'menubox');
+    this.menubox = this.add.image(x, 420, 'battlemenu');
+    this.menu = this.add.container();
+    this.actionsMenu = new Menu(this, x, 355);
+    this.enemyHP = this.add.text(500, 400, '100', { fontSize: 40 });
+    this.enemyHP.setOrigin(0.5, 0.5);
+    this.playerHP = this.add.text(150, 400, '100', { fontSize: 40 });
+    this.playerHP.setOrigin(0.5, 0.5);
+    this.menu.setSize(120, 140);
+    this.menu.add(this.menubox);
+    this.menu.add(this.actionsMenu);
+    this.menu.add(this.enemyHP);
+    this.menu.add(this.playerHP);
+    this.menu.visible = false;
+
+    this.input.keyboard.on('keydown', this.onKeyInput, this);
 
     // TWEENS
 
     // tween to make player walk in to scene
-    this.hgWalkOn = this.tweens.add({
-      targets: this.hoodgirl,
+    this.pWalkOn = this.tweens.add({
+      targets: this.player,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -79,11 +153,72 @@ export default class Temple extends Phaser.Scene {
       paused: true
     });
 
+    // tween to make player walk off scene
+    this.pWalkOff = this.tweens.add({
+      targets: this.player,
+      x: 700,
+      ease: 'power1',
+      duration: 2200,
+      repeat: 0,
+      paused: true
+      });
 
+    // run attack
+    this.pRunAttack = this.tweens.add({
+      targets: this.player,
+      x: 250,
+      ease: 'power1',
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
+    
+    // weapon being thrown
+    this.weaponThrow = this.tweens.add({
+      targets: this.weapon,
+      x: 450,
+      ease: 'power1',
+      angle: 360,
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
 
-    // DEFINING ANIMATIONS
+    // zombie walks in to scene
+    this.wzWalkOn = this.tweens.add({
+      targets: this.woodzombie,
+      x: 475,
+      ease: 'power1',
+      duration: 2500,
+      repeat: 0,
+      paused: true
+    });
 
-    // Woodzombie Animations
+    // player moves back on evade, use pevade.restart() to play
+    this.pEvade = this.tweens.add({
+      targets: this.player,
+      x: 125,
+      ease: 'power1',
+      duration: 300,
+      paused: true, // won't play on page load
+      yoyo: true // player will move to x: 160 and then move back to starting point
+    });
+
+    // zombie moves back on evade, use wzevade.restart() to play
+    this.wzEvade = this.tweens.add({
+      targets: this.woodzombie,
+      x: 640,
+      ease: 'power1',
+      duration: 300,
+      paused: true,
+      yoyo: true
+    });
+
+    // DEFINING ANIMATIONS    
+    
+    // Woodzombie animations:
+
+    // woodzombie idle infinite loop
     this.anims.create({
       key: 'wzidle',
       frames: this.anims.generateFrameNames('woodzombie', {
@@ -92,15 +227,147 @@ export default class Temple extends Phaser.Scene {
         start: 1,
         end: 12
       }),
-      frameRate: 20,
+      frameRate: 10,
       repeat: -1
     });
 
-    // CALLING ANIMATIONS
-
-    this.hoodgirl.on('animationcomplete', () => {
-      this.hoodgirl.play('hgidle');
+    // woodzombie walking loops twice
+    this.anims.create({
+      key: 'wzwalking',
+      frames: this.anims.generateFrameNames('woodzombie', {
+        prefix: 'walking00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 20,
+      repeat: 2
     });
+
+    // woodzombie attack once
+    this.anims.create({
+      key: 'wzattack',
+      frames: this.anims.generateFrameNames('woodzombie', {
+        prefix: 'attack00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // woodzombie hurt once
+    this.anims.create({
+      key: 'wzhurt',
+      frames: this.anims.generateFrameNames('woodzombie', {
+        prefix: 'hurt00',
+        suffix: '.png',
+        start: 1,
+        end: 12
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // woodzombie dying once
+    this.anims.create({
+      key: 'wzdying',
+      frames: this.anims.generateFrameNames('woodzombie', {
+        prefix: 'dying00',
+        suffix: '.png',
+        start: 1,
+        end: 15
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+
+    // woodzombie evade running (just duplicate of walking with repeat 0)
+    this.anims.create({
+      key: 'wzrunning',
+      frames: this.anims.generateFrameNames('woodzombie', {
+        prefix: 'walking00',
+        suffix: '.png',
+        start: 1,
+        end: 18
+      }),
+      frameRate: 30,
+      repeat: 0
+    });
+
+    // ANIMATION EVENTS
+    
+    this.player.on('animationcomplete', () => {
+      if (this.player.anims.currentAnim.key === 'pdying') {
+        this.player.anims.pause();
+        setTimeout(() => {
+        this.rhythmloop.stop();
+        this.scene.start('Gameover', { currentScene: 'Temple' });
+      }, 2000);
+      } else {
+        this.player.play('pidle');
+      }
+    });
+
+    this.player.on('animationstart', () => {
+      if (this.player.anims.currentAnim.key === 'pattack') {
+        this.noise.play();
+      }
+    });
+
+    this.player.on('animationupdate', () => {
+      if (this.player.anims.currentAnim.key === 'pthrow' && this.player.anims.currentFrame.index === 3) {
+        this.weapon.visible = true;
+        this.weaponThrow.restart();
+        setTimeout(() => {
+          this.noise.play();
+        }, 100);
+        setTimeout(() => {
+          this.weapon.visible = false;
+        }, 600);
+      }
+      if (this.player.anims.currentAnim.key === 'prunattack' && this.player.anims.currentFrame.index === 3) {
+        this.noise.play();
+      }
+    });
+
+
+    this.woodzombie.on('animationstart', () => {
+      if (this.woodzombie.anims.currentAnim.key === 'wzattack') {
+        setTimeout(() => {
+          this.stab.play();
+        }, 100);
+      }
+    });
+
+    this.woodzombie.on('animationcomplete', () => {
+      switch(this.woodzombie.anims.currentAnim.key) {
+        case 'wzwalking':
+          this.woodzombie.play('wzidle');
+          this.arrows = true;
+          this.menu.visible = true;
+          break;
+        case 'wzdying':
+          this.woodzombie.anims.pause();
+          this.menu.visible = false;
+          this.currentDialogue = this.dialogue.temple.afterzombiedies;
+          this.turnOn();
+          this.pWalkOff.restart();
+          this.player.anims.play('pwalking', true);
+          setTimeout(() => {
+          this.rhythmloop.stop();
+          this.scene.start('Town');
+          }, 3000);
+          break;
+        case 'wzattack':
+          this.woodzombie.play('wzidle');
+          this.keyEnter = true;
+          break;
+        default: 
+          this.woodzombie.play('wzidle');
+      }
+    });    
 
   }
 
@@ -115,56 +382,82 @@ export default class Temple extends Phaser.Scene {
     const space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
+
       if (this.currentDialogue[i] !== undefined) {
-        this.text.setText(this.currentDialogue[i]);
+        this.text.setText(this.currentDialogue[i].text);
         i++;
       } else {
         switch(this.section) {
         case 1:
-          this.hoodgirl.anims.play('hgwalking', true);
-          this.hgWalkOn.restart();
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
-          this.currentDialogue = this.dialogue.temple.pentertemple;
+          this.turnOn();
+          this.currentDialogue = this.dialogue.temple.startnarration;
+          i = 1;
+          this.turnOff();
+          this.player.anims.play('pwalking', true);
+          this.pWalkOn.restart();
+          this.section = 2;
           setTimeout(() => {
-            this.child.anims.play('cwalking', true);
-            this.cWalkOn.restart();
-            i = 1;
-            this.keySpace = true;
-            this.container.visible = true;
-            this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
-            this.section = 2;
+            this.currentDialogue = this.dialogue.temple.startnarration;
+            this.turnOn();
           } ,2700);
           break;
         case 2:
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
-          this.currentDialogue = this.dialogue.house.dialogue;
-          i = 1;
-          setTimeout(() => {
-            this.keySpace = true;
-            this.container.visible = true;
-            this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
-            this.section = 3;
-          }, 2000);
+        this.turnOff();
+        this.dangerstinger.play();
+        this.woodzombie.anims.play('wzwalking', true);
+        this.wzWalkOn.restart();
+        setTimeout(() => {
+          this.rhythmloop.play();
+        }, 15500);
           break;
-          case 3:
-          this.keySpace = false;
-          this.keyA = true;
-          this.container.visible = false;
-          this.text.visible = false;
-          this.keySpace = true;
-          setTimeout(() => {
-            this.scene.start('Cave');
-          }, 2000); 
+        case 3:
+          // if (this.farmzombie.anims.currentAnim.key === 'pdying') {
+          //   this.section = 4;
+          // }
+          break;
+        case 4:
+          // add case 4 stuff here
+          // this.menu.visible = false;
+          // this.currentDialogue = this.dialogue.woods.afterzombiedies;
+          // this.turnOn();
+          // this.rhythmloop.stop();
+          // this.pWalkOff.restart();
+          // this.player.anims.play('pwalking', true);
+          // setTimeout(() => {
+          // this.scene.start('Town');
+          // }, 3000);
+          break;
         }
       }
     }
   }
+
+  onKeyInput(event) {
+    if (this.arrows) {
+      if (event.code === 'ArrowUp') {
+        this.actionsMenu.moveSelectionUp();
+      } else if (event.code === 'ArrowDown') {
+        this.actionsMenu.moveSelectionDown();
+      } else if (event.code === 'Enter' && this.keyEnter) {
+        this.actionsMenu.confirm();
+      }
+    }
+  }
+
+  turnOff() {
+    this.keySpace = false;
+    this.container.visible = false;
+    this.text.visible = false;
+  }
+
+  turnOn() {
+    i = 1;
+    this.keySpace = true;
+    this.container.visible = true;
+    this.text.visible = true;
+    this.text.setText(this.currentDialogue[0].text);
+  }
+
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
    *

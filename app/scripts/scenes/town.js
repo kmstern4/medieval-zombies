@@ -21,6 +21,7 @@ export default class Town extends Phaser.Scene {
     this.weap = data.weap;
     this.noises = data.noises;
     this.head = data.head;
+    this.zombie = data.zombie;
   }
 
   /**
@@ -55,6 +56,10 @@ export default class Town extends Phaser.Scene {
 
     // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
+
+    // Audio from previous scene - making sure when killing zombie upon "retry" music doesn't cont. 
+    // over to this scene
+    this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
     // Keypress Variables
     this.keySpace = true;
@@ -119,6 +124,7 @@ export default class Town extends Phaser.Scene {
       } else {
         switch(this.section) {
         case 1:
+          this.rhythmloop.stop();
           this.turnOn();
           this.currentDialogue = this.dialogue.town.startnarration;
           i = 1;
@@ -126,7 +132,6 @@ export default class Town extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
           this.section = 2;
-          console.log(this.section);
           setTimeout(() => {
             this.currentDialogue = this.dialogue.town.entertown;
             this.turnOn();
@@ -139,7 +144,7 @@ export default class Town extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           this.pWalkOff.restart();
           setTimeout(() => {
-          this.scene.start('House');
+          this.scene.start('Temple', { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: this.zombie });
           } ,2700);
           break;
         }

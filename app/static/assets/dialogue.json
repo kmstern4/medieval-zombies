@@ -184,11 +184,15 @@
             {
                 "text": "Immediately catching your eye, you see a zombie shambling through the pews.",
                 "char": "narration"
-            },
+            }
+        ],
+        "zentertemple": [
             {
                 "text": "It notices you too and begins to attack.",
                 "char": "narration"
-            },
+            }
+        ],
+        "afterzombiedies": [
             {
                 "text": "The zombie falls over motionless. As you search the body you notice writing on the zombies clothing.",
                 "char": "narration"
