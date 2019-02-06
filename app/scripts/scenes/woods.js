@@ -56,7 +56,7 @@ export default class Woods extends Phaser.Scene {
   // DEFEND
     this.emitterBlue = this.add.particles('blue').createEmitter({
       x: 150,
-      y: 400,
+      y: 240,
       speed: { min: -100, max: 100 },
       angle: { min: 0, max: 360 },
       scale: { start: 2, end: 1 },
@@ -69,7 +69,7 @@ export default class Woods extends Phaser.Scene {
     // ENEMY RAGE
     this.emitterRed = this.add.particles('red').createEmitter({
       x: 490,
-      y: 400,
+      y: 240,
       speed: { min: -100, max: 100 },
       angle: { min: 0, max: 360 },
       scale: { start: 2, end: 1 },
@@ -80,7 +80,7 @@ export default class Woods extends Phaser.Scene {
     // POTION
     this.emitterGreen = this.add.particles('green').createEmitter({
       x: 150,
-      y: 400,
+      y: 240,
       speed: { min: -100, max: 100 },
       angle: { min: 0, max: 360 },
       scale: { start: 2, end: 1 },
@@ -90,11 +90,11 @@ export default class Woods extends Phaser.Scene {
     });
     
     // Adding Sprites
-    this.player = this.add.sprite(-150, 400, this.char, 'idle001.png');
-    this.weapon = this.add.image(210, 420, this.weap);
+    this.player = this.add.sprite(-150, 240, this.char, 'idle001.png');
+    this.weapon = this.add.image(210, 260, this.weap);
     this.weapon.visible = false;
-    this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
-    this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
+    this.oldman = this.add.sprite(800, 240, 'oldman', 'idle001.png');
+    this.farmzombie = this.add.sprite(800, 240, 'farmzombie', 'idle001.png');
 
     // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
@@ -116,18 +116,18 @@ export default class Woods extends Phaser.Scene {
     // Narration text and associated textbox
     this.textbox = this.add.image(0, 0, 'textbox');
     this.currentDialogue = this.dialogue.woods.startnarration;
-    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
-      wordWrap: { width: 300 }
+    this.text = this.add.text(x, 400, this.currentDialogue[0].text, {
+      wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
-    this.phead = this.add.image(130, 150, this.head);
+    this.phead = this.add.image(160, 400, this.head);
     this.phead.setDepth(1);
     this.phead.visible = false;
-    this.omhead = this.add.image(130, 150, 'omhead');
+    this.omhead = this.add.image(160, 400, 'omhead');
     this.omhead.setDepth(1);
     this.omhead.visible = false;
-    this.container = this.add.container(x, 150, this.textbox);
+    this.container = this.add.container(x, 400, this.textbox);
     this.container.setSize(400, 100);
 
     // BATTLE MENU UI
@@ -439,6 +439,8 @@ export default class Woods extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
           this.currentDialogue = this.dialogue.woods.dialogue;
+          this.text.style.wordWrapWidth = 320;
+          this.text.setX(360);
           setTimeout(() => {
             this.turnOn();
             this.omhead.visible = true;
@@ -447,6 +449,8 @@ export default class Woods extends Phaser.Scene {
           break;
         case 2:
           this.turnOff();
+          this.text.style.wordWrapWidth = 390;
+          this.text.setX(320);
           this.omhead.visible = false;
           this.omRunOff.restart();
           this.oldman.anims.play('omrunning', true);
