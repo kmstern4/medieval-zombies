@@ -162,6 +162,16 @@ export default class Woods extends Phaser.Scene {
       paused: true
     });
 
+    // tween to make player walk off scene
+    this.pWalkOff = this.tweens.add({
+      targets: this.player,
+      x: 700,
+      ease: 'power1',
+      duration: 2200,
+      repeat: 0,
+      paused: true
+      });
+
     // run attack
     this.pRunAttack = this.tweens.add({
       targets: this.player,
@@ -352,6 +362,7 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
         setTimeout(() => {
+        this.rhythmloop.stop();
         this.scene.start('Gameover', { currentScene: 'Woods' });
       }, 2000);
       } else {
@@ -403,8 +414,15 @@ export default class Woods extends Phaser.Scene {
           break;
         case 'fzdying':
           this.farmzombie.anims.pause();
-          this.currentDialogue = dialogue.woods.afterzombiedies[0].text;
+          this.menu.visible = false;
+          this.currentDialogue = this.dialogue.woods.afterzombiedies;
           this.turnOn();
+          this.pWalkOff.restart();
+          this.player.anims.play('pwalking', true);
+          setTimeout(() => {
+          this.rhythmloop.stop();
+          this.scene.start('Town');
+          }, 3000);
           break;
         case 'fzattack':
           this.farmzombie.play('fzidle');
@@ -478,12 +496,23 @@ export default class Woods extends Phaser.Scene {
           this.farmzombie.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
           setTimeout(() => {
-            this.section = 4;
             this.rhythmloop.play();
           }, 15500);
+          // if (this.farmzombie.anims.currentAnim.key === 'pdying') {
+          //   this.section = 4;
+          // }
           break;
         case 4:
           // add case 4 stuff here
+          // this.menu.visible = false;
+          // this.currentDialogue = this.dialogue.woods.afterzombiedies;
+          // this.turnOn();
+          // this.rhythmloop.stop();
+          // this.pWalkOff.restart();
+          // this.player.anims.play('pwalking', true);
+          // setTimeout(() => {
+          // this.scene.start('Town');
+          // }, 3000);
           break;
         }
       }
