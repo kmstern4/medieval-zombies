@@ -48,7 +48,8 @@ export default class Menu extends Phaser.GameObjects.Container {
   }
 
   addMenuItem(unit) {
-    var menuItem = new MenuItem(this.scene, 0, this.menuItems.length * 20, unit);
+    var menuItem = new MenuItem(this.scene, 0, this.menuItems.length * 27, unit);
+    menuItem.setOrigin(0.5, 0.5);
     this.menuItems.push(menuItem);
     this.add(menuItem);
   }
@@ -195,8 +196,6 @@ export default class Menu extends Phaser.GameObjects.Container {
     player.attackCounter += 1;
     player.stunCd += 1;
     this.scene.player.anims.play('pthrow', true);
-    this.scene.weapon.visible = true;
-    this.scene.weaponThrow.restart();
     setTimeout(() => {
       this.scene.weapon.visible = false;
     }, 600);

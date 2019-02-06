@@ -10,7 +10,7 @@ export default class MenuItem extends Phaser.GameObjects.Text {
    *  @param {number} y - The vertical coordinate relative to the scene viewport.
    */
   constructor(scene, x, y, text) {
-    super(scene, x, y, text, { color: '#ffffff', align: 'left', fontSize: 15 });
+    super(scene, x, y, text, { color: '#ffffff', align: 'left', fontSize: 20 });
 
 
     //  Add this game object to the owner scene.

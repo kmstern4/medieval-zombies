@@ -131,9 +131,10 @@ export default class Woods extends Phaser.Scene {
     this.container.setSize(400, 100);
 
     // BATTLE MENU UI
-    this.menubox = this.add.image(325, 333, 'menubox');
+    // this.menubox = this.add.image(325, 333, 'menubox');
+    this.menubox = this.add.image(x, 420, 'battlemenu');
     this.menu = this.add.container();
-    this.actionsMenu = new Menu(this, 262, 306);
+    this.actionsMenu = new Menu(this, x, 355);
     this.menu.setSize(120, 140);
     this.menu.add(this.menubox);
     this.menu.add(this.actionsMenu);
@@ -426,6 +427,7 @@ export default class Woods extends Phaser.Scene {
         this.text.setText(this.currentDialogue[i].text);
         // write code here for head animation for dialogue
         if (this.currentDialogue[i].char === 'hero') {
+          console.log(this.text);
           this.phead.visible = true;
           this.omhead.visible = false;
         } else if (this.currentDialogue[i].char === 'oldman') {
