@@ -283,7 +283,7 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.scene.farmzombie.anims.play('fzdying', true)
       }, 200);
     } else {
-      if (player.attackCounter === 3) {
+      if (player.attackCounter >= 3) {
         this.specialAttack();
       } else {
         this.scene.farmzombie.anims.play('fzattack', true);
