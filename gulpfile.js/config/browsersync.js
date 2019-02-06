@@ -14,6 +14,7 @@ module.exports = {
   ui: false,
   notify: false,
   ghostMode: false,
+  open: false,
   server: {
     baseDir: [dirs.static]
   },
