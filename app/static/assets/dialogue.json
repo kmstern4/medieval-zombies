@@ -90,13 +90,13 @@
             {
                 "text": "As you enter the town you notice the poor conditions all around.",
                 "char": "narration"
-            }
-        ],
-        "entertown": [
+            },
             {
                 "text": "Zombies and villagers alike litter the ground and only three structures remain standing.",
                 "char": "narration"
-            },
+            }
+        ],
+        "entertown": [
             {
                 "text": "You slowly enter the house ready for anything.",
                 "char": "narration"
