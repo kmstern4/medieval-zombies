@@ -23,6 +23,7 @@ export default class Woods extends Phaser.Scene {
     this.weap = data.weap;
     this.noises = data.noises;
     this.head = data.head;
+    this.zombie = data.zombie;
   }
 
   /**
@@ -94,7 +95,7 @@ export default class Woods extends Phaser.Scene {
     this.weapon = this.add.image(210, 260, this.weap);
     this.weapon.visible = false;
     this.oldman = this.add.sprite(800, 240, 'oldman', 'idle001.png');
-    this.farmzombie = this.add.sprite(800, 240, 'farmzombie', 'idle001.png');
+    this.enemy = this.add.sprite(800, 240, this.zombie, 'idle001.png');
 
     // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
@@ -129,6 +130,15 @@ export default class Woods extends Phaser.Scene {
     this.omhead.visible = false;
     this.container = this.add.container(x, 400, this.textbox);
     this.container.setSize(400, 100);
+
+    // Hit Text
+    this.ptext = this.add.text(200, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
+    this.ptext.setOrigin(0.5, 0.5);
+    this.ptext.setAlpha(0);
+    console.log(this.ptext);
+    this.ztext = this.add.text(435, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
+    this.ztext.setOrigin(0.5, 0.5);
+    this.ztext.setAlpha(0);
 
     // BATTLE MENU UI
     // this.menubox = this.add.image(325, 333, 'menubox');
@@ -216,7 +226,7 @@ export default class Woods extends Phaser.Scene {
 
     // zombie walks in to scene
     this.fzWalkOn = this.tweens.add({
-      targets: this.farmzombie,
+      targets: this.enemy,
       x: 475,
       ease: 'power1',
       duration: 2500,
@@ -236,13 +246,82 @@ export default class Woods extends Phaser.Scene {
 
     // zombie moves back on evade, use fzevade.restart() to play
     this.fzEvade = this.tweens.add({
-      targets: this.farmzombie,
+      targets: this.enemy,
       x: 640,
       ease: 'power1',
       duration: 300,
       paused: true,
       yoyo: true
     });
+
+    // HIT TEXT TWEENS
+    // 200, 170        435, 170
+
+    this.pHitText = this.tweens.createTimeline();
+    
+    this.pHitText.add({
+      targets: this.ptext,
+      ease: 'Power1',
+      x: 205,
+      y: 165,
+      alpha: 1,
+      duration: 300
+    });
+
+    this.pHitText.add({
+      targets: this.ptext,
+      ease: 'Power1',
+      x: 215,
+      y: 155,
+      duration: 300,
+    });
+    this.pHitText.add({
+      targets: this.ptext,
+      ease: 'Power1',
+      alpha: 0,
+      duration: 300
+    });
+    console.log(this.pHitText);
+
+
+
+    // player hit text fade in
+    this.pAlphaUp = this.tweens.add({
+      targets: this.ptext,
+      duration: 300,
+      alpha: 1,
+      paused: true,
+      delay: 100
+    });
+
+    // player hit text fade out
+    this.pAlphaDown = this.tweens.add({
+      targets: this.ptext,
+      duration: 300,
+      delay: 700,
+      alpha: 0,
+      paused: true
+    });
+
+    // zombie hit text fade in
+    this.zAlphaUp = this.tweens.add({
+      targets: this.ztext,
+      duration: 300,
+      alpha: 1,
+      paused: true,
+      delay: 100
+    });
+
+    // zombie hit text fade out
+    this.zAlphaDown = this.tweens.add({
+      targets: this.ztext,
+      duration: 300,
+      delay: 700,
+      alpha: 0,
+      paused: true
+    });
+
+
 
     // DEFINING ANIMATIONS    
     
@@ -278,7 +357,7 @@ export default class Woods extends Phaser.Scene {
     // farmzombie idle infinite loop
     this.anims.create({
       key: 'fzidle',
-      frames: this.anims.generateFrameNames('farmzombie', {
+      frames: this.anims.generateFrameNames(this.zombie, {
         prefix: 'idle00',
         suffix: '.png',
         start: 1,
@@ -291,7 +370,7 @@ export default class Woods extends Phaser.Scene {
     // farmzombie walking loops twice
     this.anims.create({
       key: 'fzwalking',
-      frames: this.anims.generateFrameNames('farmzombie', {
+      frames: this.anims.generateFrameNames(this.zombie, {
         prefix: 'walking00',
         suffix: '.png',
         start: 1,
@@ -304,7 +383,7 @@ export default class Woods extends Phaser.Scene {
     // farmzombie attack once
     this.anims.create({
       key: 'fzattack',
-      frames: this.anims.generateFrameNames('farmzombie', {
+      frames: this.anims.generateFrameNames(this.zombie, {
         prefix: 'attack00',
         suffix: '.png',
         start: 1,
@@ -317,7 +396,7 @@ export default class Woods extends Phaser.Scene {
     // farmzombie hurt once
     this.anims.create({
       key: 'fzhurt',
-      frames: this.anims.generateFrameNames('farmzombie', {
+      frames: this.anims.generateFrameNames(this.zombie, {
         prefix: 'hurt00',
         suffix: '.png',
         start: 1,
@@ -330,7 +409,7 @@ export default class Woods extends Phaser.Scene {
     // farmzombie dying once
     this.anims.create({
       key: 'fzdying',
-      frames: this.anims.generateFrameNames('farmzombie', {
+      frames: this.anims.generateFrameNames(this.zombie, {
         prefix: 'dying00',
         suffix: '.png',
         start: 1,
@@ -343,7 +422,7 @@ export default class Woods extends Phaser.Scene {
     // farmzombie evade running (just duplicate of walking with repeat 0)
     this.anims.create({
       key: 'fzrunning',
-      frames: this.anims.generateFrameNames('farmzombie', {
+      frames: this.anims.generateFrameNames(this.zombie, {
         prefix: 'walking00',
         suffix: '.png',
         start: 1,
@@ -374,6 +453,14 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'pattack') {
         this.noise.play();
       }
+      if (this.player.anims.currentAnim.key === 'phurt') {
+        this.pHitText.play();
+        console.log(this.pHitText);
+        setTimeout(() => {
+          // this.pHitText.progress = 0;
+          console.log(this.pHitText);
+        }, 1000);
+      }
     });
 
     this.player.on('animationupdate', () => {
@@ -397,23 +484,23 @@ export default class Woods extends Phaser.Scene {
       this.oldman.play('omidle');
     });
 
-    this.farmzombie.on('animationstart', () => {
-      if (this.farmzombie.anims.currentAnim.key === 'fzattack') {
+    this.enemy.on('animationstart', () => {
+      if (this.enemy.anims.currentAnim.key === 'fzattack') {
         setTimeout(() => {
           this.stab.play();
         }, 100);
       }
     });
 
-    this.farmzombie.on('animationcomplete', () => {
-      switch(this.farmzombie.anims.currentAnim.key) {
+    this.enemy.on('animationcomplete', () => {
+      switch(this.enemy.anims.currentAnim.key) {
         case 'fzwalking':
-          this.farmzombie.play('fzidle');
+          this.enemy.play('fzidle');
           this.arrows = true;
           this.menu.visible = true;
           break;
         case 'fzdying':
-          this.farmzombie.anims.pause();
+          this.enemy.anims.pause();
           this.menu.visible = false;
           this.currentDialogue = this.dialogue.woods.afterzombiedies;
           this.turnOn();
@@ -425,11 +512,11 @@ export default class Woods extends Phaser.Scene {
           }, 3000);
           break;
         case 'fzattack':
-          this.farmzombie.play('fzidle');
+          this.enemy.play('fzidle');
           this.keyEnter = true;
           break;
         default: 
-          this.farmzombie.play('fzidle');
+          this.enemy.play('fzidle');
       }
     });    
 
@@ -451,7 +538,6 @@ export default class Woods extends Phaser.Scene {
         this.text.setText(this.currentDialogue[i].text);
         // write code here for head animation for dialogue
         if (this.currentDialogue[i].char === 'hero') {
-          console.log(this.text);
           this.phead.visible = true;
           this.omhead.visible = false;
         } else if (this.currentDialogue[i].char === 'oldman') {
@@ -493,12 +579,12 @@ export default class Woods extends Phaser.Scene {
         case 3:
           this.turnOff();
           this.dangerstinger.play();
-          this.farmzombie.anims.play('fzwalking', true);
+          this.enemy.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
           setTimeout(() => {
             this.rhythmloop.play();
           }, 15500);
-          // if (this.farmzombie.anims.currentAnim.key === 'pdying') {
+          // if (this.enemy.anims.currentAnim.key === 'pdying') {
           //   this.section = 4;
           // }
           break;

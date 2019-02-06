@@ -18,9 +18,6 @@ export default class Town extends Phaser.Scene {
    */
   init(data) {
     this.char = data.char;
-    this.weap = data.weap;
-    this.noises = data.noises;
-    this.head = data.head;
   }
 
   /**
@@ -56,18 +53,22 @@ export default class Town extends Phaser.Scene {
     // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
 
+    this.styledbox = this.add.image(0, 0, 'textbox');
+
+    this.section = 1;
     // Keypress Variables
     this.keySpace = true;
 
-    // Narration text and associated textbox
-    this.textbox = this.add.image(0, 0, 'textbox');
+    // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.town.startnarration;
-    this.text = this.add.text(x, 400, this.currentDialogue[0].text, {
+    this.text = this.add.text(x, 150, this.currentDialogue[0], {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
-    this.container = this.add.container(x, 400, this.textbox);
+
+
+    this.container = this.add.container(x, 150, this.styledbox);
     this.container.setSize(400, 100);
 
     // this.input.keyboard.on('keydown', this.onKeyInput, this);
@@ -75,8 +76,8 @@ export default class Town extends Phaser.Scene {
     // TWEENS
 
     // tween to make player walk in to scene
-    this.pWalkOn = this.tweens.add({
-      targets: this.player,
+    this.hgWalkOn = this.tweens.add({
+      targets: this.hoodgirl,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -84,15 +85,15 @@ export default class Town extends Phaser.Scene {
       paused: true
     });
 
-    // tween to make player walk off scene
-    this.pWalkOff = this.tweens.add({
-      targets: this.player,
+    // tween to make player walk off screen into house
+    this.hgWalkOff = this.tweens.add({
+      targets: this.hoodgirl,
       x: 700,
       ease: 'power1',
       duration: 2200,
       repeat: 0,
       paused: true
-      });
+    });
 
     // ANIMATION EVENTS
 
@@ -145,20 +146,6 @@ export default class Town extends Phaser.Scene {
         }
       }
     }
-  }
-
-  turnOff() {
-    this.keySpace = false;
-    this.container.visible = false;
-    this.text.visible = false;
-  }
-
-  turnOn() {
-    i = 1;
-    this.keySpace = true;
-    this.container.visible = true;
-    this.text.visible = true;
-    this.text.setText(this.currentDialogue[0].text);
   }
 
   render() {

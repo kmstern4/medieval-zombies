@@ -178,6 +178,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     player.stunCd += 1;
     if (evasionGenerate > enemy.evasion) {
       //if the enemy evasion is lower than the threshold calculate normal attack damage
+      this.scene.enemy.anims.play('fzhurt', true)
       setTimeout(() => {
         this.enemyAttack();
       }, 1000);
@@ -202,6 +203,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     player.attackCounter += 1;
     player.stunCd += 1;
     this.scene.player.anims.play('pthrow', true);
+    this.scene.enemy.anims.play('fzhurt', true);
     //calculate the throw attack damage
     enemy.health -= (player.strength / 2);
     setTimeout(() => {
@@ -220,6 +222,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     player.attackCounter += 1;
     this.scene.player.anims.play('prunattack', true);
     this.scene.pRunAttack.restart();
+    this.scene.enemy.anims.play('fzhurt', true);
     var evasionGenerate = Math.floor(Math.random() * 100);
     player.stunCd = 0;
     if (evasionGenerate > enemy.evasion) {
