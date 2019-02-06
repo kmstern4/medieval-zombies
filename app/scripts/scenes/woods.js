@@ -421,7 +421,7 @@ export default class Woods extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           setTimeout(() => {
           this.rhythmloop.stop();
-          this.scene.start('Town');
+          this.scene.start('Town', { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
           }, 3000);
           break;
         case 'fzattack':
