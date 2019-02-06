@@ -135,9 +135,15 @@ export default class Woods extends Phaser.Scene {
     this.menubox = this.add.image(x, 420, 'battlemenu');
     this.menu = this.add.container();
     this.actionsMenu = new Menu(this, x, 355);
+    this.enemyHP = this.add.text(500, 400, '100', { fontSize: 40 });
+    this.enemyHP.setOrigin(0.5, 0.5);
+    this.playerHP = this.add.text(150, 400, '100', { fontSize: 40 });
+    this.playerHP.setOrigin(0.5, 0.5);
     this.menu.setSize(120, 140);
     this.menu.add(this.menubox);
     this.menu.add(this.actionsMenu);
+    this.menu.add(this.enemyHP);
+    this.menu.add(this.playerHP);
     this.menu.visible = false;
 
 
@@ -346,7 +352,7 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
         setTimeout(() => {
-        this.scene.start('Gameover', {currentScene: 'Woods'});
+        this.scene.start('Gameover', { currentScene: 'Woods' });
       }, 2000);
       } else {
         this.player.play('pidle');
@@ -468,12 +474,12 @@ export default class Woods extends Phaser.Scene {
           break;
         case 3:
           this.turnOff();
-          this.dangerstinger.play();
+          // this.dangerstinger.play();
           this.farmzombie.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
           setTimeout(() => {
             this.section = 4;
-            this.rhythmloop.play();
+            // this.rhythmloop.play();
           }, 15500);
           break;
         case 4:

@@ -15,10 +15,6 @@ export default class Gameover extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   init(data) {
-    this.char = data.char;
-    this.weap = data.weap;
-    this.noises = data.noises;
-    this.head = data.head;
     this.currentScene = data.currentScene;
   }
 
@@ -57,8 +53,12 @@ export default class Gameover extends Phaser.Scene {
   labelGO.setOrigin(0.5, 0.5);
   labelGO.setInteractive();
   labelGO.on('pointerup', () => {
-  this.scene.start(this.currentScene);
-  console.log(this.currentScene);
+    const woods = this.scene.get(this.currentScene);
+    console.log(woods);
+    woods.scene.restart();
+    this.scene.sleep();
+  // this.scene.start(this.currentScene);
+  // console.log(this.currentScene);
   });
   }
 
