@@ -184,7 +184,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       }, 1000);
       enemy.health -= player.strength;
       setTimeout(() => {
-        this.scene.farmzombie.anims.play('fzhurt', true)
+        this.scene.enemy.anims.play('fzhurt', true)
         this.scene.enemyHP.setText(enemy.health)
       }, 100);
     } else {
@@ -208,7 +208,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     enemy.health -= (player.strength / 2);
     setTimeout(() => {
       this.scene.enemyHP.setText(enemy.health);
-      this.scene.farmzombie.anims.play('fzhurt', true);
+      this.scene.enemy.anims.play('fzhurt', true);
     }, 300);
     //after the attack is finished the zombie takes its' turn
     setTimeout(() => {
@@ -232,19 +232,19 @@ export default class Menu extends Phaser.GameObjects.Container {
       enemy.stunned = true;
       setTimeout(() => {
         this.scene.enemyHP.setText(enemy.health)
-        this.scene.farmzombie.anims.play('fzhurt', true);
+        this.scene.enemy.anims.play('fzhurt', true);
       }, 100);
       if (enemy.health <= 0) {
         if (enemy.health < 0) {
           enemy.health = 0;
         }
         setTimeout(() => {
-          this.scene.farmzombie.anims.play('fzdying', true)
+          this.scene.enemy.anims.play('fzdying', true)
         }, 200);
       } else if (player.attackCounter === 2) {
         setTimeout(() => {
           this.scene.emitterRed.frequency = 0;
-          this.scene.farmzombie.setTint(0xebc3c1);
+          this.scene.enemy.setTint(0xebc3c1);
         }, 500);
       }
       //stun on cooldown
@@ -313,9 +313,9 @@ export default class Menu extends Phaser.GameObjects.Container {
         enemy.health = 0;
       }
       setTimeout(() => {
-        this.scene.farmzombie.clearTint();
+        this.scene.enemy.clearTint();
         this.scene.emitterRed.frequency = -1;
-        this.scene.farmzombie.anims.play('fzdying', true)
+        this.scene.enemy.anims.play('fzdying', true)
       }, 100);
     } else {
       if (player.attackCounter >= 3) {

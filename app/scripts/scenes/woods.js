@@ -135,7 +135,6 @@ export default class Woods extends Phaser.Scene {
     this.ptext = this.add.text(200, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
     this.ptext.setOrigin(0.5, 0.5);
     this.ptext.setAlpha(0);
-    console.log(this.ptext);
     this.ztext = this.add.text(435, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
     this.ztext.setOrigin(0.5, 0.5);
     this.ztext.setAlpha(0);
@@ -457,7 +456,13 @@ export default class Woods extends Phaser.Scene {
         this.pHitText.play();
         console.log(this.pHitText);
         setTimeout(() => {
-          // this.pHitText.progress = 0;
+          this.pHitText.state = 20;
+          this.pHitText.progress = 0;
+          this.pHitText.totalProgress = 0;
+          this.pHitText.totalDuration = 0;
+          this.pHitText.totalElapsed = 0;
+          this.pHitText.duration = 0;
+          this.pHitText.elapsed = 0;
           console.log(this.pHitText);
         }, 1000);
       }
