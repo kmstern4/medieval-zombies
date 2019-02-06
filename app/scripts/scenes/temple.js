@@ -57,7 +57,7 @@ export default class Temple extends Phaser.Scene {
 
     // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.temple.pentertemple;
-    this.text = this.add.text(x, 150, this.currentDialogue[0], {
+    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
@@ -116,7 +116,7 @@ export default class Temple extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
       if (this.currentDialogue[i] !== undefined) {
-        this.text.setText(this.currentDialogue[i]);
+        this.text.setText(this.currentDialogue[i].text);
         i++;
       } else {
         switch(this.section) {
@@ -134,7 +134,7 @@ export default class Temple extends Phaser.Scene {
             this.keySpace = true;
             this.container.visible = true;
             this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
+            this.text.setText(this.currentDialogue[0].text);
             this.section = 2;
           } ,2700);
           break;
@@ -142,13 +142,13 @@ export default class Temple extends Phaser.Scene {
           this.keySpace = false;
           this.container.visible = false;
           this.text.visible = false;
-          this.currentDialogue = this.dialogue.house.dialogue;
+          this.currentDialogue = this.dialogue.temple.startnarration;
           i = 1;
           setTimeout(() => {
             this.keySpace = true;
             this.container.visible = true;
             this.text.visible = true;
-            this.text.setText(this.currentDialogue[0]);
+            this.text.setText(this.currentDialogue[0].text);
             this.section = 3;
           }, 2000);
           break;
