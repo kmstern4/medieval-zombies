@@ -40,16 +40,30 @@ export default class Town extends Phaser.Scene {
 
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
-    
-    this.add.image(x, y, 'town'); 
 
+<<<<<<< HEAD
     this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
+=======
+    // background image
+    this.add.image(x, y, 'woods');
 
+    // Section VERY IMPORTANT******
+    this.section = 1;
+
+    // Adding Sprites
+    this.player = this.add.sprite(-150, 240, this.char, 'idle001.png');
+>>>>>>> 35b969911881e0b898208dafb32106fdecb65fc0
+
+    // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
 
+<<<<<<< HEAD
     this.styledbox = this.add.image(0, 0, 'textbox');
 
     this.section = 1;
+=======
+    // Keypress Variables
+>>>>>>> 35b969911881e0b898208dafb32106fdecb65fc0
     this.keySpace = true;
 
     // let text = this.add.text(x, y, 'TESTING PLS');
@@ -63,6 +77,8 @@ export default class Town extends Phaser.Scene {
 
     this.container = this.add.container(x, 150, this.styledbox);
     this.container.setSize(400, 100);
+
+    // this.input.keyboard.on('keydown', this.onKeyInput, this);
 
     // TWEENS
 
@@ -86,11 +102,20 @@ export default class Town extends Phaser.Scene {
       paused: true
     });
 
+<<<<<<< HEAD
     // CALLING ANIMATIONS
     this.hoodgirl.on('animationcomplete', () => {
       this.hoodgirl.play('hgidle');
     });
   }
+=======
+    // ANIMATION EVENTS
+
+    this.player.on('animationcomplete', () => {
+        this.player.play('pidle');
+    })
+    };
+>>>>>>> 35b969911881e0b898208dafb32106fdecb65fc0
 
   /**
    *  Handles updates to game logic, physics and game objects.
@@ -103,20 +128,32 @@ export default class Town extends Phaser.Scene {
     const space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
+
       if (this.currentDialogue[i] !== undefined) {
-        this.text.setText(this.currentDialogue[i]);
+        this.text.setText(this.currentDialogue[i].text);
         i++;
       } else {
         switch(this.section) {
         case 1:
+<<<<<<< HEAD
           this.keySpace = false;
           this.container.visible = false;
           this.text.visible = false;
           this.hoodgirl.anims.play('hgwalking', true);
           this.hgWalkOn.restart();
           this.currentDialogue = this.dialogue.town.entertown;
+=======
+          this.turnOn();
+          this.currentDialogue = this.dialogue.town.startnarration;
+>>>>>>> 35b969911881e0b898208dafb32106fdecb65fc0
           i = 1;
+          this.turnOff();
+          this.player.anims.play('pwalking', true);
+          this.pWalkOn.restart();
+          this.section = 2;
+          console.log(this.section);
           setTimeout(() => {
+<<<<<<< HEAD
             this.keySpace = true;
             this.container.visible = true;
             this.text.visible = true;
@@ -131,9 +168,21 @@ export default class Town extends Phaser.Scene {
           // hgwalk off screen
           this.hgWalkOff.restart();
           this.hoodgirl.anims.play('hgwalking', true);
+=======
+            this.currentDialogue = this.dialogue.town.entertown;
+            this.turnOn();
+          } ,2700);
+          break;
+        case 2:
+
+          // i = 1;
+          this.turnOff();
+          this.player.anims.play('pwalking', true);
+          this.pWalkOff.restart();
+>>>>>>> 35b969911881e0b898208dafb32106fdecb65fc0
           setTimeout(() => {
-            this.scene.start('House');
-          }, 2700);
+          this.scene.start('House' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
+          } ,2700);
           break;
         }
       }
