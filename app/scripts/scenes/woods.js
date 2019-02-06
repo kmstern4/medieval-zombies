@@ -474,12 +474,12 @@ export default class Woods extends Phaser.Scene {
           break;
         case 3:
           this.turnOff();
-          // this.dangerstinger.play();
+          this.dangerstinger.play();
           this.farmzombie.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
           setTimeout(() => {
             this.section = 4;
-            // this.rhythmloop.play();
+            this.rhythmloop.play();
           }, 15500);
           break;
         case 4:
