@@ -40,19 +40,11 @@ export default class Gameover extends Phaser.Scene {
   const x = this.cameras.main.width / 2;
   const y = this.cameras.main.height / 2;
 
-  // background image
-  this.add.image(x, y, 'gameover');
+  this.add.image(x, 170, 'youdied');
+  this.retry = this.add.image(x, 340, 'retry');
 
-  const labelGO = this.add.text(x, 200, 'Click here to RETRY', {
-    font: '30px Lucida Console',
-    color: 'green',
-    stroke: 'black',
-    strokeThickness: 6
-  });
-
-  labelGO.setOrigin(0.5, 0.5);
-  labelGO.setInteractive();
-  labelGO.on('pointerup', () => {
+  this.retry.setInteractive();
+  this.retry.on('pointerup', () => {
     const woods = this.scene.get(this.currentScene);
     console.log(woods);
     woods.scene.restart();
