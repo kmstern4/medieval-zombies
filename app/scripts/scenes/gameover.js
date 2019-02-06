@@ -57,7 +57,8 @@ export default class Gameover extends Phaser.Scene {
   labelGO.setOrigin(0.5, 0.5);
   labelGO.setInteractive();
   labelGO.on('pointerup', () => {
-  this.scene.start('Woods');
+  this.scene.start(this.currentScene);
+  console.log(this.currentScene);
   });
   }
 
