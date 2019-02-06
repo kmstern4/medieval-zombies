@@ -196,8 +196,6 @@ export default class Menu extends Phaser.GameObjects.Container {
     player.attackCounter += 1;
     player.stunCd += 1;
     this.scene.player.anims.play('pthrow', true);
-    this.scene.weapon.visible = true;
-    this.scene.weaponThrow.restart();
     setTimeout(() => {
       this.scene.weapon.visible = false;
     }, 600);
