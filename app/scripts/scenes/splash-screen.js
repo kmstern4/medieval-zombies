@@ -40,7 +40,6 @@ export default class SplashScreen extends Phaser.Scene {
       .image('textbox')
       .image('menubox')
       .image('arrow')
-      // .image('woods', 'forest.png')
       .image('woods', 'woods.png')
       .image('town', 'town.png')
       .image('house', 'house.png')
@@ -55,7 +54,10 @@ export default class SplashScreen extends Phaser.Scene {
       .image('blue', 'blue.png')
       .image('green', 'green.png')
       .image('stick')
-      .image('sword');
+      .image('sword')
+      .image('titletext')
+      .image('start')
+      .image('choose');
 
 
     this.load.json('dialogue');
@@ -86,7 +88,7 @@ export default class SplashScreen extends Phaser.Scene {
    */
   create() {
     //  We have nothing left to do here. Start the next scene.
-    this.scene.start('Title');
+    this.scene.start('TestTitle');
   }
 
   //  ------------------------------------------------------------------------
