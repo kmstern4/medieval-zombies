@@ -125,24 +125,22 @@ export default class Town extends Phaser.Scene {
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
+          this.section = 2;
+          console.log(this.section);
           setTimeout(() => {
-            this.section = 2;
+            this.currentDialogue = this.dialogue.town.entertown;
+            this.turnOn();
           } ,2700);
           break;
         case 2:
-          this.turnOn();
-          this.currentDialogue = this.dialogue.town.entertown;
-          i = 1;
+
+          // i = 1;
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOff.restart();
           setTimeout(() => {
-            this.section = 3;
+          this.scene.start('House');
           } ,2700);
-        case 3:
-          setTimeout(() => {
-            this.scene.start('House');
-          }, 1000);
           break;
         }
       }
