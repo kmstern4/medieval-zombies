@@ -43,13 +43,14 @@ export default class Woods extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
-    console.log(this.head);
-    console.log(this.noises);
-
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
+    // background image
     this.add.image(x, y, 'woods');
+
+    // Section VERY IMPORTANT******
+    this.section = 1;
 
   // emitter0.explode(); turns particle emitter off
   // DEFEND
@@ -88,17 +89,17 @@ export default class Woods extends Phaser.Scene {
       lifespan: 300
     });
     
-
+    // Adding Sprites
     this.player = this.add.sprite(-150, 400, this.char, 'idle001.png');
     this.weapon = this.add.image(210, 420, this.weap);
     this.weapon.visible = false;
     this.oldman = this.add.sprite(800, 400, 'oldman', 'idle001.png');
     this.farmzombie = this.add.sprite(800, 400, 'farmzombie', 'idle001.png');
 
+    // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
 
-    this.textbox = this.add.image(0, 0, 'textbox');
-
+    // All Audio
     this.noise = this.sound.add(this.noises);
     this.stab = this.sound.add('stab');
     this.heal = this.sound.add('heal', { volume: 0.5 });
@@ -106,27 +107,26 @@ export default class Woods extends Phaser.Scene {
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
 
-    this.section = 1;
+
+    // Keypress Variables
     this.keySpace = true;
     this.keyEnter = true;
+    this.arrows = false;
 
-    // let text = this.add.text(x, y, 'TESTING PLS');
+    // Narration text and associated textbox
+    this.textbox = this.add.image(0, 0, 'textbox');
     this.currentDialogue = this.dialogue.woods.startnarration;
     this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
       wordWrap: { width: 300 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
-
     this.phead = this.add.image(130, 150, this.head);
     this.phead.setDepth(1);
     this.phead.visible = false;
-
     this.omhead = this.add.image(130, 150, 'omhead');
     this.omhead.setDepth(1);
     this.omhead.visible = false;
-
-
     this.container = this.add.container(x, 150, this.textbox);
     this.container.setSize(400, 100);
 
@@ -134,12 +134,9 @@ export default class Woods extends Phaser.Scene {
     this.menubox = this.add.image(325, 333, 'menubox');
     this.menu = this.add.container();
     this.actionsMenu = new Menu(this, 262, 306);
-    this.arrows = false;
-
     this.menu.setSize(120, 140);
     this.menu.add(this.menubox);
     this.menu.add(this.actionsMenu);
-
     this.menu.visible = false;
 
 
