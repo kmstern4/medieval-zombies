@@ -131,11 +131,12 @@ export default class Woods extends Phaser.Scene {
     this.container.setSize(400, 100);
 
     // BATTLE MENU UI
-    this.menubox = this.add.image(325, 333, 'menubox');
+    // this.menubox = this.add.image(325, 333, 'menubox');
+    this.menubox = this.add.image(x, 400, 'battlemenu');
     this.menu = this.add.container();
-    this.actionsMenu = new Menu(this, x, y);
+    this.actionsMenu = new Menu(this, x, 350);
     this.menu.setSize(120, 140);
-    this.menu.add(this.menubox);
+    // this.menu.add(this.menubox);
     this.menu.add(this.actionsMenu);
     this.menu.visible = false;
 
