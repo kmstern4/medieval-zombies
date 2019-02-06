@@ -106,7 +106,7 @@
     "house": {
         "penterhouse": [
             {
-                "text": "It's nearly silent save for some rustling at the back of the house.",
+                "text": "It's nearly silent except for some rustling at the back of the house.",
                 "char": "narration"
             }
         ],
@@ -130,7 +130,7 @@
                 "char": "hero"
             },
             {
-                "text": "'My grandpa just ran off, i'm all alone.'",
+                "text": "'My grandpa just ran off, I'm all alone.'",
                 "char": "child"
             },
             {
@@ -146,7 +146,7 @@
                 "char": "hero"
             },
             {
-                "text": "'I just ran and hid, i'm so scared.'",
+                "text": "'I just ran and hid, I'm so scared.'",
                 "char": "child"
             }
         ]
