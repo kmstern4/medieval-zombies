@@ -1,4 +1,4 @@
-let i =1;
+let i = 1;
 
 export default class House extends Phaser.Scene {
   /**
@@ -7,7 +7,7 @@ export default class House extends Phaser.Scene {
    *  @extends Phaser.Scene
    */
   constructor() {
-    super({key: 'House'});
+    super({ key: 'House' });
   }
 
   /**
@@ -43,7 +43,7 @@ export default class House extends Phaser.Scene {
 
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
-    
+
     this.add.image(x, y, 'house');
 
     this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
@@ -160,25 +160,25 @@ export default class House extends Phaser.Scene {
         }
         i++;
       } else {
-        switch(this.section) {
-        case 1:
-          this.hoodgirl.anims.play('hgwalking', true);
-          this.hgWalkOn.restart();
-          this.keySpace = false;
-          this.container.visible = false;
-          this.text.visible = false;
-          this.currentDialogue = this.dialogue.house.childenterhouse;
-          setTimeout(() => {
-            this.child.anims.play('cwalking', true);
-            this.cWalkOn.restart();
-            i = 1;
-            this.keySpace = true;
-            this.container.visible = true;
-            this.text.visible = true;
-            this.text.setText(this.currentDialogue[0].text);
-            this.section = 2;
-          } ,2700);
-          break;
+        switch (this.section) {
+          case 1:
+            this.hoodgirl.anims.play('hgwalking', true);
+            this.hgWalkOn.restart();
+            this.keySpace = false;
+            this.container.visible = false;
+            this.text.visible = false;
+            this.currentDialogue = this.dialogue.house.childenterhouse;
+            setTimeout(() => {
+              this.child.anims.play('cwalking', true);
+              this.cWalkOn.restart();
+              i = 1;
+              this.keySpace = true;
+              this.container.visible = true;
+              this.text.visible = true;
+              this.text.setText(this.currentDialogue[0].text);
+              this.section = 2;
+            }, 2700);
+            break;
         case 2:
           this.keySpace = false;
           this.container.visible = false;
