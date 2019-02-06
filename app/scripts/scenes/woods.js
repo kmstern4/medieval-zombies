@@ -130,6 +130,15 @@ export default class Woods extends Phaser.Scene {
     this.container = this.add.container(x, 400, this.textbox);
     this.container.setSize(400, 100);
 
+    // Hit Text
+    this.ptext = this.add.text(200, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
+    this.ptext.setOrigin(0.5, 0.5);
+    this.ptext.setAlpha(0);
+    console.log(this.ptext);
+    this.ztext = this.add.text(435, 170, 'Test', { color: '#ff3434', fontStyle: 'bold', fontSize: 20 });
+    this.ztext.setOrigin(0.5, 0.5);
+    this.ztext.setAlpha(0);
+
     // BATTLE MENU UI
     // this.menubox = this.add.image(325, 333, 'menubox');
     this.menubox = this.add.image(x, 420, 'battlemenu');
@@ -243,6 +252,75 @@ export default class Woods extends Phaser.Scene {
       paused: true,
       yoyo: true
     });
+
+    // HIT TEXT TWEENS
+    // 200, 170        435, 170
+
+    this.pHitText = this.tweens.createTimeline();
+    
+    this.pHitText.add({
+      targets: this.ptext,
+      ease: 'Power1',
+      x: 205,
+      y: 165,
+      alpha: 1,
+      duration: 300
+    });
+
+    this.pHitText.add({
+      targets: this.ptext,
+      ease: 'Power1',
+      x: 215,
+      y: 155,
+      duration: 300,
+    });
+    this.pHitText.add({
+      targets: this.ptext,
+      ease: 'Power1',
+      alpha: 0,
+      duration: 300
+    });
+    console.log(this.pHitText);
+
+
+
+    // player hit text fade in
+    this.pAlphaUp = this.tweens.add({
+      targets: this.ptext,
+      duration: 300,
+      alpha: 1,
+      paused: true,
+      delay: 100
+    });
+
+    // player hit text fade out
+    this.pAlphaDown = this.tweens.add({
+      targets: this.ptext,
+      duration: 300,
+      delay: 700,
+      alpha: 0,
+      paused: true
+    });
+
+    // zombie hit text fade in
+    this.zAlphaUp = this.tweens.add({
+      targets: this.ztext,
+      duration: 300,
+      alpha: 1,
+      paused: true,
+      delay: 100
+    });
+
+    // zombie hit text fade out
+    this.zAlphaDown = this.tweens.add({
+      targets: this.ztext,
+      duration: 300,
+      delay: 700,
+      alpha: 0,
+      paused: true
+    });
+
+
 
     // DEFINING ANIMATIONS    
     
@@ -374,6 +452,14 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'pattack') {
         this.noise.play();
       }
+      if (this.player.anims.currentAnim.key === 'phurt') {
+        this.pHitText.play();
+        console.log(this.pHitText);
+        setTimeout(() => {
+          // this.pHitText.progress = 0;
+          console.log(this.pHitText);
+        }, 1000);
+      }
     });
 
     this.player.on('animationupdate', () => {
@@ -420,8 +506,8 @@ export default class Woods extends Phaser.Scene {
           this.pWalkOff.restart();
           this.player.anims.play('pwalking', true);
           setTimeout(() => {
-          this.rhythmloop.stop();
-          this.scene.start('Town');
+            this.rhythmloop.stop();
+            this.scene.start('Town');
           }, 3000);
           break;
         case 'fzattack':
@@ -451,7 +537,6 @@ export default class Woods extends Phaser.Scene {
         this.text.setText(this.currentDialogue[i].text);
         // write code here for head animation for dialogue
         if (this.currentDialogue[i].char === 'hero') {
-          console.log(this.text);
           this.phead.visible = true;
           this.omhead.visible = false;
         } else if (this.currentDialogue[i].char === 'oldman') {
