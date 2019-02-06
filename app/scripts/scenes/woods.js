@@ -344,6 +344,9 @@ export default class Woods extends Phaser.Scene {
     this.player.on('animationcomplete', () => {
       if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
+        setTimeout(() => {
+        this.scene.start('Gameover', {currentScene: 'Woods'});
+      }, 2000);
       } else {
         this.player.play('pidle');
       }
