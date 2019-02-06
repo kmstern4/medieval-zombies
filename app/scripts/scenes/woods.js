@@ -162,6 +162,16 @@ export default class Woods extends Phaser.Scene {
       paused: true
     });
 
+    // tween to make player walk off scene
+    this.pWalkOff = this.tweens.add({
+      targets: this.player,
+      x: 700,
+      ease: 'power1',
+      duration: 2200,
+      repeat: 0,
+      paused: true
+      });
+
     // run attack
     this.pRunAttack = this.tweens.add({
       targets: this.player,
@@ -403,8 +413,16 @@ export default class Woods extends Phaser.Scene {
           break;
         case 'fzdying':
           this.farmzombie.anims.pause();
-          this.currentDialogue = dialogue.woods.afterzombiedies[0].text;
+          this.menu.visible = false;
           this.turnOn();
+          this.currentDialogue = this.dialogue.woods.afterzombiedies;
+          this.rhythmloop.stop();
+          // pwalk off screen
+          this.pWalkOff.restart();
+          this.player.anims.play('pwalking', true);
+          setTimeout(() => {
+          this.scene.start('Town');
+          }, 2700);
           break;
         case 'fzattack':
           this.farmzombie.play('fzidle');
@@ -484,6 +502,7 @@ export default class Woods extends Phaser.Scene {
           break;
         case 4:
           // add case 4 stuff here
+          this.currentDialogue = this.dialogue.woods.afterzombiedies;
           break;
         }
       }
