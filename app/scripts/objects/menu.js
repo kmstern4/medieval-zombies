@@ -183,6 +183,9 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.enemyAttack();
       }, 1000);
       enemy.health -= player.strength;
+      if (enemy.health < 0) {
+        enemy.health = 0;
+      }
       setTimeout(() => {
         this.scene.enemy.anims.play('fzhurt', true)
         this.scene.enemyHP.setText(enemy.health)
@@ -239,8 +242,10 @@ export default class Menu extends Phaser.GameObjects.Container {
           enemy.health = 0;
         }
         setTimeout(() => {
+          this.scene.enemy.clearTint();
+          this.scene.emitterRed.frequency = -1;
           this.scene.enemy.anims.play('fzdying', true)
-        }, 200);
+        }, 1000);
       } else if (player.attackCounter === 2) {
         setTimeout(() => {
           this.scene.emitterRed.frequency = 0;
