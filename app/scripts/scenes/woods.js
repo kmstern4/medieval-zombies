@@ -486,12 +486,6 @@ export default class Woods extends Phaser.Scene {
           this.menu.visible = false;
           this.currentDialogue = this.dialogue.woods.afterzombiedies;
           this.turnOn();
-          this.pWalkOff.restart();
-          this.player.anims.play('pwalking', true);
-          setTimeout(() => {
-          this.rhythmloop.stop();
-          this.scene.start('Town', { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: this.zombie });
-          }, 3000);
           break;
         case 'fzattack':
           this.enemy.play('fzidle');
@@ -518,7 +512,7 @@ export default class Woods extends Phaser.Scene {
 
       if (this.currentDialogue[i] !== undefined) {
         this.text.setText(this.currentDialogue[i].text);
-        // write code here for head animation for dialogue
+        // head animation for dialogue
         if (this.currentDialogue[i].char === 'hero') {
           this.phead.visible = true;
           this.omhead.visible = false;
@@ -566,21 +560,16 @@ export default class Woods extends Phaser.Scene {
           setTimeout(() => {
             this.rhythmloop.play();
           }, 15500);
-          // if (this.enemy.anims.currentAnim.key === 'pdying') {
-          //   this.section = 4;
-          // }
+          this.section = 4;
           break;
         case 4:
-          // add case 4 stuff here
-          // this.menu.visible = false;
-          // this.currentDialogue = this.dialogue.woods.afterzombiedies;
-          // this.turnOn();
-          // this.rhythmloop.stop();
-          // this.pWalkOff.restart();
-          // this.player.anims.play('pwalking', true);
-          // setTimeout(() => {
-          // this.scene.start('Town');
-          // }, 3000);
+          this.turnOff();
+          this.pWalkOff.restart();
+          this.player.anims.play('pwalking', true);
+          setTimeout(() => {
+            this.rhythmloop.stop();
+            this.scene.start('Town', { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: this.zombie });
+            }, 3000);  
           break;
         }
       }
