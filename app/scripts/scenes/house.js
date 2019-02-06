@@ -151,7 +151,7 @@ export default class House extends Phaser.Scene {
       if (this.currentDialogue[i] !== undefined) {
         this.text.setText(this.currentDialogue[i].text);
         if (this.currentDialogue[i].char === 'hero') {
-          console.log(this.text);
+          // console.log(this.text);
           this.phead.visible = true;
           this.childhead.visible = false;
         } else if (this.currentDialogue[i].char === 'child') {
@@ -161,24 +161,24 @@ export default class House extends Phaser.Scene {
         i++;
       } else {
         switch (this.section) {
-          case 1:
-            this.hoodgirl.anims.play('hgwalking', true);
-            this.hgWalkOn.restart();
-            this.keySpace = false;
-            this.container.visible = false;
-            this.text.visible = false;
-            this.currentDialogue = this.dialogue.house.childenterhouse;
-            setTimeout(() => {
-              this.child.anims.play('cwalking', true);
-              this.cWalkOn.restart();
-              i = 1;
-              this.keySpace = true;
-              this.container.visible = true;
-              this.text.visible = true;
-              this.text.setText(this.currentDialogue[0].text);
-              this.section = 2;
-            }, 2700);
-            break;
+        case 1:
+          this.hoodgirl.anims.play('hgwalking', true);
+          this.hgWalkOn.restart();
+          this.keySpace = false;
+          this.container.visible = false;
+          this.text.visible = false;
+          this.currentDialogue = this.dialogue.house.childenterhouse;
+          setTimeout(() => {
+            this.child.anims.play('cwalking', true);
+            this.cWalkOn.restart();
+            i = 1;
+            this.keySpace = true;
+            this.container.visible = true;
+            this.text.visible = true;
+            this.text.setText(this.currentDialogue[0].text);
+            this.section = 2;
+          }, 2700);
+          break;
         case 2:
           this.keySpace = false;
           this.container.visible = false;
@@ -203,7 +203,7 @@ export default class House extends Phaser.Scene {
           this.text.visible = false;
           this.keySpace = true;
           setTimeout(() => {
-          this.scene.start('Tavern' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
+            this.scene.start('Tavern' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
           }, 2000); 
         }
       }

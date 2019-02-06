@@ -9,14 +9,14 @@ let player = {
   potions: 1,
   stunCd: 2,
   attackCounter: 0
-}
+};
 
 let enemy = {
   strength: 10,
   evasion: 10,
   health: 100,
   stunned: false
-}
+};
 
 export default class Menu extends Phaser.GameObjects.Container {
   /**
@@ -103,10 +103,10 @@ export default class Menu extends Phaser.GameObjects.Container {
   stunOff() {
     if (player.stunCd === 0) {
       this.menuItems[2].onCd();
-      this.menuItems[2].setText('Stun (2 Turns)')
+      this.menuItems[2].setText('Stun (2 Turns)');
     } else if (player.stunCd === 1) {
       this.menuItems[2].onCd();
-      this.menuItems[2].setText('Stun (1 Turn)')
+      this.menuItems[2].setText('Stun (1 Turn)');
     } else {
       this.menuItems[2].deselect();
       this.menuItems[2].setText('Stun');
@@ -124,45 +124,45 @@ export default class Menu extends Phaser.GameObjects.Container {
   confirm() {
     this.scene.keyEnter = false;
     switch (this.index) {
-      case 0:
-        this.pAttack();
+    case 0:
+      this.pAttack();
+      this.stunOff();
+      break;
+    case 1:
+      this.throwAttack();
+      this.stunOff();
+      break;
+    case 2:
+      if (player.stunCd >= 2) {
+        enemy.stunned = true;
+        this.menuItems[2].onCd();
+        this.menuItems[2].setText('Stun (2 Turns)');
+        this.stunAttack();
+        this.index++;
+        this.menuItems[3].select();
+      } else {
+        enemy.stunned = false;
+      }
+      break;
+    case 3:
+      this.defend();
+      this.stunOff();
+      break;
+    case 4:
+      if (player.potions >= 1) {
+        this.usePotion();
         this.stunOff();
-        break;
-      case 1:
-        this.throwAttack();
-        this.stunOff();
-        break;
-      case 2:
-        if (player.stunCd >= 2) {
-          enemy.stunned = true;
-          this.menuItems[2].onCd();
-          this.menuItems[2].setText('Stun (2 Turns)')
-          this.stunAttack();
-          this.index++;
-          this.menuItems[3].select();
-        } else {
-          enemy.stunned = false;
-        }
-        break;
-      case 3:
-        this.defend();
-        this.stunOff();
-        break;
-      case 4:
-        if (player.potions >= 1) {
-          this.usePotion();
-          this.stunOff();
-          this.menuItems[4].onCd();
-          this.menuItems[4].setText('No Potions');
-          this.index = 0;
-          this.menuItems[0].select();
-        } else {
-          this.scene.keyEnter = true;
-        }
-        break;
-      default:
-        console.log(`You somehow hit a wrong index of ${this.index}`);
-        break;
+        this.menuItems[4].onCd();
+        this.menuItems[4].setText('No Potions');
+        this.index = 0;
+        this.menuItems[0].select();
+      } else {
+        this.scene.keyEnter = true;
+      }
+      break;
+    default:
+      // console.log(`You somehow hit a wrong index of ${this.index}`);
+      break;
     }
   }
 
@@ -186,18 +186,18 @@ export default class Menu extends Phaser.GameObjects.Container {
         enemy.health = 0;
       }
       setTimeout(() => {
-        this.scene.enemy.anims.play('fzhurt', true)
-        this.scene.enemyHP.setText(enemy.health)
+        this.scene.enemy.anims.play('fzhurt', true);
+        this.scene.enemyHP.setText(enemy.health);
       }, 125);
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack
       this.scene.enemy.anims.play('fzrunning', true);
-      this.scene.fzEvade.restart();;
+      this.scene.fzEvade.restart();
       setTimeout(() => {
         this.enemyAttack();
       }, 1000);
     }
-  };
+  }
 
   //throw attack = damage will equal playerstrength / 2, cannot be evaded
   throwAttack() {
@@ -215,7 +215,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     setTimeout(() => {
       this.enemyAttack();
     }, 1000);
-  };
+  }
 
   //stun attack = damage will equal playerstrength * 2, enemy is stunned until their next turn if they don't evade.
   stunAttack() {
@@ -231,7 +231,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       enemy.health -= (player.strength * 2);
       enemy.stunned = true;
       setTimeout(() => {
-        this.scene.enemyHP.setText(enemy.health)
+        this.scene.enemyHP.setText(enemy.health);
         this.scene.enemy.anims.play('fzhurt', true);
       }, 150);
       if (enemy.health <= 0) {
@@ -241,7 +241,7 @@ export default class Menu extends Phaser.GameObjects.Container {
         setTimeout(() => {
           this.scene.enemy.clearTint();
           this.scene.emitterRed.frequency = -1;
-          this.scene.enemy.anims.play('fzdying', true)
+          this.scene.enemy.anims.play('fzdying', true);
         }, 1000);
       } else if (player.attackCounter === 2) {
         setTimeout(() => {
@@ -264,7 +264,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   defend() {
     this.scene.shield.play();
     player.stunCd += 1;
-    player.defend = true
+    player.defend = true;
     // particle emitter
     this.scene.emitterBlue.frequency = 0;
     this.scene.player.setTint(0xe0f5ff);
@@ -292,7 +292,7 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.scene.emitterGreen.frequency = -1;
       }, 500);
       player.health += 25;
-      player.potions -= 1
+      player.potions -= 1;
       if (player.health > 100) {
         player.health = 100;
       }
@@ -317,7 +317,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       setTimeout(() => {
         this.scene.enemy.clearTint();
         this.scene.emitterRed.frequency = -1;
-        this.scene.enemy.anims.play('fzdying', true)
+        this.scene.enemy.anims.play('fzdying', true);
       }, 100);
     } else {
       if (player.attackCounter >= 3) {
@@ -351,7 +351,7 @@ export default class Menu extends Phaser.GameObjects.Container {
                 player.health = 0;
               }
               setTimeout(() => {
-                this.scene.player.anims.play('pdying', true)
+                this.scene.player.anims.play('pdying', true);
               }, 100);
             }
           } else {
@@ -367,18 +367,18 @@ export default class Menu extends Phaser.GameObjects.Container {
                 player.health = 0;
               }
               setTimeout(() => {
-                this.scene.player.anims.play('pdying', true)
+                this.scene.player.anims.play('pdying', true);
               }, 100);
             }
           }
         } else {
           // if the playerevasion is greater than the threshold the player evades the attack
-          this.scene.player.anims.play('prunning', true)
+          this.scene.player.anims.play('prunning', true);
           this.scene.pEvade.restart();
         }
       }
     }
-  };
+  }
 
   specialAttack() {
     //if the special attack counter = 2 this attack will run instead of enemy attack
@@ -405,7 +405,7 @@ export default class Menu extends Phaser.GameObjects.Container {
             player.health = 0;
           }
           setTimeout(() => {
-            this.scene.player.anims.play('pdying', true)
+            this.scene.player.anims.play('pdying', true);
           }, 100);
         }
       } else {
@@ -420,15 +420,15 @@ export default class Menu extends Phaser.GameObjects.Container {
             player.health = 0;
           }
           setTimeout(() => {
-            this.scene.player.anims.play('pdying', true)
+            this.scene.player.anims.play('pdying', true);
           }, 100);
         }
       }
     } else {
       // if the player evasion is greater than the generated threshold the player evades the attack
-      this.scene.player.anims.play('prunning', true)
+      this.scene.player.anims.play('prunning', true);
       this.scene.pEvade.restart();
     }
-  };
+  }
 
 }
