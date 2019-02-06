@@ -326,6 +326,9 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.scene.enemy.anims.play('fzattack', true);
         if (player.attackCounter === 2) {
           setTimeout(() => {
+            this.scene.ztext.setText('Enraged!');
+            this.scene.zAlphaUp.restart();
+            this.scene.zAlphaDown.restart();
             this.scene.emitterRed.frequency = 0;
             this.scene.enemy.setTint(0xebc3c1);
           }, 500);
