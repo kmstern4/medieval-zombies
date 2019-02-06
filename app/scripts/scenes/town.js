@@ -61,7 +61,7 @@ export default class Town extends Phaser.Scene {
 
     // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.town.startnarration;
-    this.text = this.add.text(x, 150, this.currentDialogue[0], {
+    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
@@ -76,7 +76,7 @@ export default class Town extends Phaser.Scene {
     // TWEENS
 
     // tween to make player walk in to scene
-    this.hgWalkOn = this.tweens.add({
+    this.pWalkOn = this.tweens.add({
       targets: this.hoodgirl,
       x: 150,
       ease: 'power1',
@@ -86,7 +86,7 @@ export default class Town extends Phaser.Scene {
     });
 
     // tween to make player walk off screen into house
-    this.hgWalkOff = this.tweens.add({
+    this.pWalkOff = this.tweens.add({
       targets: this.hoodgirl,
       x: 700,
       ease: 'power1',
@@ -113,7 +113,6 @@ export default class Town extends Phaser.Scene {
     const space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
-
       if (this.currentDialogue[i] !== undefined) {
         this.text.setText(this.currentDialogue[i].text);
         i++;
@@ -126,26 +125,42 @@ export default class Town extends Phaser.Scene {
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
-          this.section = 2;
-          console.log(this.section);
           setTimeout(() => {
-            this.currentDialogue = this.dialogue.town.entertown;
-            this.turnOn();
+            this.section = 2;
           } ,2700);
           break;
         case 2:
-
-          // i = 1;
+          this.turnOn();
+          this.currentDialogue = this.dialogue.town.entertown;
+          i = 1;
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOff.restart();
           setTimeout(() => {
-          this.scene.start('House' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
+            this.section = 3;
           } ,2700);
+        case 3:
+          setTimeout(() => {
+            this.scene.start('House');
+          }, 1000);
           break;
         }
       }
     }
+  }
+
+  turnOff() {
+    this.keySpace = false;
+    this.container.visible = false;
+    this.text.visible = false;
+  }
+
+  turnOn() {
+    i = 1;
+    this.keySpace = true;
+    this.container.visible = true;
+    this.text.visible = true;
+    this.text.setText(this.currentDialogue[0].text);
   }
 
   render() {
