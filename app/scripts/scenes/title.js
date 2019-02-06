@@ -51,7 +51,7 @@ export default class Title extends Phaser.Scene {
     this.start.setInteractive();
     this.start.on('pointerup', () => {
       this.rhythmloop.stop();
-      this.scene.start('CC');
+      this.scene.start('Town');
     });
 
   }
@@ -60,7 +60,7 @@ export default class Title extends Phaser.Scene {
 function resize() {
   let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
   let wratio = width / height, ratio = canvas.width / canvas.height;
- 
+
   if (wratio < ratio) {
     canvas.style.width = width + 'px';
     canvas.style.height = (width / ratio) + 'px';

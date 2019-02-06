@@ -45,6 +45,7 @@ export default class SplashScreen extends Phaser.Scene {
       .image('house', 'house.png')
       .image('tavern', 'tavern.png')
       .image('temple', 'temple.png')
+      .image('gameover', 'gameover.png')
       .image('hghead')
       .image('hbhead')
       .image('omhead')
@@ -56,7 +57,10 @@ export default class SplashScreen extends Phaser.Scene {
       .image('sword')
       .image('titletext')
       .image('start')
-      .image('choose');
+      .image('choose')
+      .image('battlemenu')
+      .image('retry')
+      .image('youdied');
 
 
     this.load.json('dialogue');

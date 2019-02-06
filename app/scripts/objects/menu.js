@@ -48,7 +48,9 @@ export default class Menu extends Phaser.GameObjects.Container {
   }
 
   addMenuItem(unit) {
-    var menuItem = new MenuItem(this.scene, 0, this.menuItems.length * 20, unit);
+    player.health = 100;
+    var menuItem = new MenuItem(this.scene, 0, this.menuItems.length * 27, unit);
+    menuItem.setOrigin(0.5, 0.5);
     this.menuItems.push(menuItem);
     this.add(menuItem);
   }
@@ -178,6 +180,7 @@ export default class Menu extends Phaser.GameObjects.Container {
         this.enemyAttack();
       }, 1000);
       enemy.health -= player.strength;
+      this.scene.enemyHP.setText(enemy.health);
       console.log(`enemy health: ${enemy.health}`);
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack
@@ -195,14 +198,10 @@ export default class Menu extends Phaser.GameObjects.Container {
     player.attackCounter += 1;
     player.stunCd += 1;
     this.scene.player.anims.play('pthrow', true);
-    this.scene.weapon.visible = true;
-    this.scene.weaponThrow.restart();
-    setTimeout(() => {
-      this.scene.weapon.visible = false;
-    }, 600);
     this.scene.farmzombie.anims.play('fzhurt', true);
     //calculate the throw attack damage
     enemy.health -= (player.strength / 2);
+    this.scene.enemyHP.setText(enemy.health);
     console.log(`enemy health: ${enemy.health}`);
     //after the attack is finished the zombie takes its' turn
     setTimeout(() => {
@@ -223,6 +222,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       this.scene.keyEnter = true;
       //if the enemy evasion is lower than the threshold calculate stun attack damage, and set enemyStunned = true. Put stun attack on cooldown.
       enemy.health -= (player.strength * 2);
+      this.scene.enemyHP.setText(enemy.health);
       console.log(`enemy health: ${enemy.health}`);
       enemy.stunned = true;
       //stun on cooldown
@@ -267,6 +267,7 @@ export default class Menu extends Phaser.GameObjects.Container {
           }, 500);
       player.health += 25;
       player.potions -= 1
+      this.scene.playerHP.setText(player.health);
       console.log(player.health);
       setTimeout(() => {
         this.enemyAttack();
@@ -303,6 +304,7 @@ export default class Menu extends Phaser.GameObjects.Container {
             //add 1 to the enemy attack counter
             player.defend = false;
             //set playerDefend = false
+            this.scene.playerHP.setText(player.health);
             console.log(player.health);
             if (player.health <= 0) {
               setTimeout(() => {
@@ -314,6 +316,7 @@ export default class Menu extends Phaser.GameObjects.Container {
             //calculate full enemy attack damage
             player.health -= enemy.strength;
             //add 1 to the enemy attack counter
+            this.scene.playerHP.setText(player.health);
             console.log(player.health);
             if (player.health <= 0) {
               setTimeout(() => {
@@ -349,6 +352,7 @@ export default class Menu extends Phaser.GameObjects.Container {
         player.health -= ((enemy.strength * 2) - (player.defense / 2));
         //set playerDefend = false
         player.defend = false;
+        this.scene.playerHP.setText(player.health);
         console.log(player.health);
         if (player.health <= 0) {
           setTimeout(() => {
@@ -359,6 +363,7 @@ export default class Menu extends Phaser.GameObjects.Container {
         //enemy attack damage is = to enemystrength * 2
         this.scene.player.anims.play('phurt', true);
         player.health -= (enemy.strength * 2);
+        this.scene.playerHP.setText(player.health);
         console.log(player.health);
         if (player.health <= 0) {
           setTimeout(() => {
