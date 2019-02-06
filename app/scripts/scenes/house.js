@@ -60,20 +60,20 @@ export default class House extends Phaser.Scene {
 
     // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.house.penterhouse;
-    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
+    this.text = this.add.text(x, 400, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
-    this.phead = this.add.image(160, 150, this.head);
+    this.phead = this.add.image(160, 400, this.head);
     this.phead.setDepth(1);
     this.phead.visible = false;
-    this.childhead = this.add.image(160, 150, 'childhead');
+    this.childhead = this.add.image(160, 400, 'childhead');
     this.childhead.setDepth(1);
     this.childhead.visible = false;
 
 
-    this.container = this.add.container(x, 150, this.styledbox);
+    this.container = this.add.container(x, 400, this.styledbox);
     this.container.setSize(400, 100);
 
     // TWEENS
@@ -188,6 +188,8 @@ export default class House extends Phaser.Scene {
           setTimeout(() => {
             this.keySpace = true;
             this.container.visible = true;
+            this.text.style.wordWrapWidth = 320;
+            this.text.setX(360);
             this.childhead.visible = true;
             this.text.visible = true;
             this.text.setText(this.currentDialogue[0].text);
