@@ -23,6 +23,7 @@ export default class Woods extends Phaser.Scene {
     this.weap = data.weap;
     this.noises = data.noises;
     this.head = data.head;
+    this.currentScene = data.currentScene;
   }
 
   /**
@@ -344,6 +345,9 @@ export default class Woods extends Phaser.Scene {
     this.player.on('animationcomplete', () => {
       if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
+        setTimeout(() => {
+        this.scene.start('Gameover');
+      }, 2000);
       } else {
         this.player.play('pidle');
       }
