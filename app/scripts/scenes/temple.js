@@ -1,4 +1,4 @@
-import Menu from '../objects/menu';
+import TMenu from '../objects/templemenu';
 let i = 1;
 export default class Temple extends Phaser.Scene {
 
@@ -37,8 +37,6 @@ export default class Temple extends Phaser.Scene {
    * @param {object} [data={}] - Initialization parameters.
    */
   create( /* data */ ) {
-    const woods = this.scene.get('Woods');
-    this.scene.stop('Woods');
     window.addEventListener('resize', this.resize);
     this.resize();
     const x = this.cameras.main.width / 2;
@@ -180,7 +178,7 @@ export default class Temple extends Phaser.Scene {
     // this.menubox = this.add.image(325, 333, 'menubox');
     this.menubox = this.add.image(x, 420, 'battlemenu');
     this.menu = this.add.container();
-    this.actionsMenu = new Menu(this, x, 355);
+    this.actionsMenu = new TMenu(this, x, 355);
     this.enemyHP = this.add.text(500, 400, '100', {
       fontSize: 40
     });
@@ -489,7 +487,7 @@ export default class Temple extends Phaser.Scene {
       } else {
         switch (this.section) {
         case 1:
-          console.log('youre hitting case 1');
+          // console.log('youre hitting case 1');
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
@@ -507,7 +505,7 @@ export default class Temple extends Phaser.Scene {
           setTimeout(() => {
             this.rhythmloop.play();
           }, 15500);
-          this.section = 4;
+          this.section = 3;
           break;
         case 3:
           this.turnOff();
