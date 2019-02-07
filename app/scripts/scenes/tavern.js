@@ -15,7 +15,12 @@ export default class Tavern extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    this.char = data.char;
+    this.weap = data.weap;
+    this.noises = data.noises;
+    this.head = data.head;
+    this.zombie = data.zombie;
   }
 
   /**
@@ -41,7 +46,7 @@ export default class Tavern extends Phaser.Scene {
     
     this.add.image(x, y, 'tavern');
 
-    this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
+    this.player = this.add.sprite(-150, 240, this.char, 'idle001.png');
 
     this.dialogue = this.cache.json.get('dialogue');
 
@@ -54,21 +59,20 @@ export default class Tavern extends Phaser.Scene {
 
     // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.tavern.pentertavern;
-    this.text = this.add.text(x, 150, this.currentDialogue[0].text, {
+    this.text = this.add.text(x, 400, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
     });
     this.text.setOrigin(0.5, 0.5);
     this.text.setDepth(1);
 
-
-    this.container = this.add.container(x, 150, this.styledbox);
+    this.container = this.add.container(x, 400, this.styledbox);
     this.container.setSize(400, 100);
 
     // TWEENS
 
     // tween to make player walk in to scene
     this.hgWalkOn = this.tweens.add({
-      targets: this.hoodgirl,
+      targets: this.player,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -78,7 +82,7 @@ export default class Tavern extends Phaser.Scene {
 
     // tween to make player walk off screen into house
     this.hgWalkOff = this.tweens.add({
-      targets: this.hoodgirl,
+      targets: this.player,
       x: 700,
       ease: 'power1',
       duration: 2200,
@@ -88,8 +92,8 @@ export default class Tavern extends Phaser.Scene {
 
     // CALLING ANIMATIONS
 
-    this.hoodgirl.on('animationcomplete', () => {
-      this.hoodgirl.play('hgidle');
+    this.player.on('animationcomplete', () => {
+      this.player.play('hgidle');
     });
   }
 
@@ -113,7 +117,7 @@ export default class Tavern extends Phaser.Scene {
           this.keySpace = false;
           this.container.visible = false;
           this.text.visible = false;
-          this.hoodgirl.anims.play('hgwalking', true);
+          this.player.anims.play('hgwalking', true);
           this.hgWalkOn.restart();
           setTimeout(() => {
             this.currentDialogue = this.dialogue.tavern.startnarration;
@@ -131,9 +135,9 @@ export default class Tavern extends Phaser.Scene {
           this.keySpace = true;
           // hgwalk off screen
           this.hgWalkOff.restart();
-          this.hoodgirl.anims.play('hgwalking', true);
+          this.player.anims.play('hgwalking', true);
           setTimeout(() => {
-            this.scene.start('Temple', { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
+            this.scene.start('Title', { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
           }, 2700);
         }
       }
