@@ -108,6 +108,7 @@ export default class Woods extends Phaser.Scene {
     this.shield = this.sound.add('shield', { volume: 0.5 });
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
+    this.adventurestinger = this.sound.add('adventurestinger', { volume: 0.3 });
 
 
     // Keypress Variables
@@ -487,6 +488,8 @@ export default class Woods extends Phaser.Scene {
         this.menu.visible = false;
         this.currentDialogue = this.dialogue.woods.afterzombiedies;
         this.turnOn();
+        this.rhythmloop.stop();
+        this.adventurestinger.play();
         break;
       case 'fzattack':
         this.enemy.play('fzidle');
@@ -568,7 +571,6 @@ export default class Woods extends Phaser.Scene {
           this.pWalkOff.restart();
           this.player.anims.play('pwalking', true);
           setTimeout(() => {
-            this.rhythmloop.stop();
             this.scene.start('Town', { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: this.zombie });
           }, 3000);  
           break;

@@ -148,6 +148,10 @@
             {
                 "text": "I just ran and hid, I'm so scared.",
                 "char": "child"
+            },
+            {
+                "text": "I heard some noises in the temple next door, will you go see what it is?",
+                "char": "child"
             }
         ]
     },
@@ -184,7 +188,7 @@
     "temple": {
         "pentertemple": [
             {
-                "text": "You enter the church through a shattered stain glass window.",
+                "text": "You enter the temple through a shattered stain glass window.",
                 "char": "narration"
             }
         ],

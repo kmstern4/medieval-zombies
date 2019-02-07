@@ -50,7 +50,6 @@ export default class Title extends Phaser.Scene {
 
     this.start.setInteractive();
     this.start.on('pointerup', () => {
-      this.rhythmloop.stop();
       this.scene.start('CC');
     });
 

@@ -139,6 +139,9 @@ export default class Temple extends Phaser.Scene {
       volume: 0.3,
       loop: true
     });
+    this.adventurestinger = this.sound.add('adventurestinger', {
+      volume: 0.3
+    });
 
     // Keypress Variables
     this.keySpace = true;
@@ -460,6 +463,8 @@ export default class Temple extends Phaser.Scene {
         this.enemy.anims.pause();
         this.menu.visible = false;
         this.currentDialogue = this.dialogue.temple.afterzombiedies;
+        this.rhythmloop.stop();
+        this.adventurestinger.play();
         this.turnOn();
         break;
       case 'wzattack':
