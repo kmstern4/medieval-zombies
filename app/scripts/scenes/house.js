@@ -41,7 +41,6 @@ export default class House extends Phaser.Scene {
   create(/* data */) {
     window.addEventListener('resize', resize);
     resize();
-    console.log(this.char);
 
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
@@ -49,7 +48,6 @@ export default class House extends Phaser.Scene {
     this.add.image(x, y, 'house');
 
     this.player = this.add.sprite(-150, 240, this.char, 'idle001.png');
-    console.log(this.player)
     this.child = this.add.sprite(800, 240, 'child', 'idle001.png');
 
     this.dialogue = this.cache.json.get('dialogue');
