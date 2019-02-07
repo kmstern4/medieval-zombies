@@ -39,7 +39,7 @@ export default class Temple extends Phaser.Scene {
   create( /* data */ ) {
 
     window.addEventListener('resize', resize);
-    resize();
+    this.resize();
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
@@ -48,7 +48,7 @@ export default class Temple extends Phaser.Scene {
 
     // Section VERY IMPORTANT******
     this.section = 1;
-=
+
     // emitter0.explode(); turns particle emitter off
     // DEFEND
     this.emitterBlue = this.add.particles('blue').createEmitter({
@@ -139,6 +139,7 @@ export default class Temple extends Phaser.Scene {
     this.rhythmloop = this.sound.add('rhythmloop', {
       volume: 0.3,
       loop: true
+    });
 
     // Keypress Variables
     this.keySpace = true;
@@ -547,6 +548,20 @@ export default class Temple extends Phaser.Scene {
     this.text.visible = true;
     this.text.setText(this.currentDialogue[0].text);
   }
+
+  resize() {
+    let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
+    let wratio = width / height, ratio = canvas.width / canvas.height;
+  
+    if (wratio < ratio) {
+      canvas.style.width = width + 'px';
+      canvas.style.height = (width / ratio) + 'px';
+    } else {
+      canvas.style.width = (height * ratio) + 'px';
+      canvas.style.height = height + 'px';
+    }
+  }
+  
   /**
    * Called after a scene is rendered. Handles rendenring post processing.
    *
@@ -567,16 +582,3 @@ export default class Temple extends Phaser.Scene {
    * @protected
    */
   destroy() {}
-
-function resize() {
-  let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
-  let wratio = width / height, ratio = canvas.width / canvas.height;
-
-  if (wratio < ratio) {
-    canvas.style.width = width + 'px';
-    canvas.style.height = (width / ratio) + 'px';
-  } else {
-    canvas.style.width = (height * ratio) + 'px';
-    canvas.style.height = height + 'px';
-  }
-}
