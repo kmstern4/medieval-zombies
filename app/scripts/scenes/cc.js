@@ -37,6 +37,10 @@ export default class CC extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
+    const title = this.scene.get('Title');
+
+    this.adventurestinger = this.sound.add('adventurestinger', { volume: 0.3 });
+    
     this.choose = this.add.image(x, 180, 'choose');
 
     let hoodgirl = this.add.sprite(-100, 350, 'hoodgirl', 'idle001.png');
@@ -122,6 +126,7 @@ export default class CC extends Phaser.Scene {
     });
 
     hoodgirl.on('pointerup', () => {
+      title.rhythmloop.stop();
       this.scene.start('Letter', { 
         char: 'hoodgirl', 
         weap: 'stick', 
@@ -132,6 +137,8 @@ export default class CC extends Phaser.Scene {
     });
 
     hoodboy.on('pointerup', () => {
+      this.adventurestinger.play();
+      title.rhythmloop.stop();
       this.scene.start('Letter', { 
         char: 'hoodboy', 
         weap: 'sword', 

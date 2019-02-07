@@ -46,7 +46,7 @@ export default class Town extends Phaser.Scene {
     const y = this.cameras.main.height / 2;
 
     // background image
-    this.add.image(x, y, 'woods');
+    this.add.image(x, y, 'town');
 
     // Section VERY IMPORTANT******
     this.section = 1;
