@@ -127,6 +127,7 @@ export default class CC extends Phaser.Scene {
         weap: 'stick', 
         noises: 'impact', 
         head: 'hghead',
+        zombie: 'farmzombie'
       });
     });
 
@@ -135,7 +136,8 @@ export default class CC extends Phaser.Scene {
         char: 'hoodboy', 
         weap: 'sword', 
         noises: 'cutflesh', 
-        head: 'hbhead' 
+        head: 'hbhead',
+        zombie: 'farmzombie'
       });
     });
 
