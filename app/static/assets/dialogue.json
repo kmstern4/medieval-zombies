@@ -164,11 +164,19 @@
                 "char": "narration"
             },
             {
-                "text": "Sprawled out in the middle of a table is a large detailed map of the area. There's a large X right on a cave not far from town.",
+                "text": "You are heartbroken to find every keg empty. Sprawled out in the middle of a table is a large detailed map of the area.",
+                "char": "narration"
+            },
+            {
+                "text": "There's a large X right on a cave not far from town.",
                 "char": "narration"
             },
             {
                 "text": "Next to the map is a note that reads 'Map to secret hideout. Burn after reading! -Lord of Bones'",
+                "char": "narration"
+            },
+            {
+                "text": "While there was nearly nothing left of the town, every clue has pointed you to a cave close to town.",
                 "char": "narration"
             }
         ]
@@ -200,7 +208,7 @@
                 "char": "narration"
             },
             {
-                "text": "While there was nearly nothing left of the town, everything pointed you to a cave close to town.",
+                "text": "This is a convincing lead, but you decide to grab a drink at the Tavern first.",
                 "char": "narration"
             }
         ]
