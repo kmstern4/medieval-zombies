@@ -58,7 +58,8 @@ export default class SplashScreen extends Phaser.Scene {
       .image('choose')
       .image('battlemenu')
       .image('retry')
-      .image('youdied');
+      .image('youdied')
+      .image('shittyforest');
 
 
     this.load.json('dialogue');

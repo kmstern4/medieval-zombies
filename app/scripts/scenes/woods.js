@@ -49,7 +49,7 @@ export default class Woods extends Phaser.Scene {
     const y = this.cameras.main.height / 2;
 
     // background image
-    this.add.image(x, y, 'woods');
+    this.add.image(x, y, 'shittyforest');
 
     // Section VERY IMPORTANT******
     this.section = 1;
