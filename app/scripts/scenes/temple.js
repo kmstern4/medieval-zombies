@@ -1,22 +1,22 @@
 import Menu from '../objects/menu';
 let i = 1;
 export default class Temple extends Phaser.Scene {
-  /**
-   * My custom scene.
-   *
-   * @extends Phaser.Scene
-   */
+
+/**
+* My custom scene.
+*
+* @extends Phaser.Scene
+*/
   constructor() {
-    super({
-      key: 'Temple'
-    });
+    super({key: 'Temple'});
   }
   /**
-   * Called when this scene is initialized.
-   *
-   * @protected
-   * @param {object} [data={}] - Initialization parameters.
-   */
+* Called when this scene is initialized.
+*
+* @protected
+* @param {object} [data={}] - Initialization parameters.
+*/
+
   init(data) {
     this.char = data.char;
     this.weap = data.weap;
@@ -48,7 +48,7 @@ export default class Temple extends Phaser.Scene {
 
     // Section VERY IMPORTANT******
     this.section = 1;
-
+=
     // emitter0.explode(); turns particle emitter off
     // DEFEND
     this.emitterBlue = this.add.particles('blue').createEmitter({
@@ -113,14 +113,16 @@ export default class Temple extends Phaser.Scene {
       lifespan: 300
     });
 
+
     // Adding Sprites
     this.player = this.add.sprite(-150, 240, this.char, 'idle001.png');
     this.weapon = this.add.image(210, 260, this.weap);
     this.weapon.visible = false;
     this.enemy = this.add.sprite(800, 240, this.zombie, 'idle001.png');
-
+    
     // Dialogue JSON
     this.dialogue = this.cache.json.get('dialogue');
+
 
     // All Audio
     this.noise = this.sound.add(this.noises);
@@ -137,12 +139,12 @@ export default class Temple extends Phaser.Scene {
     this.rhythmloop = this.sound.add('rhythmloop', {
       volume: 0.3,
       loop: true
-    });
 
     // Keypress Variables
     this.keySpace = true;
     this.keyEnter = true;
     this.arrows = false;
+      
     // Narration text and associated textbox
     this.textbox = this.add.image(0, 0, 'textbox');
     this.currentDialogue = this.dialogue.temple.pentertemple;
@@ -191,6 +193,7 @@ export default class Temple extends Phaser.Scene {
     this.menu.add(this.enemyHP);
     this.menu.add(this.playerHP);
     this.menu.visible = false;
+
 
     this.input.keyboard.on('keydown', this.onKeyInput, this);
 
@@ -520,6 +523,7 @@ export default class Temple extends Phaser.Scene {
     }
   }
 
+
   onKeyInput(event) {
     if (this.arrows) {
       if (event.code === 'ArrowUp') {
@@ -563,14 +567,11 @@ export default class Temple extends Phaser.Scene {
    * @protected
    */
   destroy() {}
-}
 
 function resize() {
-  let canvas = document.querySelector('canvas'),
-    width = window.innerWidth,
-    height = window.innerHeight;
-  let wratio = width / height,
-    ratio = canvas.width / canvas.height;
+  let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
+  let wratio = width / height, ratio = canvas.width / canvas.height;
+
   if (wratio < ratio) {
     canvas.style.width = width + 'px';
     canvas.style.height = (width / ratio) + 'px';

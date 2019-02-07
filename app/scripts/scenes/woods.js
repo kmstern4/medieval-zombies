@@ -53,8 +53,8 @@ export default class Woods extends Phaser.Scene {
     // Section VERY IMPORTANT******
     this.section = 1;
 
-  // emitter0.explode(); turns particle emitter off
-  // DEFEND
+    // emitter0.explode(); turns particle emitter off
+    // DEFEND
     this.emitterBlue = this.add.particles('blue').createEmitter({
       x: 150,
       y: 240,
@@ -179,7 +179,7 @@ export default class Woods extends Phaser.Scene {
       duration: 2200,
       repeat: 0,
       paused: true
-      });
+    });
 
     // run attack
     this.pRunAttack = this.tweens.add({
@@ -411,9 +411,9 @@ export default class Woods extends Phaser.Scene {
       if (this.player.anims.currentAnim.key === 'pdying') {
         this.player.anims.pause();
         setTimeout(() => {
-        this.rhythmloop.stop();
-        this.scene.start('Gameover', { currentScene: 'Woods' });
-      }, 2000);
+          this.rhythmloop.stop();
+          this.scene.start('Gameover', { currentScene: 'Woods' });
+        }, 2000);
       } else {
         this.player.play('pidle');
       }
@@ -476,23 +476,23 @@ export default class Woods extends Phaser.Scene {
 
     this.enemy.on('animationcomplete', () => {
       switch(this.enemy.anims.currentAnim.key) {
-        case 'fzwalking':
-          this.enemy.play('fzidle');
-          this.arrows = true;
-          this.menu.visible = true;
-          break;
-        case 'fzdying':
-          this.enemy.anims.pause();
-          this.menu.visible = false;
-          this.currentDialogue = this.dialogue.woods.afterzombiedies;
-          this.turnOn();
-          break;
-        case 'fzattack':
-          this.enemy.play('fzidle');
-          this.keyEnter = true;
-          break;
-        default: 
-          this.enemy.play('fzidle');
+      case 'fzwalking':
+        this.enemy.play('fzidle');
+        this.arrows = true;
+        this.menu.visible = true;
+        break;
+      case 'fzdying':
+        this.enemy.anims.pause();
+        this.menu.visible = false;
+        this.currentDialogue = this.dialogue.woods.afterzombiedies;
+        this.turnOn();
+        break;
+      case 'fzattack':
+        this.enemy.play('fzidle');
+        this.keyEnter = true;
+        break;
+      default: 
+        this.enemy.play('fzidle');
       }
     });    
 
@@ -569,7 +569,7 @@ export default class Woods extends Phaser.Scene {
           setTimeout(() => {
             this.rhythmloop.stop();
             this.scene.start('Town', { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: this.zombie });
-            }, 3000);  
+          }, 3000);  
           break;
         }
       }

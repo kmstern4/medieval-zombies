@@ -133,7 +133,7 @@ export default class Tavern extends Phaser.Scene {
           this.hgWalkOff.restart();
           this.hoodgirl.anims.play('hgwalking', true);
           setTimeout(() => {
-          this.scene.start('Temple', { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
+            this.scene.start('Temple', { char: this.char, weap: this.weap, noises: this.noises, head: this.head });
           }, 2700);
         }
       }

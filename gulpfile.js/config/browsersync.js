@@ -14,6 +14,8 @@ module.exports = {
   ui: false,
   notify: false,
   ghostMode: false,
+  open: false,
+  port: process.env.PORT || 3000,
   server: {
     baseDir: [dirs.static]
   },

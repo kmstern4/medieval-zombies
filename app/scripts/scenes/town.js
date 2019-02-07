@@ -93,14 +93,14 @@ export default class Town extends Phaser.Scene {
       duration: 2200,
       repeat: 0,
       paused: true
-      });
+    });
 
     // ANIMATION EVENTS
 
     this.player.on('animationcomplete', () => {
-        this.player.play('pidle');
-    })
-    };
+      this.player.play('pidle');
+    });
+  }
 
   /**
    *  Handles updates to game logic, physics and game objects.
@@ -127,7 +127,7 @@ export default class Town extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
           this.section = 2;
-          console.log(this.section);
+          // console.log(this.section);
           setTimeout(() => {
             this.currentDialogue = this.dialogue.town.entertown;
             this.turnOn();
@@ -140,7 +140,7 @@ export default class Town extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           this.pWalkOff.restart();
           setTimeout(() => {
-          this.scene.start('House');
+            this.scene.start('House');
           } ,2700);
           break;
         }
