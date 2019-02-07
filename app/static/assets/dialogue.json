@@ -118,35 +118,35 @@
         ],
         "dialogue": [
             {
-                "text": "'Ahhh a zombie!'",
+                "text": "Ahhh a zombie!",
                 "char": "child"
             },
             {
-                "text": "'Wait you're just ugly, are you here to save us?'",
+                "text": "Wait you're just ugly, are you here to save us?",
                 "char": "child"
             },
             {
-                "text": "'Where's your family?'",
+                "text": "Where's your family?",
                 "char": "hero"
             },
             {
-                "text": "'My grandpa just ran off, I'm all alone.'",
+                "text": "My grandpa just ran off, I'm all alone.",
                 "char": "child"
             },
             {
-                "text": "'Can you help me?'",
+                "text": "Can you help me?",
                 "char": "hero"
             },
             {
-                "text": "'Here, my grandpa says these make you feel better. You should take it.'",
+                "text": "Here, my grandpa says these potions make you feel better. You should take it.",
                 "char": "child"
             },
             {
-                "text": "'How'd you survive?'",
+                "text": "How'd you survive?",
                 "char": "hero"
             },
             {
-                "text": "'I just ran and hid, I'm so scared.'",
+                "text": "I just ran and hid, I'm so scared.",
                 "char": "child"
             }
         ]
