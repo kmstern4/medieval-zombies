@@ -44,6 +44,7 @@ export default class Woods extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
+
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
@@ -524,19 +525,20 @@ export default class Woods extends Phaser.Scene {
       } else {
         switch(this.section) {
         case 1:
-          this.turnOff();
-          this.oldman.anims.play('omrunning', true);
-          this.omRunOn.restart();
-          this.player.anims.play('pwalking', true);
-          this.pWalkOn.restart();
-          this.currentDialogue = this.dialogue.woods.dialogue;
-          this.text.style.wordWrapWidth = 320;
-          this.text.setX(360);
-          setTimeout(() => {
-            this.turnOn();
-            this.omhead.visible = true;
-            this.section = 2;
-          } ,2700);
+          this.scene.start('Temple', { char: 'hoodgirl', weap: 'stick', noises: 'impact', head: 'hghead', zombie: 'woodzombie' });
+          // this.turnOff();
+          // this.oldman.anims.play('omrunning', true);
+          // this.omRunOn.restart();
+          // this.player.anims.play('pwalking', true);
+          // this.pWalkOn.restart();
+          // this.currentDialogue = this.dialogue.woods.dialogue;
+          // this.text.style.wordWrapWidth = 320;
+          // this.text.setX(360);
+          // setTimeout(() => {
+          //   this.turnOn();
+          //   this.omhead.visible = true;
+          //   this.section = 2;
+          // } ,2700);
           break;
         case 2:
           this.turnOff();

@@ -22,7 +22,7 @@ export default class Temple extends Phaser.Scene {
     this.weap = data.weap;
     this.noises = data.noises;
     this.head = data.head;
-    this.zombie = this.zombie;
+    this.zombie = data.zombie;
   }
   /**
    * Used to declare game assets to be loaded using the loader plugin API.
@@ -37,7 +37,8 @@ export default class Temple extends Phaser.Scene {
    * @param {object} [data={}] - Initialization parameters.
    */
   create( /* data */ ) {
-
+    const woods = this.scene.get('Woods');
+    this.scene.stop('Woods');
     window.addEventListener('resize', this.resize);
     this.resize();
     const x = this.cameras.main.width / 2;
@@ -488,9 +489,7 @@ export default class Temple extends Phaser.Scene {
       } else {
         switch (this.section) {
         case 1:
-          this.turnOn();
-          this.currentDialogue = this.dialogue.temple.pentertemple;
-          i = 1;
+          console.log('youre hitting case 1');
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOn.restart();
