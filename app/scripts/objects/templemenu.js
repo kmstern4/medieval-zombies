@@ -18,7 +18,7 @@ let enemy = {
   stunned: false
 };
 
-export default class Menu extends Phaser.GameObjects.Container {
+export default class TMenu extends Phaser.GameObjects.Container {
   /**
    *  My custom image.
    *
@@ -192,7 +192,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack
       this.scene.enemy.anims.play('wzrunning', true);
-      this.scene.fzEvade.restart();
+      this.scene.wzEvade.restart();
       setTimeout(() => {
         this.enemyAttack();
       }, 1000);
@@ -253,7 +253,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack. Put stunAttack on cooldown.
       this.scene.enemy.anims.play('wzrunning', true);
-      this.scene.fzEvade.restart();
+      this.scene.wzEvade.restart();
       setTimeout(() => {
         this.enemyAttack();
       }, 1000);

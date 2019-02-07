@@ -134,8 +134,6 @@ export default class Town extends Phaser.Scene {
           } ,2700);
           break;
         case 2:
-
-          // i = 1;
           this.turnOff();
           this.player.anims.play('pwalking', true);
           this.pWalkOff.restart();

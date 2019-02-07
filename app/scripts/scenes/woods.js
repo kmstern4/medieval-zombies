@@ -44,6 +44,7 @@ export default class Woods extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
+
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
