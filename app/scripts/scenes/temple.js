@@ -2,7 +2,7 @@ import Menu from '../objects/menu';
 let i = 1;
 export default class Temple extends Phaser.Scene {
 
-/**
+  /**
 * My custom scene.
 *
 * @extends Phaser.Scene
@@ -22,7 +22,7 @@ export default class Temple extends Phaser.Scene {
     this.weap = data.weap;
     this.noises = data.noises;
     this.head = data.head;
-    this.zombie = 'woodzombie';
+    this.zombie = this.zombie;
   }
   /**
    * Used to declare game assets to be loaded using the loader plugin API.
@@ -38,8 +38,8 @@ export default class Temple extends Phaser.Scene {
    */
   create( /* data */ ) {
 
-    window.addEventListener('resize', resize);
-    resize();
+    window.addEventListener('resize', this.resize);
+    this.resize();
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
@@ -48,7 +48,7 @@ export default class Temple extends Phaser.Scene {
 
     // Section VERY IMPORTANT******
     this.section = 1;
-=
+
     // emitter0.explode(); turns particle emitter off
     // DEFEND
     this.emitterBlue = this.add.particles('blue').createEmitter({
@@ -139,6 +139,7 @@ export default class Temple extends Phaser.Scene {
     this.rhythmloop = this.sound.add('rhythmloop', {
       volume: 0.3,
       loop: true
+    });
 
     // Keypress Variables
     this.keySpace = true;
@@ -165,7 +166,7 @@ export default class Temple extends Phaser.Scene {
     });
     this.ptext.setOrigin(0.5, 0.5);
     this.ptext.setAlpha(0);
-    console.log(this.ptext);
+    // console.log(this.ptext);
     this.ztext = this.add.text(435, 170, 'Test', {
       color: '#ff3434',
       fontStyle: 'bold',
@@ -286,7 +287,7 @@ export default class Temple extends Phaser.Scene {
       alpha: 0,
       duration: 300
     });
-    console.log(this.pHitText);
+    // console.log(this.pHitText);
 
 
     // player hit text fade in
@@ -420,10 +421,10 @@ export default class Temple extends Phaser.Scene {
       }
       if (this.player.anims.currentAnim.key === 'phurt') {
         this.pHitText.play();
-        console.log(this.pHitText);
+        // console.log(this.pHitText);
         setTimeout(() => {
           // this.pHitText.progress = 0;
-          console.log(this.pHitText);
+          // console.log(this.pHitText);
         }, 1000);
       }
     });
@@ -451,23 +452,23 @@ export default class Temple extends Phaser.Scene {
     });
     this.enemy.on('animationcomplete', () => {
       switch (this.enemy.anims.currentAnim.key) {
-        case 'wzwalking':
-          this.enemy.play('wzidle');
-          this.arrows = true;
-          this.menu.visible = true;
-          break;
-        case 'wzdying':
+      case 'wzwalking':
+        this.enemy.play('wzidle');
+        this.arrows = true;
+        this.menu.visible = true;
+        break;
+      case 'wzdying':
         this.enemy.anims.pause();
         this.menu.visible = false;
         this.currentDialogue = this.dialogue.temple.afterzombiedies;
         this.turnOn();
-          break;
-        case 'wzattack':
-          this.enemy.play('wzidle');
-          this.keyEnter = true;
-          break;
-        default:
-          this.enemy.play('wzidle');
+        break;
+      case 'wzattack':
+        this.enemy.play('wzidle');
+        this.keyEnter = true;
+        break;
+      default:
+        this.enemy.play('wzidle');
       }
     });
   }
@@ -486,38 +487,38 @@ export default class Temple extends Phaser.Scene {
         i++;
       } else {
         switch (this.section) {
-          case 1:
+        case 1:
+          this.turnOn();
+          this.currentDialogue = this.dialogue.temple.pentertemple;
+          i = 1;
+          this.turnOff();
+          this.player.anims.play('pwalking', true);
+          this.pWalkOn.restart();
+          this.section = 2;
+          setTimeout(() => {
+            this.currentDialogue = this.dialogue.temple.startnarration;
             this.turnOn();
-            this.currentDialogue = this.dialogue.temple.pentertemple;
-            i = 1;
-            this.turnOff();
-            this.player.anims.play('pwalking', true);
-            this.pWalkOn.restart();
-            this.section = 2;
-            setTimeout(() => {
-              this.currentDialogue = this.dialogue.temple.startnarration;
-              this.turnOn();
-            }, 2700);
-            break;
-          case 2:
-            this.turnOff();
-            this.dangerstinger.play();
-            this.enemy.anims.play('wzwalking', true);
-            this.wzWalkOn.restart();
-            setTimeout(() => {
-              this.rhythmloop.play();
-            }, 15500);
-            this.section = 4;
-            break;
-          case 3:
+          }, 2700);
+          break;
+        case 2:
+          this.turnOff();
+          this.dangerstinger.play();
+          this.enemy.anims.play('wzwalking', true);
+          this.wzWalkOn.restart();
+          setTimeout(() => {
+            this.rhythmloop.play();
+          }, 15500);
+          this.section = 4;
+          break;
+        case 3:
           this.turnOff();
           this.pWalkOff.restart();
           this.player.anims.play('pwalking', true);
           setTimeout(() => {
             this.rhythmloop.stop();
             this.scene.start('Tavern', { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: this.zombie });
-            }, 3000);  
-            break;
+          }, 3000);  
+          break;
         }
       }
     }
@@ -547,36 +548,17 @@ export default class Temple extends Phaser.Scene {
     this.text.visible = true;
     this.text.setText(this.currentDialogue[0].text);
   }
-  /**
-   * Called after a scene is rendered. Handles rendenring post processing.
-   *
-   * @protected
-   */
-  render() {}
-  /**
-   * Called when a scene is about to shut down.
-   *
-   * @protected
-   */
-  shutdown() {}
-  /**
-   * Called when a scene is about to be destroyed (i.e.: removed from scene
-   * manager). All allocated resources that need clean up should be freed up
-   * here.
-   *
-   * @protected
-   */
-  destroy() {}
 
-function resize() {
-  let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
-  let wratio = width / height, ratio = canvas.width / canvas.height;
-
-  if (wratio < ratio) {
-    canvas.style.width = width + 'px';
-    canvas.style.height = (width / ratio) + 'px';
-  } else {
-    canvas.style.width = (height * ratio) + 'px';
-    canvas.style.height = height + 'px';
+  resize() {
+    let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
+    let wratio = width / height, ratio = canvas.width / canvas.height;
+  
+    if (wratio < ratio) {
+      canvas.style.width = width + 'px';
+      canvas.style.height = (width / ratio) + 'px';
+    } else {
+      canvas.style.width = (height * ratio) + 'px';
+      canvas.style.height = height + 'px';
+    }
   }
 }

@@ -203,7 +203,7 @@ export default class House extends Phaser.Scene {
           this.text.visible = false;
           this.keySpace = true;
           setTimeout(() => {
-          this.scene.start('Temple' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: 'woodzombie' });
+            this.scene.start('Temple' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: 'woodzombie' });
 
           }, 2000); 
         }
