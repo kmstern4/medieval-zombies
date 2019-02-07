@@ -140,7 +140,7 @@ export default class Town extends Phaser.Scene {
           this.player.anims.play('pwalking', true);
           this.pWalkOff.restart();
           setTimeout(() => {
-            this.scene.start('House');
+            this.scene.start('House', { head: this.head, char: this.char, weap: this.weap, noises: this.noises, zombie: this.zombie });
           } ,2700);
           break;
         }
