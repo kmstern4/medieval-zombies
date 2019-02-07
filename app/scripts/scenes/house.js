@@ -21,6 +21,7 @@ export default class House extends Phaser.Scene {
     this.weap = data.weap;
     this.noises = data.noises;
     this.head = data.head;
+    this.zombie = data.zombie;
   }
 
   /**
@@ -40,14 +41,16 @@ export default class House extends Phaser.Scene {
   create(/* data */) {
     window.addEventListener('resize', resize);
     resize();
+    console.log(this.char);
 
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
     this.add.image(x, y, 'house');
 
-    this.hoodgirl = this.add.sprite(-150, 400, 'hoodgirl', 'idle001.png');
-    this.child = this.add.sprite(800, 400, 'child', 'idle001.png');
+    this.player = this.add.sprite(-150, 240, this.char, 'idle001.png');
+    console.log(this.player)
+    this.child = this.add.sprite(800, 240, 'child', 'idle001.png');
 
     this.dialogue = this.cache.json.get('dialogue');
 
@@ -79,8 +82,8 @@ export default class House extends Phaser.Scene {
     // TWEENS
 
     // tween to make player walk in to scene
-    this.hgWalkOn = this.tweens.add({
-      targets: this.hoodgirl,
+    this.pWalkOn = this.tweens.add({
+      targets: this.player,
       x: 150,
       ease: 'power1',
       duration: 2500,
@@ -92,6 +95,15 @@ export default class House extends Phaser.Scene {
     this.cWalkOn = this.tweens.add({
       targets: this.child,
       x: 500,
+      ease: 'power1',
+      duration: 2200,
+      repeat: 0,
+      paused: true
+    });
+
+    this.pWalkOff = this.tweens.add({
+      targets: this.player,
+      x: 700,
       ease: 'power1',
       duration: 2200,
       repeat: 0,
@@ -128,8 +140,8 @@ export default class House extends Phaser.Scene {
 
     // CALLING ANIMATIONS
 
-    this.hoodgirl.on('animationcomplete', () => {
-      this.hoodgirl.play('hgidle');
+    this.player.on('animationcomplete', () => {
+      this.player.play('pidle');
     });
 
     this.child.on('animationcomplete', () => {
@@ -162,8 +174,8 @@ export default class House extends Phaser.Scene {
       } else {
         switch (this.section) {
         case 1:
-          this.hoodgirl.anims.play('hgwalking', true);
-          this.hgWalkOn.restart();
+          this.player.anims.play('pwalking', true);
+          this.pWalkOn.restart();
           this.keySpace = false;
           this.container.visible = false;
           this.text.visible = false;
@@ -202,6 +214,8 @@ export default class House extends Phaser.Scene {
           this.childhead.visible = false;
           this.text.visible = false;
           this.keySpace = true;
+          this.player.anims.play('pwalking', true);
+          this.pWalkOff.restart();
           setTimeout(() => {
             this.scene.start('Temple' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: 'woodzombie' });
 
