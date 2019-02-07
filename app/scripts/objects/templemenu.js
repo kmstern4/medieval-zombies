@@ -186,12 +186,12 @@ export default class Menu extends Phaser.GameObjects.Container {
         enemy.health = 0;
       }
       setTimeout(() => {
-        this.scene.enemy.anims.play('fzhurt', true);
+        this.scene.enemy.anims.play('wzhurt', true);
         this.scene.enemyHP.setText(enemy.health);
       }, 125);
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack
-      this.scene.enemy.anims.play('fzrunning', true);
+      this.scene.enemy.anims.play('wzrunning', true);
       this.scene.fzEvade.restart();
       setTimeout(() => {
         this.enemyAttack();
@@ -209,7 +209,7 @@ export default class Menu extends Phaser.GameObjects.Container {
     enemy.health -= (player.strength / 2);
     setTimeout(() => {
       this.scene.enemyHP.setText(enemy.health);
-      this.scene.enemy.anims.play('fzhurt', true);
+      this.scene.enemy.anims.play('wzhurt', true);
     }, 300);
     //after the attack is finished the zombie takes its' turn
     setTimeout(() => {
@@ -232,7 +232,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       enemy.stunned = true;
       setTimeout(() => {
         this.scene.enemyHP.setText(enemy.health);
-        this.scene.enemy.anims.play('fzhurt', true);
+        this.scene.enemy.anims.play('wzhurt', true);
       }, 150);
       if (enemy.health <= 0) {
         if (enemy.health < 0) {
@@ -241,13 +241,10 @@ export default class Menu extends Phaser.GameObjects.Container {
         setTimeout(() => {
           this.scene.enemy.clearTint();
           this.scene.emitterRed.frequency = -1;
-          this.scene.enemy.anims.play('fzdying', true);
+          this.scene.enemy.anims.play('wzdying', true);
         }, 1000);
       } else if (player.attackCounter === 2) {
         setTimeout(() => {
-          this.scene.ztext.setText('Enraged!');
-          this.scene.zAlphaUp.restart();
-          this.scene.zAlphaDown.restart();
           this.scene.emitterRed.frequency = 0;
           this.scene.enemy.setTint(0xebc3c1);
         }, 500);
@@ -255,7 +252,7 @@ export default class Menu extends Phaser.GameObjects.Container {
       //stun on cooldown
     } else {
       //if the enemy evasion is greater than the threshold they evade your attack. Put stunAttack on cooldown.
-      this.scene.enemy.anims.play('fzrunning', true);
+      this.scene.enemy.anims.play('wzrunning', true);
       this.scene.fzEvade.restart();
       setTimeout(() => {
         this.enemyAttack();
@@ -320,13 +317,13 @@ export default class Menu extends Phaser.GameObjects.Container {
       setTimeout(() => {
         this.scene.enemy.clearTint();
         this.scene.emitterRed.frequency = -1;
-        this.scene.enemy.anims.play('fzdying', true);
+        this.scene.enemy.anims.play('wzdying', true);
       }, 100);
     } else {
       if (player.attackCounter >= 3) {
         this.specialAttack();
       } else {
-        this.scene.enemy.anims.play('fzattack', true);
+        this.scene.enemy.anims.play('wzattack', true);
         if (player.attackCounter === 2) {
           setTimeout(() => {
             this.scene.ztext.setText('Enraged!');
@@ -386,7 +383,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   specialAttack() {
     //if the special attack counter = 2 this attack will run instead of enemy attack
     player.attackCounter = 0;
-    this.scene.enemy.anims.play('fzattack', true);
+    this.scene.enemy.anims.play('wzattack', true);
     // particle emitter
     setTimeout(() => {
       this.scene.enemy.clearTint();
