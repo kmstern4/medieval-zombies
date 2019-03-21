@@ -1,24 +1,21 @@
-# [Test Game](https://example.com/)
+# [Medieval Zombies](https://protected-sierra-25451.herokuapp.com/)
 
->   Testing PUrposees ONLY
+>   THIS GAME IS A CONTINUING WORK IN PROGRESS
 
 ![Screenshot](screenshot.png)
 
 ---
 
-Congratulations, your new project is ready!
+## Controls
 
-Follow the instructions below and start developing your games right away.
-
-
-## First steps
-
-Run your project with `yarn start` (or `npm start` if you prefer npm).
+Press SPACE to advance through dialogue
+Use ARROW KEYS to choose action in the battle menu
+Press ENTER to use an action in the battle menu
 
 
-## Package Scripts
+## About
 
-The following package scripts are also available to manage your project:
+Medieval Zombies is a short adventure game made with PhaserJS. Choose your adventurer and battle zombies as you unravel the story behind Dreary Cove. 
 
 >   **HINT**: If you prefer npm, run these scripts with `npm run` instead.
 
@@ -29,16 +26,3 @@ yarn format    # Uses ESLint to format and remove lint issues.
 yarn lint      # Checks scripts for lint issues using ESLint.
 ```
 
-## Tutorial
-
-No idea of what to do next? Follow this [tutorial][t] and learn more about
-Phaser 3 and `generator-phaser-plus`.
-
-[t]: https://github.com/rblopes/generator-phaser-plus#a-brief-tutorial
-
-
-## License
-
-Should you consider distributing your game as an open source project, please
-[choose and include a LICENSE file](http://choosealicense.com/) for your
-project.
