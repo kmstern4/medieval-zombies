@@ -8,8 +8,8 @@
 
 ## Controls
 
-Press SPACE to advance through dialogue
-Use ARROW KEYS to choose action in the battle menu
+Press SPACE to advance through dialogue<br/>
+Use ARROW KEYS to choose action in the battle menu<br/>
 Press ENTER to use an action in the battle menu
 
 
