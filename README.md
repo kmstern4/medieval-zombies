@@ -2,7 +2,7 @@
 
 >   THIS GAME IS A CONTINUING WORK IN PROGRESS
 
-![Screenshot](screenshot.png)
+![Screenshot](mzscreenshot.png)
 
 ---
 
