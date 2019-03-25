@@ -1,4 +1,13 @@
 {
+    "instructions": [
+        "Medieval Zombies is still an active work in progress",
+        "The background images are being hand drawn and will take time",
+        "Controls",
+        "SPACE - advance through dialogue and narration",
+        "ARROW KEYS - to switch options in the battle menus",
+        "ENTER - select an action in the battle menus",
+        "Press SPACE to continue"
+    ],
     "letter": {
         "narration": [
             {

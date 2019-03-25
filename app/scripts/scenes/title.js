@@ -33,9 +33,8 @@ export default class Title extends Phaser.Scene {
 
     this.start.setInteractive();
     this.start.on('pointerup', () => {
-      this.scene.start('CC');
+      this.scene.start('Instructions');
     });
-
   }
 }
 

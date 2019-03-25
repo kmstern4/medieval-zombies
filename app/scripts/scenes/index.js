@@ -9,4 +9,4 @@ export {default as House} from './house';
 export {default as Gameover} from './gameover';
 export {default as CC} from './cc';
 export {default as TestTitle} from './testtitle';
-
+export {default as Instructions} from './instructions';
