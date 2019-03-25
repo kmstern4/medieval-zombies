@@ -228,32 +228,6 @@ export default class Letter extends Phaser.Scene {
     }
 
   }
-
-  /**
-   *  Called after a scene is rendered. Handles rendenring post processing.
-   *
-   *  @protected
-   */
-  render() {
-  }
-
-  /**
-   *  Called when a scene is about to shut down.
-   *
-   *  @protected
-   */
-  shutdown() {
-  }
-
-  /**
-   *  Called when a scene is about to be destroyed (i.e.: removed from scene
-   *  manager). All allocated resources that need clean up should be freed up
-   *  here.
-   *
-   *  @protected
-   */
-  destroy() {
-  }
 }
 
 function resize() {
