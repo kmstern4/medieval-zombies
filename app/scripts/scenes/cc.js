@@ -9,23 +9,6 @@ export default class CC extends Phaser.Scene {
   }
 
   /**
-   *  Called when this scene is initialized.
-   *
-   *  @protected
-   *  @param {object} [data={}] - Initialization parameters.
-   */
-  init(/* data */) {
-  }
-
-  /**
-   *  Used to declare game assets to be loaded using the loader plugin API.
-   *
-   *  @protected
-   */
-  preload() {
-  }
-
-  /**
    *  Responsible for setting up game objects on the screen.
    *
    *  @protected

@@ -25,14 +25,6 @@ export default class Town extends Phaser.Scene {
   }
 
   /**
-   *  Used to declare game assets to be loaded using the loader plugin API.
-   *
-   *  @protected
-   */
-  preload() {
-  }
-
-  /**
    *  Responsible for setting up game objects on the screen.
    *
    *  @protected
@@ -159,27 +151,6 @@ export default class Town extends Phaser.Scene {
     this.container.visible = true;
     this.text.visible = true;
     this.text.setText(this.currentDialogue[0].text);
-  }
-
-  render() {
-  }
-
-  /**
-   *  Called when a scene is about to shut down.
-   *
-   *  @protected
-   */
-  shutdown() {
-  }
-
-  /**
-   *  Called when a scene is about to be destroyed (i.e.: removed from scene
-   *  manager). All allocated resources that need clean up should be freed up
-   *  here.
-   *
-   *  @protected
-   */
-  destroy() {
   }
 }
 

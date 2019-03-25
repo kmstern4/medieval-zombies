@@ -24,12 +24,7 @@ export default class Temple extends Phaser.Scene {
     this.head = data.head;
     this.zombie = data.zombie;
   }
-  /**
-   * Used to declare game assets to be loaded using the loader plugin API.
-   *
-   * @protected
-   */
-  preload() {}
+
   /**
    * Responsible for setting up game objects on the screen.
    *
