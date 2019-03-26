@@ -164,6 +164,7 @@ export default class Letter extends Phaser.Scene {
 
     const x = this.cameras.main.width / 2;
     // const y = this.cameras.main.width / 2;
+    this.adventurestinger = this.sound.add('adventurestinger', { volume: 0.3 });
 
     this.dialogue = this.cache.json.get('dialogue');
 
@@ -217,6 +218,7 @@ export default class Letter extends Phaser.Scene {
         this.text.setText(this.dialogue.letter.narration[i].text);
         i++;
       } else {
+        // this.adventurestinger.play();
         this.scene.start('Woods', { 
           char: this.char, 
           weap: this.weap, 

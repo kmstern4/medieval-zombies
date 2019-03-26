@@ -102,7 +102,7 @@ export default class Woods extends Phaser.Scene {
     this.dangerstinger = this.sound.add('dangerstinger', { volume: 0.3 });
     this.rhythmloop = this.sound.add('rhythmloop', { volume: 0.3, loop: true });
     this.adventurestinger = this.sound.add('adventurestinger', { volume: 0.3 });
-
+    this.adventurestinger.play();
 
     // Keypress Variables
     this.keySpace = true;
@@ -139,8 +139,12 @@ export default class Woods extends Phaser.Scene {
     this.menubox = this.add.image(x, 420, 'battlemenu');
     this.menu = this.add.container();
     this.actionsMenu = new Menu(this, x, 355);
+    this.ehealthtext = this.add.text(500, 360, 'Health');
+    this.ehealthtext.setOrigin(0.5, 0.5);
     this.enemyHP = this.add.text(500, 400, '100', { fontSize: 40 });
     this.enemyHP.setOrigin(0.5, 0.5);
+    this.phealthtext = this.add.text(150, 360, 'Health');
+    this.phealthtext.setOrigin(0.5, 0.5);
     this.playerHP = this.add.text(150, 400, '100', { fontSize: 40 });
     this.playerHP.setOrigin(0.5, 0.5);
     this.menu.setSize(120, 140);
@@ -148,6 +152,8 @@ export default class Woods extends Phaser.Scene {
     this.menu.add(this.actionsMenu);
     this.menu.add(this.enemyHP);
     this.menu.add(this.playerHP);
+    this.menu.add(this.phealthtext);
+    this.menu.add(this.ehealthtext);
     this.menu.visible = false;
 
 
@@ -551,6 +557,9 @@ export default class Woods extends Phaser.Scene {
           break;
         case 3:
           this.turnOff();
+          if (this.adventurestinger.isPlaying) {
+            this.adventurestinger.stop();
+          }
           this.dangerstinger.play();
           this.enemy.anims.play('fzwalking', true);
           this.fzWalkOn.restart();
