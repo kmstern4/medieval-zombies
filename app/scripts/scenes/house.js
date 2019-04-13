@@ -1,11 +1,14 @@
+// declaring 'i' as a global variable to be manipulated and used by multiple functions
 let i = 1;
 
 export default class House extends Phaser.Scene {
 
+  // assigning key House to reference this scene
   constructor() {
     super({ key: 'House' });
   }
 
+  // initializing scene with data passed from previous scene
   init(data) {
     this.char = data.char;
     this.weap = data.weap;
@@ -18,6 +21,7 @@ export default class House extends Phaser.Scene {
     window.addEventListener('resize', resize);
     resize();
 
+    // declaring center x and y axis coordinates
     const x = this.cameras.main.width / 2;
     const y = this.cameras.main.height / 2;
 
@@ -182,7 +186,6 @@ export default class House extends Phaser.Scene {
           this.pWalkOff.restart();
           setTimeout(() => {
             this.scene.start('Temple' , { char: this.char, weap: this.weap, noises: this.noises, head: this.head, zombie: 'woodzombie' });
-
           }, 2000); 
         }
       }
