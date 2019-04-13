@@ -1,21 +1,11 @@
 let i = 1;
 
 export default class House extends Phaser.Scene {
-  /**
-   *  My custom scene.
-   *
-   *  @extends Phaser.Scene
-   */
+
   constructor() {
     super({ key: 'House' });
   }
 
-  /**
-   *  Called when this scene is initialized.
-   *
-   *  @protected
-   *  @param {object} [data={}] - Initialization parameters.
-   */
   init(data) {
     this.char = data.char;
     this.weap = data.weap;
@@ -24,13 +14,7 @@ export default class House extends Phaser.Scene {
     this.zombie = data.zombie;
   }
 
-  /**
-   *  Responsible for setting up game objects on the screen.
-   *
-   *  @protected
-   *  @param {object} [data={}] - Initialization parameters.
-   */
-  create(/* data */) {
+  create() {
     window.addEventListener('resize', resize);
     resize();
 
@@ -50,8 +34,6 @@ export default class House extends Phaser.Scene {
     this.keySpace = true;
     this.keyA = false;
 
-
-    // let text = this.add.text(x, y, 'TESTING PLS');
     this.currentDialogue = this.dialogue.house.penterhouse;
     this.text = this.add.text(x, 400, this.currentDialogue[0].text, {
       wordWrap: { width: 390 }
@@ -139,21 +121,13 @@ export default class House extends Phaser.Scene {
     });
   }
 
-  /**
-   *  Handles updates to game logic, physics and game objects.
-   *
-   *  @protected
-   *  @param {number} t - Current internal clock time.
-   *  @param {number} dt - Time elapsed since last update.
-   */
-  update(/* t, dt */) {
+  update() {
     const space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     if (Phaser.Input.Keyboard.JustDown(space) && this.keySpace) {
       if (this.currentDialogue[i] !== undefined) {
         this.text.setText(this.currentDialogue[i].text);
         if (this.currentDialogue[i].char === 'hero') {
-          // console.log(this.text);
           this.phead.visible = true;
           this.childhead.visible = false;
         } else if (this.currentDialogue[i].char === 'child') {
