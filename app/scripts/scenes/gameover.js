@@ -1,52 +1,46 @@
 export default class Gameover extends Phaser.Scene {
-  /**
-   *  My custom scene.
-   *
-   *  @extends Phaser.Scene
-   */
+
+  // assigning key Gameover to reference this scene
   constructor() {
     super({key: 'Gameover'});
   }
 
-  /**
-   *  Called when this scene is initialized.
-   *
-   *  @protected
-   *  @param {object} [data={}] - Initialization parameters.
-   */
+  // data required when initializing the scene
   init(data) {
+    // name of scene where death happened
     this.currentScene = data.currentScene;
   }
 
-  /**
-   *  Responsible for setting up game objects on the screen.
-   *
-   *  @protected
-   *  @param {object} [data={}] - Initialization parameters.
-   */
-  create(/* data */) {
+  // setting up game objects on screen
+  create() {
 
+    // calling function to resize canvas to fit window
     window.addEventListener('resize', resize);
     resize();
 
+    // center of x axis of canvas
     const x = this.cameras.main.width / 2;
-    // const y = this.cameras.main.height / 2;
 
+    // adding You Died text image
     this.add.image(x, 170, 'youdied');
-    this.retry = this.add.image(x, 340, 'retry');
 
+    // adding Retry text image
+    this.retry = this.add.image(x, 340, 'retry');
+    // making Retry be a clickable object
     this.retry.setInteractive();
+    // when Retry is clicked
     this.retry.on('pointerup', () => {
+      // getting the scene where death occured
       const woods = this.scene.get(this.currentScene);
-      // console.log(woods);
+      // restarting scene where death occured
       woods.scene.restart();
+      // turning the Game Over scene off
       this.scene.sleep();
-      // this.scene.start(this.currentScene);
-      // console.log(this.currentScene);
     });
   }
 }
 
+// function to resize Canvas along with browser window size
 function resize() {
   let canvas = document.querySelector('canvas'), width = window.innerWidth, height = window.innerHeight;
   let wratio = width / height, ratio = canvas.width / canvas.height;
